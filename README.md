@@ -10,10 +10,11 @@ Mỗi thành viên làm việc độc lập trên nhánh của mình. Bấm vào
 
 | STT | Thành viên | Nhánh làm việc | Chức năng phụ trách | Thư mục chính |
 | :---: | :--- | :--- | :--- | :--- |
-| 1 | **Thắng** | [`feature/pos-billing`](https://github.com/TanQuyn-IOS/Restaurant_Asia/tree/feature/pos-billing) | **Thu ngân & Thanh toán:** Bán hàng, tạo hóa đơn, in bill, tính tiền | `src/components/POS/` |
-| 2 | **Thiện** | [`feature/kitchen-waiter`](https://github.com/TanQuyn-IOS/Restaurant_Asia/tree/feature/kitchen-waiter) | **Phục vụ & Bếp:** Gọi món tại bàn, màn hình hiển thị order trong bếp (KDS) | `src/components/Kitchen/`, `src/components/Waiter/` |
-| 3 | **Hào** | [`feature/floorplan-tables`](https://github.com/TanQuyn-IOS/Restaurant_Asia/tree/feature/floorplan-tables) | **Sơ đồ & Bàn ăn:** Tạo sơ đồ bàn theo tầng, trạng thái bàn, đặt bàn trước | `src/components/FloorPlan/` |
-| 4 | **Anh** | [`feature/admin-management`](https://github.com/TanQuyn-IOS/Restaurant_Asia/tree/feature/admin-management) | **Quản trị & Báo cáo:** Quản lý thực đơn, nhân sự, nhập kho & thống kê doanh thu | `src/components/Menu/`, `src/components/Staff/`, `src/components/Analytics/` |
+| 1 | **Quyn** *(Nhóm Trưởng)* | [`main`](https://github.com/TanQuyn-IOS/Restaurant_Asia/tree/main) | **Kiến trúc & Quản trị:** Phân quyền, tài khoản, dòng tiền, duyệt PR | `src/context/`, `src/components/Auth/`, `src/components/Analytics/` |
+| 2 | **Thắng** | [`feature/pos-billing`](https://github.com/TanQuyn-IOS/Restaurant_Asia/tree/feature/pos-billing) | **Thu ngân & Thanh toán:** Bán hàng, tạo hóa đơn, in bill, tính tiền | `src/components/POS/` |
+| 3 | **Thiện** | [`feature/kitchen-waiter`](https://github.com/TanQuyn-IOS/Restaurant_Asia/tree/feature/kitchen-waiter) | **Phục vụ & Bếp:** Gọi món tại bàn, màn hình hiển thị order trong bếp (KDS) | `src/components/Kitchen/`, `src/components/Waiter/` |
+| 4 | **Hào** | [`feature/floorplan-tables`](https://github.com/TanQuyn-IOS/Restaurant_Asia/tree/feature/floorplan-tables) | **Sơ đồ & Bàn ăn:** Tạo sơ đồ bàn theo tầng, trạng thái bàn, đặt bàn trước | `src/components/FloorPlan/` |
+| 5 | **Anh** | [`feature/admin-management`](https://github.com/TanQuyn-IOS/Restaurant_Asia/tree/feature/admin-management) | **Quản trị Thực đơn & Nhân sự:** Quản lý món, nhập kho & lịch làm việc | `src/components/Menu/`, `src/components/Staff/` |
 
 ---
 
