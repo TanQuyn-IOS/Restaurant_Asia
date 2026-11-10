@@ -1,0 +1,6 @@
+{
+  "name": "Quản Lý Nhà Hàng Pro - Restaurant Suite",
+  "description": "Hệ thống quản trị nhà hàng đa vai trò (RBAC): Chủ / Admin toàn quyền, Khách hàng tự gọi món & theo dõi bếp, Quản lý bếp KDS, Quản lý nhân sự & tính lương, Thu ngân POS & VietQR.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
