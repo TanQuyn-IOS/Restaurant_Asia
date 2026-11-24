@@ -1,0 +1,48 @@
+{
+  "name": "ac-rms-asian-restaurant",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Hệ thống Quản lý và Điều hành Toàn diện Chuỗi Nhà hàng Ẩm thực Châu Á (AC-RMS) — React + Node.js + MySQL 3NF",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:client": "vite",
+    "dev:server": "tsx watch server/index.ts",
+    "build": "vite build",
+    "start": "tsx server/index.ts",
+    "db:init": "tsx server/db/initDb.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint:ui": "node scripts/lint-ui.mjs"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "lucide-react": "^0.469.0",
+    "mysql2": "^3.11.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.18.6",
+    "recharts": "^3.11.1",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "tsx": "^4.19.2",
+    "zustand": "^5.0.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.0",
+    "tailwindcss": "^4.3.5",
+    "typescript": "~5.6.2",
+    "vite": "^6.0.5",
+    "vitest": "^2.1.8"
+  }
+}

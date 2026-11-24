@@ -1,0 +1,303 @@
+/* ═══════ DESIGN SYSTEM — AC-RMS "Atelier d'Asie" ═══════
+   Industry: Asian restaurant operations (POS · KDS · HR · Finance · QR ordering)
+   Mode:     OPERATE (staff suite) + a small PERSUADE moment (guest QR portal)
+   Scene:    Staff glance at it mid-service under warm dining-room light on a
+             tablet/laptop; guests hold a phone at the table → LIGHT, warm paper
+             ground, deep charcoal chrome, vermilion + brass accents.
+   Fonts:    2 only — Spectral (display: QR hero / headings) + Be Vietnam Pro (everything else).
+             Both ship full Vietnamese diacritics.
+   Rule:     No raw hex / px font-size in components. Use the tokens below.
+   ═══════════════════════════════════════════════════════ */
+
+@import 'tailwindcss';
+
+@theme {
+  /* ── 2 FONTS ONLY ── */
+  --font-display: 'Spectral', Georgia, 'Times New Roman', serif;
+  --font-body: 'Be Vietnam Pro', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: var(--font-body);
+
+  /* ── ONE TYPE SCALE: 12 / 14 / 16 / 20 / 24 / 32 / 48 ── */
+  --text-*: initial;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.35;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.35;
+  --text-xl: 1.5rem;
+  --text-xl--line-height: 1.25;
+  --text-2xl: 2rem;
+  --text-2xl--line-height: 1.15;
+  --text-3xl: 3rem;
+  --text-3xl--line-height: 1.05;
+
+  /* ── 3 WEIGHTS ONLY ── */
+  --font-weight-*: initial;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* ── COLOUR: tokens only (Tailwind default palette removed on purpose) ── */
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* surfaces */
+  --color-canvas: #f7f5f0; /* page ground — warm rice paper */
+  --color-paper: #ffffff; /* cards */
+  --color-paper-warm: #faf8f4; /* quiet panels, table headers */
+  --color-sunken: #f1eee7; /* chips, inputs on paper */
+  --color-line: #e8e3d9; /* hairlines */
+  --color-line-strong: #d6cfc1;
+
+  /* ink */
+  --color-ink: #1e1b19;
+  --color-ink-soft: #4a433d;
+  --color-ink-muted: #70665d; /* ≥ 4.5:1 on canvas */
+  --color-ink-faint: #a59c91; /* decorative only */
+
+  /* chrome (sidebar) */
+  --color-chrome: #25211f;
+  --color-chrome-raised: #2f2a27;
+  --color-chrome-line: #3b3430;
+  --color-chrome-ink: #ece6dd;
+  --color-chrome-muted: #a0968b;
+
+  /* brand */
+  --color-primary: #a82f2b; /* vermilion / chu sa */
+  --color-primary-hover: #8e2623;
+  --color-primary-soft: #f9e9e6;
+  --color-gold: #b3863a; /* brass */
+  --color-gold-bright: #cfa457;
+  --color-gold-soft: #f6eedc;
+
+  /* FR-02 — 4 table statuses */
+  --color-st-empty: #2c8a5a;
+  --color-st-empty-soft: #e6f3ec;
+  --color-st-booked: #c08419;
+  --color-st-booked-soft: #fbf1d9;
+  --color-st-serving: #b83b2f;
+  --color-st-serving-soft: #fbe7e3;
+  --color-st-billing: #cf6320;
+  --color-st-billing-soft: #fcebdc;
+
+  /* text-on-soft ("ink") variants — all ≥ 4.5:1 on their soft background */
+  --color-gold-ink: #7a5818;
+  --color-st-empty-ink: #1d6b42;
+  --color-st-booked-ink: #8a5a08;
+  --color-st-serving-ink: #9a2c22;
+  --color-st-billing-ink: #a74a12;
+
+  /* semantic extras */
+  --color-info: #3f6a8a;
+  --color-info-soft: #e6eef4;
+  --color-info-ink: #2f5673;
+
+  /* guest QR portal */
+  --color-cream: #fbf8f1;
+  --color-cream-line: #ece5d6;
+
+  /* ── RADIUS ── */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+
+  /* ── SHADOW ── */
+  --shadow-card: 0 1px 2px rgb(30 27 25 / 0.04);
+  --shadow-lift: 0 4px 14px -4px rgb(30 27 25 / 0.12);
+  --shadow-pop: 0 18px 44px -12px rgb(30 27 25 / 0.28);
+
+  /* ── MOTION ── */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --animate-fade-in: fade-in 160ms var(--ease-out-quart) both;
+  --animate-rise: rise 220ms var(--ease-out-quart) both;
+  --animate-sheet-up: sheet-up 260ms var(--ease-out-quart) both;
+  --animate-slide-left: slide-left 240ms var(--ease-out-quart) both;
+  --animate-slide-right: slide-right 240ms var(--ease-out-quart) both;
+  --animate-ping-soft: ping-soft 1.8s ease-out infinite;
+
+  @keyframes slide-right {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes sheet-up {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  @keyframes slide-left {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  @keyframes ping-soft {
+    0% {
+      box-shadow: 0 0 0 0 rgb(44 138 90 / 0.45);
+    }
+    80%,
+    100% {
+      box-shadow: 0 0 0 8px rgb(44 138 90 / 0);
+    }
+  }
+}
+
+/* ── BASE ── */
+@layer base {
+  html {
+    font-family: var(--font-body);
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+  ::selection {
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+  /* sidebar sits on dark chrome → brass focus ring */
+  .on-chrome :focus-visible {
+    outline-color: var(--color-gold-bright);
+  }
+}
+
+/* ── NAMED TYPE STYLES (every text element uses one) ── */
+@utility t-hero {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+}
+@utility t-display {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+@utility t-page {
+  font-size: var(--text-2xl);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+}
+@utility t-card-title {
+  font-size: var(--text-base);
+  line-height: 1.35;
+  font-weight: 500;
+}
+@utility t-metric {
+  font-size: var(--text-2xl);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+@utility t-metric-sm {
+  font-size: var(--text-xl);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+@utility eyebrow {
+  font-size: var(--text-xs);
+  line-height: 1.35;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+@utility num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* thin, quiet scrollbars for dense panes */
+@utility scroll-quiet {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-strong) transparent;
+}
+
+/* hidden scrollbar for horizontal pill/tab strips */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

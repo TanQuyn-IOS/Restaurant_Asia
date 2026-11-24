@@ -1,0 +1,880 @@
+/* ═══════ DESIGN SYSTEM — AC-RMS (Chuỗi Nhà Hàng Ẩm Thực Châu Á) ═══════
+   Industry: Asian Fine Dining & Multi-Branch Restaurant Operations (POS / KDS / O2O QR / ERP)
+   References: Toast POS, Square for Restaurants, iPOS.vn, Haidilao Tablet UX
+   Mood:     High-Craft Operational Precision — Warm Rice Paper, Deep Charcoal Ink, Vermilion & Jade
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── 2 FONTS ONLY (Chuẩn tiếng Việt, không dùng font AI-cliché) ── */
+  --font-display: 'Spectral', Georgia, serif;       /* Headings: h1, h2, hero ONLY */
+  --font-body:    'Be Vietnam Pro', sans-serif;     /* EVERYTHING else: POS, KDS, tables, controls */
+
+  /* ── TYPE SCALE (12 / 14 / 16 / 20 / 24 / 32 / 48px) ── */
+  --text-xs:   0.75rem;   /* 12px: badges, meta, timestamps, table captions */
+  --text-sm:   0.875rem;  /* 14px: nav, buttons, dense table cells, POS controls */
+  --text-base: 1rem;      /* 16px: standard body text, receipt items */
+  --text-lg:   1.25rem;   /* 20px: card titles, dish prices, ticket headers */
+  --text-xl:   1.5rem;    /* 24px: panel headings, KPI numbers */
+  --text-2xl:  2rem;      /* 32px: page headings, POS total due */
+  --text-3xl:  3rem;      /* 48px: hero display */
+  --text-hero: 3rem;
+
+  /* ── 3 WEIGHTS ONLY ── */
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-bold:   700;
+
+  /* ── CORE CULINARY & POS PALETTE ── */
+  --bg:            #F4F1EA;
+  --bg-elevated:   #EAE4D8;
+  --surface:       #FFFFFF;
+  --surface-muted: #FAF8F4;
+  --surface-dark:  #141312;
+  --surface-kds:   #1C1A18;
+  --surface-kds-2: #25221F;
+
+  --border:        #DFD8CA;
+  --border-strong: #C5BBA8;
+  --border-dark:   #332F2B;
+
+  --primary:       #B8332A;   /* Đỏ son Chu sa Châu Á */
+  --primary-hover: #9B2820;
+  --primary-soft:  #FCECE9;
+
+  --accent:        #C68B2C;   /* Vàng Hoàng Kim VIP */
+  --accent-soft:   #FDF5E6;
+
+  --text:          #161514;   /* Mực tàu đậm */
+  --text-alt:      #46403B;
+  --muted:         #786E65;
+  --text-inverse:  #FAF7F2;
+  --text-kds-muted:#A69D93;
+
+  /* ── 4 MÀU TRẠNG THÁI BÀN CHUẨN FR-02 ── */
+  --table-empty:       #157A56;   /* Bàn trống (Xanh lá ngọc bích) */
+  --table-empty-bg:    #EAF7F1;
+  --table-empty-border:#7FC8AC;
+
+  --table-booked:       #C87A19;  /* Bàn đã đặt trước (Vàng hổ phách) */
+  --table-booked-bg:    #FEF6E7;
+  --table-booked-border:#E8B872;
+
+  --table-serving:       #C43427; /* Bàn đang phục vụ (Đỏ chu sa) */
+  --table-serving-bg:    #FDEEEB;
+  --table-serving-border:#E8958D;
+
+  --table-billing:       #D95718; /* Chờ thanh toán (Cam đồng) */
+  --table-billing-bg:    #FEF1E8;
+  --table-billing-border:#EAA37E;
+
+  /* ── SPACING (4px Base Grid) & RADIUS ── */
+  --sp-1:  0.25rem;  /* 4px */
+  --sp-2:  0.5rem;   /* 8px */
+  --sp-3:  0.75rem;  /* 12px */
+  --sp-4:  1rem;     /* 16px */
+  --sp-5:  1.25rem;  /* 20px */
+  --sp-6:  1.5rem;   /* 24px */
+  --sp-8:  2rem;     /* 32px */
+  --sp-12: 3rem;     /* 48px */
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  --shadow-sm: 0 1px 3px rgba(22, 21, 20, 0.06);
+  --shadow-md: 0 4px 14px rgba(22, 21, 20, 0.08);
+  --shadow-lg: 0 12px 32px rgba(22, 21, 20, 0.14);
+}
+
+/* ── NAMED TYPOGRAPHY STYLES — every text element uses standardized token classes ── */
+.t-hero    { font: var(--weight-normal) var(--text-hero)/1.1 var(--font-display); color: var(--text); }
+.t-h1      { font: var(--weight-bold)   var(--text-xl)/1.2 var(--font-display);   color: var(--text); }
+.t-h2      { font: var(--weight-bold)   var(--text-lg)/1.25 var(--font-display);  color: var(--text); }
+.t-h3      { font: var(--weight-bold)   var(--text-base)/1.35 var(--font-body);   color: var(--text); }
+.t-body-lg { font: var(--weight-normal) var(--text-lg)/1.5 var(--font-body);      color: var(--text-alt); }
+.t-body    { font: var(--weight-normal) var(--text-base)/1.5 var(--font-body);    color: var(--text-alt); }
+.t-small   { font: var(--weight-normal) var(--text-sm)/1.45 var(--font-body);     color: var(--text-alt); }
+.t-caption { font: var(--weight-medium) var(--text-xs)/1.35 var(--font-body);     color: var(--muted); }
+.t-nav     { font: var(--weight-medium) var(--text-sm)/1.25 var(--font-body);     color: var(--text); }
+.t-btn     { font: var(--weight-medium) var(--text-sm)/1.2 var(--font-body);      color: inherit; }
+.t-num     { font-family: var(--font-body); font-variant-numeric: tabular-nums; }
+
+/* ── BASE & NATIVE BROWSER SURFACES ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+::selection {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font: var(--weight-normal) var(--text-sm)/1.5 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ── TOP COMMAND BAR (Square / Toast POS Style) ── */
+.ac-app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.ac-topbar {
+  height: 58px;
+  background: var(--surface-dark);
+  color: var(--text-inverse);
+  padding: 0 var(--sp-5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  border-bottom: 1px solid var(--border-dark);
+  position: sticky;
+  top: 0;
+  z-index: 60;
+}
+
+.ac-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.ac-brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: var(--text-inverse);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: var(--weight-bold) var(--text-base)/1 var(--font-display);
+  border: 1px solid var(--accent);
+}
+
+.ac-brand-title {
+  font: var(--weight-bold) var(--text-base)/1.2 var(--font-display);
+  color: var(--text-inverse);
+}
+
+.ac-brand-sub {
+  font: var(--weight-normal) var(--text-xs)/1.2 var(--font-body);
+  color: var(--text-kds-muted);
+}
+
+.ac-topbar-center {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+@media (max-width: 1100px) {
+  .ac-topbar-center {
+    display: none;
+  }
+}
+
+.ac-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface-kds-2);
+  border: 1px solid var(--border-dark);
+  font: var(--weight-medium) var(--text-xs)/1.2 var(--font-body);
+  color: var(--text-inverse);
+  font-variant-numeric: tabular-nums;
+}
+
+.ac-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.ac-dot-green  { background: var(--table-empty); }
+.ac-dot-yellow { background: var(--table-booked); }
+.ac-dot-red    { background: var(--table-serving); }
+.ac-dot-orange { background: var(--table-billing); }
+
+.ac-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.ac-role-select-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  background: var(--surface-kds-2);
+  border: 1px solid var(--accent);
+  padding: 4px 10px;
+  border-radius: var(--radius-md);
+}
+
+.ac-role-select {
+  background: var(--surface-kds-2);
+  color: var(--text-inverse);
+  border: none;
+  font: var(--weight-bold) var(--text-xs)/1.3 var(--font-body);
+  cursor: pointer;
+}
+
+.ac-role-select option {
+  background: var(--surface-dark);
+  color: var(--text-inverse);
+}
+
+/* ── MAIN WORKSPACE LAYOUT (Sidebar + Content) ── */
+.ac-main-layout {
+  display: grid;
+  grid-template-columns: 236px 1fr;
+  flex: 1;
+  min-height: calc(100vh - 58px);
+}
+
+@media (max-width: 980px) {
+  .ac-main-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ac-sidebar {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: var(--sp-4) var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+
+.ac-nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ac-nav-group-label {
+  padding: var(--sp-2) var(--sp-3) var(--sp-1);
+  font: var(--weight-bold) var(--text-xs)/1.2 var(--font-body);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ac-nav-btn {
+  width: 100%;
+  text-align: left;
+  padding: 9px var(--sp-3);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  transition: background 0.15s ease, color 0.15s ease;
+  color: var(--text-alt);
+  font: var(--weight-medium) var(--text-sm)/1.25 var(--font-body);
+}
+
+.ac-nav-btn:hover:not(.locked) {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.ac-nav-btn.active {
+  background: var(--primary);
+  color: var(--text-inverse);
+  font-weight: var(--weight-bold);
+  box-shadow: var(--shadow-sm);
+}
+
+.ac-nav-btn.locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.ac-nav-btn-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ac-workspace {
+  padding: var(--sp-5);
+  max-width: 1640px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+/* ── PAGE HEADER BAR (Clean, No Cliché Eyebrows) ── */
+.ac-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+  background: var(--surface);
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.ac-page-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ac-page-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+/* ── SEGMENTED TABS & FILTER PILLS ── */
+.ac-segmented {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg-elevated);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.ac-seg-btn {
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font: var(--weight-medium) var(--text-sm)/1.25 var(--font-body);
+  color: var(--text-alt);
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ac-seg-btn:hover {
+  color: var(--text);
+}
+
+.ac-seg-btn.active {
+  background: var(--surface);
+  color: var(--primary);
+  font-weight: var(--weight-bold);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── POS SPLIT WORKSPACE (Floor Plan / Menu Grid Left + Sticky Receipt Dock Right) ── */
+.ac-pos-layout {
+  display: grid;
+  grid-template-columns: 1fr 410px;
+  gap: var(--sp-5);
+  align-items: start;
+}
+
+.ac-split-60-40 {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: var(--sp-5);
+  align-items: start;
+}
+
+.ac-bento-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr 1fr;
+  gap: var(--sp-4);
+}
+
+@media (max-width: 1180px) {
+  .ac-pos-layout,
+  .ac-split-60-40,
+  .ac-bento-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── CARDS & PANELS ── */
+.ac-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+  box-shadow: var(--shadow-sm);
+}
+
+.ac-card-featured {
+  background: var(--surface-dark);
+  color: var(--text-inverse);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+  box-shadow: var(--shadow-md);
+}
+
+/* ── ARCHITECTURAL FLOOR PLAN TABLE CARDS (4 MÀU FR-02) ── */
+.ac-floor-canvas {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+  background-image: radial-gradient(var(--border-strong) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.ac-table-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+  gap: var(--sp-4);
+}
+
+.ac-table-card {
+  border-radius: var(--radius-lg);
+  padding: var(--sp-4);
+  border: 2px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+  cursor: pointer;
+  min-height: 158px;
+}
+
+.ac-table-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.ac-table-card.selected {
+  box-shadow: 0 0 0 3px var(--surface-dark), var(--shadow-md);
+}
+
+.ac-table-card.status-Trong {
+  border-color: var(--table-empty-border);
+  background: var(--table-empty-bg);
+}
+
+.ac-table-card.status-DaDat {
+  border-color: var(--table-booked-border);
+  background: var(--table-booked-bg);
+}
+
+.ac-table-card.status-DangPhucVu {
+  border-color: var(--table-serving-border);
+  background: var(--table-serving-bg);
+}
+
+.ac-table-card.status-ChoThanhToan {
+  border-color: var(--table-billing-border);
+  background: var(--table-billing-bg);
+}
+
+.ac-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--sp-2);
+}
+
+.ac-table-seats-visual {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.ac-seat-pill {
+  width: 14px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--border-strong);
+}
+
+.status-Trong .ac-seat-pill        { background: var(--table-empty); }
+.status-DaDat .ac-seat-pill        { background: var(--table-booked); }
+.status-DangPhucVu .ac-seat-pill   { background: var(--table-serving); }
+.status-ChoThanhToan .ac-seat-pill { background: var(--table-billing); }
+
+/* ── VISUAL TOUCH POS MENU GRID (For Fast Waitstaff Ordering) ── */
+.ac-pos-dish-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: var(--sp-3);
+}
+
+.ac-pos-dish-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+.ac-pos-dish-card:hover:not(.sold-out) {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.ac-pos-dish-card.sold-out {
+  opacity: 0.55;
+  background: var(--bg);
+}
+
+.ac-pos-dish-img {
+  height: 112px;
+  width: 100%;
+  object-fit: cover;
+  background: var(--bg-elevated);
+}
+
+.ac-pos-dish-body {
+  padding: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+/* ── STICKY POS RECEIPT DOCK (Right Panel in Table/Waitstaff & Cashier) ── */
+.ac-pos-dock {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 74px;
+  max-height: calc(100vh - 94px);
+  overflow: hidden;
+}
+
+.ac-pos-dock-header {
+  background: var(--surface-dark);
+  color: var(--text-inverse);
+  padding: var(--sp-4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.ac-pos-dock-body {
+  padding: var(--sp-4);
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.ac-pos-dock-footer {
+  background: var(--surface-muted);
+  border-top: 1px solid var(--border-strong);
+  padding: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.ac-receipt-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  padding: var(--sp-2) 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+/* ── KDS TICKET STRIPS (Toast / Square KDS Dark Screen) ── */
+.ac-kds-board {
+  background: var(--surface-dark);
+  color: var(--text-inverse);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+  box-shadow: var(--shadow-lg);
+}
+
+.ac-kds-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-4);
+}
+
+@media (max-width: 1100px) {
+  .ac-kds-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ac-kds-col {
+  background: var(--surface-kds);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-md);
+  padding: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.ac-kds-ticket {
+  background: var(--surface-kds-2);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ac-kds-ticket.vip-priority {
+  border: 2px solid var(--accent);
+}
+
+.ac-kds-ticket-head {
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--border-dark);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ac-kds-ticket.vip-priority .ac-kds-ticket-head {
+  background: var(--accent);
+  color: var(--surface-dark);
+}
+
+.ac-kds-ticket-body {
+  padding: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+/* ── BADGES & PILLS ── */
+.ac-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  font: var(--weight-medium) var(--text-xs)/1.3 var(--font-body);
+  white-space: nowrap;
+}
+
+.ac-badge-green   { background: var(--table-empty);   color: var(--text-inverse); }
+.ac-badge-yellow  { background: var(--table-booked);  color: var(--text-inverse); }
+.ac-badge-red     { background: var(--table-serving); color: var(--text-inverse); }
+.ac-badge-orange  { background: var(--table-billing); color: var(--text-inverse); }
+.ac-badge-vip     { background: var(--accent);        color: var(--surface-dark); font-weight: var(--weight-bold); }
+.ac-badge-neutral { background: var(--bg-elevated);   color: var(--text-alt); }
+
+/* ── TACTILE BUTTONS ── */
+.ac-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font: var(--weight-medium) var(--text-sm)/1.2 var(--font-body);
+  transition: all 0.14s ease;
+  white-space: nowrap;
+}
+
+.ac-btn-sm {
+  padding: 5px 10px;
+  font-size: var(--text-xs);
+  border-radius: var(--radius-sm);
+}
+
+.ac-btn-lg {
+  padding: 12px 18px;
+  font-weight: var(--weight-bold);
+}
+
+.ac-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ac-btn-primary {
+  background: var(--primary);
+  color: var(--text-inverse);
+}
+.ac-btn-primary:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.ac-btn-success {
+  background: var(--table-empty);
+  color: var(--text-inverse);
+}
+.ac-btn-success:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.ac-btn-warning {
+  background: var(--table-booked);
+  color: var(--text-inverse);
+}
+
+.ac-btn-gold {
+  background: var(--accent);
+  color: var(--surface-dark);
+  font-weight: var(--weight-bold);
+}
+
+.ac-btn-outline {
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+}
+.ac-btn-outline:hover:not(:disabled) {
+  background: var(--bg);
+}
+
+.ac-btn-delete {
+  background: var(--surface-dark);
+  color: var(--text-inverse);
+  border: 1px solid var(--primary);
+}
+.ac-btn-delete:hover:not(:disabled) {
+  background: var(--primary);
+}
+
+/* ── FORMS & INPUTS ── */
+.ac-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ac-label {
+  font: var(--weight-medium) var(--text-xs)/1.3 var(--font-body);
+  color: var(--text-alt);
+}
+
+.ac-input,
+.ac-select,
+.ac-textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  font: var(--weight-normal) var(--text-sm)/1.4 var(--font-body);
+}
+
+/* ── DATA TABLES ── */
+.ac-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.ac-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.ac-data-table th {
+  padding: 10px 14px;
+  background: var(--surface-muted);
+  border-bottom: 1px solid var(--border-strong);
+  font: var(--weight-bold) var(--text-xs)/1.3 var(--font-body);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ac-data-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  font: var(--weight-normal) var(--text-sm)/1.45 var(--font-body);
+}
+
+.ac-data-table tr:hover td {
+  background: var(--surface-muted);
+}
+
+/* ── MODAL OVERLAY ── */
+.ac-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 19, 18, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-4);
+  z-index: 100;
+}
+
+.ac-modal-box {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-strong);
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ── MOBILE QR O2O APP SHELL (Haidilao / GrabFood O2O Style) ── */
+.ac-mobile-qr-frame {
+  max-width: 440px;
+  margin: 0 auto;
+  background: var(--surface-muted);
+  min-height: 90vh;
+  border-radius: var(--radius-xl);
+  border: 4px solid var(--surface-dark);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+}
