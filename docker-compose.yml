@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # ==========================================
+  # DATABASE LAYER (MySQL 8.0)
+  # ==========================================
+  mysql:
+    image: mysql:8.0
+    container_name: restaurant_asia_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: restaurant_asia_prod
+      MYSQL_USER: restaurant_user
+      MYSQL_PASSWORD: secretpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - restaurant_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 5
+
+  # ==========================================
+  # BUSINESS LOGIC LAYER (Node.js API + Socket.IO)
+  # ==========================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: restaurant_asia_backend
+    restart: always
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      DATABASE_URL: mysql://restaurant_user:secretpassword@mysql:3306/restaurant_asia_prod
+      JWT_SECRET: super_secure_jwt_secret_key_production_2026
+      JWT_REFRESH_SECRET: super_secure_jwt_refresh_secret_key_production_2026
+      CORS_ORIGIN: http://localhost:80
+    ports:
+      - "5000:5000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - restaurant_network
+
+  # ==========================================
+  # PRESENTATION LAYER (React Web Admin / POS)
+  # ==========================================
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: restaurant_asia_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - restaurant_network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  restaurant_network:
+    driver: bridge

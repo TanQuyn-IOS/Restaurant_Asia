@@ -1,0 +1,846 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ==========================================================
+// 1. PHÂN QUYỀN, TÀI KHOẢN, PHIÊN & KIỂM TOÁN HỆ THỐNG
+// ==========================================================
+
+enum RoleName {
+  ADMIN
+  CASHIER
+  KITCHEN
+  WAITER
+  HR_MANAGER
+  CUSTOMER
+}
+
+model Role {
+  id          String   @id @default(uuid()) @db.VarChar(36)
+  name        RoleName @unique
+  title       String   @db.VarChar(50)
+  description String?  @db.VarChar(255)
+  users       User[]
+
+  @@map("roles")
+}
+
+model User {
+  id                 String    @id @default(uuid()) @db.VarChar(36)
+  username           String    @unique @db.VarChar(50)
+  passwordHash       String    @map("password_hash") @db.VarChar(255)
+  roleId             String    @map("role_id") @db.VarChar(36)
+  role               Role      @relation(fields: [roleId], references: [id])
+  fullName           String    @map("full_name") @db.VarChar(100)
+  phone              String?   @db.VarChar(20)
+  avatar             String?   @db.VarChar(500)
+  isActive           Boolean   @default(true) @map("is_active")
+  isActivated        Boolean   @default(false) @map("is_activated")
+  mustChangePassword Boolean   @default(true) @map("must_change_password")
+  tokenVersion       Int       @default(0) @map("token_version")
+  lastLoginAt        DateTime? @map("last_login_at")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+
+  employee           Employee?
+  customer           Customer?
+  refreshTokens      RefreshToken[]
+  resetTokens        PasswordResetToken[]
+  goodsReceipts      GoodsReceipt[]
+  cashFlowRecords    CashFlowRecord[]
+  approvedLeaves     LeaveRequest[]       @relation("ApprovedBy")
+  stockTransactions  StockTransaction[]
+  processedPayments  Payment[]
+  processedRefunds   PaymentRefund[]
+  supplierPayments   SupplierPayment[]
+  bookedReservations Reservation[]        @relation("BookedByUser")
+  auditLogs          AuditLog[]
+
+  @@index([roleId])
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  tokenHash String   @unique @map("token_hash") @db.VarChar(255)
+  userId    String   @map("user_id") @db.VarChar(36)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  family    String   @db.VarChar(36)
+  isRevoked Boolean  @default(false) @map("is_revoked")
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([family])
+  @@map("refresh_tokens")
+}
+
+enum TokenType {
+  ACTIVATION
+  PASSWORD_RESET
+}
+
+model PasswordResetToken {
+  id        String    @id @default(uuid()) @db.VarChar(36)
+  tokenHash String    @unique @map("token_hash") @db.VarChar(64)
+  userId    String    @map("user_id") @db.VarChar(36)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenType TokenType @map("token_type")
+  expiresAt DateTime  @map("expires_at")
+  usedAt    DateTime? @map("used_at")
+  ipAddress String?   @map("ip_address") @db.VarChar(45)
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([tokenHash])
+  @@map("password_reset_tokens")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid()) @db.VarChar(36)
+  userId     String?  @map("user_id") @db.VarChar(36)
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action     String   @db.VarChar(100)
+  entityName String   @map("entity_name") @db.VarChar(50)
+  entityId   String   @map("entity_id") @db.VarChar(50)
+  oldValues  Json?    @map("old_values")
+  newValues  Json?    @map("new_values")
+  ipAddress  String?  @map("ip_address") @db.VarChar(45)
+  userAgent  String?  @map("user_agent") @db.VarChar(255)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([action])
+  @@index([entityName, entityId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// ==========================================================
+// 2. NHÂN SỰ, CA TRỰC & NGHỈ PHÉP
+// ==========================================================
+
+enum SalaryType {
+  MONTHLY
+  HOURLY
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  ON_BREAK
+  OFF
+}
+
+model Employee {
+  id            String         @id @default(uuid()) @db.VarChar(36)
+  userId        String?        @unique @map("user_id") @db.VarChar(36)
+  user          User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  name          String         @db.VarChar(100)
+  phone         String         @db.VarChar(20)
+  email         String?        @db.VarChar(100)
+  roleTitle     String         @map("role_title") @db.VarChar(50)
+  shiftDefault  String?        @map("shift_default") @db.VarChar(50)
+  salaryRate    Decimal        @default(0) @map("salary_rate") @db.Decimal(12, 2)
+  salaryType    SalaryType     @default(MONTHLY) @map("salary_type")
+  status        EmployeeStatus @default(ACTIVE)
+  joinDate      DateTime       @default(now()) @map("join_date")
+  ordersHandled Int            @default(0) @map("orders_handled")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+
+  schedules     EmployeeSchedule[]
+  leaveRequests LeaveRequest[]     @relation("StaffLeaves")
+  servedOrders  Order[]            @relation("ServedByEmployee")
+  assignedCalls ServiceRequest[]
+
+  @@map("employees")
+}
+
+model EmployeeSchedule {
+  id         String    @id @default(uuid()) @db.VarChar(36)
+  employeeId String    @map("employee_id") @db.VarChar(36)
+  employee   Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  shiftDate  DateTime  @map("shift_date") @db.Date
+  shiftName  String    @map("shift_name") @db.VarChar(50)
+  startTime  DateTime  @map("start_time")
+  endTime    DateTime  @map("end_time")
+  isAttended Boolean   @default(false) @map("is_attended")
+  checkInAt  DateTime? @map("check_in_at")
+  checkOutAt DateTime? @map("check_out_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  @@index([employeeId])
+  @@index([shiftDate])
+  @@index([startTime, endTime])
+  @@map("employee_schedules")
+}
+
+enum LeaveStatus {
+  ACTIVE
+  UPCOMING
+  COMPLETED
+  CANCELLED
+}
+
+enum LeaveType {
+  ANNUAL
+  SICK
+  FAMILY
+  COMPENSATORY
+}
+
+model LeaveRequest {
+  id           String      @id @default(uuid()) @db.VarChar(36)
+  employeeId   String      @map("employee_id") @db.VarChar(36)
+  employee     Employee    @relation("StaffLeaves", fields: [employeeId], references: [id], onDelete: Cascade)
+  startDate    DateTime    @map("start_date") @db.Date
+  endDate      DateTime    @map("end_date") @db.Date
+  status       LeaveStatus @default(UPCOMING)
+  leaveType    LeaveType   @default(ANNUAL) @map("leave_type")
+  reason       String      @db.VarChar(255)
+  approvedById String?     @map("approved_by_id") @db.VarChar(36)
+  approvedBy   User?       @relation("ApprovedBy", fields: [approvedById], references: [id])
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+
+  @@index([employeeId])
+  @@map("leave_requests")
+}
+
+// ==========================================================
+// 3. KHÁCH HÀNG CRM
+// ==========================================================
+
+enum CustomerType {
+  WALK_IN
+  REGULAR
+  VIP
+  GROUP
+}
+
+model Customer {
+  id            String       @id @default(uuid()) @db.VarChar(36)
+  userId        String?      @unique @map("user_id") @db.VarChar(36)
+  user          User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  fullName      String       @map("full_name") @db.VarChar(100)
+  phone         String       @unique @db.VarChar(20)
+  email         String?      @db.VarChar(100)
+  customerType  CustomerType @default(WALK_IN) @map("customer_type")
+  loyaltyPoints Int          @default(0) @map("loyalty_points")
+  totalSpent    Decimal      @default(0) @map("total_spent") @db.Decimal(14, 2)
+  createdAt     DateTime     @default(now()) @map("created_at")
+  updatedAt     DateTime     @updatedAt @map("updated_at")
+
+  orders       Order[]
+  reservations Reservation[]
+
+  @@map("customers")
+}
+
+// ==========================================================
+// 4. MẶT BẰNG, KHU VỰC, BÀN ĂN & ĐẶT BÀN
+// ==========================================================
+
+model TableArea {
+  id           String            @id @default(uuid()) @db.VarChar(36)
+  name         String            @unique @db.VarChar(100)
+  description  String?           @db.VarChar(255)
+  displayOrder Int               @default(0) @map("display_order")
+  createdAt    DateTime          @default(now()) @map("created_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+  tables       RestaurantTable[]
+
+  @@map("table_areas")
+}
+
+enum TableShape {
+  ROUND
+  SQUARE
+  RECTANGLE
+}
+
+enum TableStatus {
+  AVAILABLE
+  OCCUPIED
+  RESERVED
+  CLEANING
+}
+
+model RestaurantTable {
+  id            String        @id @default(uuid()) @db.VarChar(36)
+  name          String        @db.VarChar(50)
+  areaId        String        @map("area_id") @db.VarChar(36)
+  area          TableArea     @relation(fields: [areaId], references: [id], onDelete: Restrict)
+  capacity      Int           @default(4)
+  shape         TableShape    @default(SQUARE)
+  status        TableStatus   @default(AVAILABLE)
+  posX          Float         @default(0) @map("pos_x")
+  posY          Float         @default(0) @map("pos_y")
+  width         Float         @default(90)
+  height        Float         @default(90)
+  occupiedSince DateTime?     @map("occupied_since")
+  customerType  CustomerType? @map("customer_type")
+  version       Int           @default(0) // Khóa lạc quan chống race condition
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  orders       Order[]
+  reservations Reservation[]
+  serviceCalls ServiceRequest[]
+
+  @@index([areaId])
+  @@index([status])
+  @@map("tables")
+}
+
+enum ReservationStatus {
+  CONFIRMED
+  SEATED
+  CANCELLED
+  NO_SHOW
+}
+
+model Reservation {
+  id           String            @id @default(uuid()) @db.VarChar(36)
+  tableId      String            @map("table_id") @db.VarChar(36)
+  table        RestaurantTable   @relation(fields: [tableId], references: [id], onDelete: Restrict)
+  customerId   String?           @map("customer_id") @db.VarChar(36)
+  customer     Customer?         @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  customerName String            @map("customer_name") @db.VarChar(100)
+  phone        String            @db.VarChar(20)
+  guestCount   Int               @default(2) @map("guest_count")
+  startTime    DateTime          @map("start_time")
+  endTime      DateTime          @map("end_time")
+  customerType CustomerType      @default(REGULAR) @map("customer_type")
+  status       ReservationStatus @default(CONFIRMED)
+  notes        String?           @db.VarChar(255)
+  createdById  String            @map("created_by_id") @db.VarChar(36)
+  createdBy    User              @relation("BookedByUser", fields: [createdById], references: [id], onDelete: Restrict)
+  createdAt    DateTime          @default(now()) @map("created_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+
+  @@index([tableId])
+  @@index([startTime, endTime])
+  @@index([status])
+  @@map("reservations")
+}
+
+// ==========================================================
+// 5. THỰC ĐƠN, MÓN ĂN, ĐỊNH MỨC NGUYÊN LIỆU (BOM) & CẤU HÌNH THUẾ
+// ==========================================================
+
+model Category {
+  id           String   @id @default(uuid()) @db.VarChar(36)
+  name         String   @unique @db.VarChar(100)
+  displayOrder Int      @default(0) @map("display_order")
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  menuItems  MenuItem[]
+  taxConfigs TaxConfig[]
+
+  @@map("categories")
+}
+
+model MenuItem {
+  id              String   @id @default(uuid()) @db.VarChar(36)
+  categoryId      String   @map("category_id") @db.VarChar(36)
+  category        Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  name            String   @db.VarChar(150)
+  price           Decimal  @db.Decimal(12, 2)
+  costPrice       Decimal  @default(0) @map("cost_price") @db.Decimal(12, 2)
+  unit            String   @default("phần") @db.VarChar(20)
+  description     String?  @db.Text
+  image           String?  @db.VarChar(500)
+  isAvailable     Boolean  @default(true) @map("is_available")
+  isDeleted       Boolean  @default(false) @map("is_deleted") // Soft-delete
+  prepTimeMinutes Int      @default(15) @map("prep_time_minutes")
+  spicyLevel      Int      @default(0) @map("spicy_level")
+  tags            String?  @db.VarChar(255)
+  isPopular       Boolean  @default(false) @map("is_popular")
+  taxRateOverride Decimal? @map("tax_rate_override") @db.Decimal(5, 2)
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  orderItems OrderItem[]
+  recipes    Recipe[]
+
+  @@index([categoryId])
+  @@index([isAvailable])
+  @@index([isDeleted])
+  @@map("menu_items")
+}
+
+model Ingredient {
+  id                 String   @id @default(uuid()) @db.VarChar(36)
+  name               String   @unique @db.VarChar(150)
+  category           String   @db.VarChar(100)
+  baseUnit           String   @map("base_unit") @db.VarChar(20) // 'g', 'ml', 'unit'
+  currentStock       Decimal  @default(0) @map("current_stock") @db.Decimal(12, 3) // Projection Cache
+  minStockLevel      Decimal  @default(5) @map("min_stock_level") @db.Decimal(12, 3)
+  costPerUnit        Decimal  @default(0) @map("cost_per_unit") @db.Decimal(12, 2) // WAC Unit Cost
+  allowNegativeStock Boolean  @default(false) @map("allow_negative_stock")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  recipes         Recipe[]
+  receiptItems    GoodsReceiptItem[]
+  stockHistory    StockTransaction[]
+  unitConversions UnitConversion[]
+
+  @@map("ingredients")
+}
+
+model UnitConversion {
+  id             String     @id @default(uuid()) @db.VarChar(36)
+  ingredientId   String     @map("ingredient_id") @db.VarChar(36)
+  ingredient     Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  fromUnit       String     @map("from_unit") @db.VarChar(20) // 'kg', 'két', 'thùng'
+  toUnit         String     @map("to_unit") @db.VarChar(20) // Đơn vị chuẩn: 'g', 'lon', 'chai'
+  conversionRate Decimal    @map("conversion_rate") @db.Decimal(10, 4)
+  createdAt      DateTime   @default(now()) @map("created_at")
+  updatedAt      DateTime   @updatedAt @map("updated_at")
+
+  @@unique([ingredientId, fromUnit])
+  @@map("unit_conversions")
+}
+
+model Recipe {
+  id               String     @id @default(uuid()) @db.VarChar(36)
+  menuItemId       String     @map("menu_item_id") @db.VarChar(36)
+  menuItem         MenuItem   @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  ingredientId     String     @map("ingredient_id") @db.VarChar(36)
+  ingredient       Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+  quantityRequired Decimal    @map("quantity_required") @db.Decimal(10, 3)
+  unit             String     @db.VarChar(20)
+  createdAt        DateTime   @default(now()) @map("created_at")
+  updatedAt        DateTime   @updatedAt @map("updated_at")
+
+  @@unique([menuItemId, ingredientId])
+  @@map("recipes")
+}
+
+model TaxConfig {
+  id            String    @id @default(uuid()) @db.VarChar(36)
+  code          String    @unique @db.VarChar(50)
+  name          String    @db.VarChar(100)
+  rate          Decimal   @db.Decimal(5, 2)
+  effectiveFrom DateTime  @map("effective_from")
+  effectiveTo   DateTime? @map("effective_to")
+  isDefault     Boolean   @default(false) @map("is_default")
+  categoryId    String?   @map("category_id") @db.VarChar(36)
+  category      Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  @@index([effectiveFrom, effectiveTo])
+  @@map("tax_configs")
+}
+
+// ==========================================================
+// 6. ĐƠN HÀNG, CHI TIẾT MÓN ĂN & THANH TOÁN
+// ==========================================================
+
+enum OrderStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum OrderPaymentStatus {
+  UNPAID
+  PARTIALLY_PAID
+  PAID
+  REFUNDED
+}
+
+enum OrderItemStatus {
+  PENDING
+  COOKING
+  READY
+  SERVED
+  CANCELLED
+}
+
+model Order {
+  id              String             @id @default(uuid()) @db.VarChar(36)
+  code            String             @unique @db.VarChar(20)
+  tableId         String             @map("table_id") @db.VarChar(36)
+  table           RestaurantTable    @relation(fields: [tableId], references: [id], onDelete: Restrict)
+  customerId      String?            @map("customer_id") @db.VarChar(36)
+  customer        Customer?          @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  servedById      String?            @map("served_by_id") @db.VarChar(36)
+  servedBy        Employee?          @relation("ServedByEmployee", fields: [servedById], references: [id], onDelete: SetNull)
+  customerName    String?            @map("customer_name") @db.VarChar(100)
+  customerPhone   String?            @map("customer_phone") @db.VarChar(20)
+  customerType    CustomerType       @default(WALK_IN) @map("customer_type")
+  customerCount   Int                @default(2) @map("customer_count")
+  subtotal        Decimal            @default(0) @db.Decimal(12, 2)
+  discountPercent Decimal            @default(0) @map("discount_percent") @db.Decimal(5, 2)
+  discountAmount  Decimal            @default(0) @map("discount_amount") @db.Decimal(12, 2)
+  taxPercent      Decimal            @default(8) @map("tax_percent") @db.Decimal(5, 2) // Snapshot VAT
+  taxAmount       Decimal            @default(0) @map("tax_amount") @db.Decimal(12, 2) // Snapshot VAT
+  finalTotal      Decimal            @default(0) @map("final_total") @db.Decimal(12, 2)
+  status          OrderStatus        @default(ACTIVE)
+  paymentStatus   OrderPaymentStatus @default(UNPAID) @map("payment_status")
+  notes           String?            @db.VarChar(255)
+  parentOrderId   String?            @map("parent_order_id") @db.VarChar(36) // Phục vụ Split Bill
+  parentOrder     Order?             @relation("OrderSplits", fields: [parentOrderId], references: [id], onDelete: SetNull)
+  splitOrders     Order[]            @relation("OrderSplits")
+  version         Int                @default(0) // Khóa lạc quan chống race condition
+  createdAt       DateTime           @default(now()) @map("created_at")
+  updatedAt       DateTime           @updatedAt @map("updated_at")
+  completedAt     DateTime?          @map("completed_at")
+
+  items    OrderItem[]
+  payments Payment[]
+  refunds  PaymentRefund[]
+
+  @@index([tableId])
+  @@index([status])
+  @@index([paymentStatus])
+  @@index([createdAt])
+  @@map("orders")
+}
+
+model OrderItem {
+  id              String          @id @default(uuid()) @db.VarChar(36)
+  orderId         String          @map("order_id") @db.VarChar(36)
+  order           Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItemId      String          @map("menu_item_id") @db.VarChar(36)
+  menuItem        MenuItem        @relation(fields: [menuItemId], references: [id], onDelete: Restrict)
+  name            String          @db.VarChar(150)
+  unit            String          @db.VarChar(20)
+  price           Decimal         @db.Decimal(12, 2)
+  quantity        Int             @default(1)
+  discountAmount  Decimal         @default(0) @map("discount_amount") @db.Decimal(12, 2)
+  taxRate         Decimal         @default(8) @map("tax_rate") @db.Decimal(5, 2) // Snapshot VAT rate
+  taxAmount       Decimal         @default(0) @map("tax_amount") @db.Decimal(12, 2) // Snapshot VAT money
+  note            String?         @db.VarChar(255)
+  status          OrderItemStatus @default(PENDING)
+  isStockDeducted Boolean         @default(false) @map("is_stock_deducted")
+  stockDeductedAt DateTime?       @map("stock_deducted_at")
+  orderedAt       DateTime        @default(now()) @map("ordered_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  @@index([orderId])
+  @@index([status])
+  @@map("order_items")
+}
+
+enum PaymentMethod {
+  CASH
+  VIETQR
+  TRANSFER
+  CARD
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  REFUNDED
+  FAILED
+}
+
+model Payment {
+  id             String        @id @default(uuid()) @db.VarChar(36)
+  orderId        String        @map("order_id") @db.VarChar(36)
+  order          Order         @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  paymentCode    String        @unique @map("payment_code") @db.VarChar(50)
+  amount         Decimal       @db.Decimal(12, 2)
+  paymentMethod  PaymentMethod @default(CASH) @map("payment_method")
+  paymentStatus  PaymentStatus @default(COMPLETED) @map("payment_status")
+  receivedAmount Decimal       @default(0) @map("received_amount") @db.Decimal(12, 2)
+  changeAmount   Decimal       @default(0) @map("change_amount") @db.Decimal(12, 2)
+  refundedAmount Decimal       @default(0) @map("refunded_amount") @db.Decimal(12, 2)
+  referenceCode  String?       @map("reference_code") @db.VarChar(100)
+  idempotencyKey String?       @unique @map("idempotency_key") @db.VarChar(100)
+  processedById  String        @map("processed_by_id") @db.VarChar(36)
+  processedBy    User          @relation(fields: [processedById], references: [id], onDelete: Restrict)
+  paidAt         DateTime?     @map("paid_at") // NULL khi PENDING, gán khi COMPLETED
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  refunds        PaymentRefund[]
+  cashFlowRecord CashFlowRecord?
+
+  @@index([orderId])
+  @@index([paymentStatus])
+  @@map("payments")
+}
+
+model PaymentRefund {
+  id             String        @id @default(uuid()) @db.VarChar(36)
+  refundCode     String        @unique @map("refund_code") @db.VarChar(50)
+  paymentId      String        @map("payment_id") @db.VarChar(36)
+  payment        Payment       @relation(fields: [paymentId], references: [id], onDelete: Restrict)
+  orderId        String        @map("order_id") @db.VarChar(36)
+  order          Order         @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  amount         Decimal       @db.Decimal(12, 2)
+  reason         String        @db.VarChar(255)
+  refundMethod   PaymentMethod @default(CASH) @map("refund_method")
+  refundStatus   PaymentStatus @default(COMPLETED) @map("refund_status")
+  processedById  String        @map("processed_by_id") @db.VarChar(36)
+  processedBy    User          @relation(fields: [processedById], references: [id], onDelete: Restrict)
+  referenceCode  String?       @map("reference_code") @db.VarChar(100)
+  idempotencyKey String?       @unique @map("idempotency_key") @db.VarChar(100)
+  createdAt      DateTime      @default(now()) @map("created_at")
+  completedAt    DateTime?     @map("completed_at")
+
+  cashFlowRecord CashFlowRecord?
+
+  @@index([paymentId])
+  @@index([orderId])
+  @@map("payment_refunds")
+}
+
+// ==========================================================
+// 7. NHÀ CUNG CẤP, HÀNG NHẬP & SỔ CÁI KHO ĐẢM BẢO IDEMPOTENCY
+// ==========================================================
+
+model Supplier {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  name      String   @db.VarChar(150)
+  phone     String?  @db.VarChar(20)
+  email     String?  @db.VarChar(100)
+  address   String?  @db.VarChar(255)
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  goodsReceipts    GoodsReceipt[]
+  supplierPayments SupplierPayment[]
+
+  @@map("suppliers")
+}
+
+model GoodsReceipt {
+  id            String        @id @default(uuid()) @db.VarChar(36)
+  receiptCode   String        @unique @map("receipt_code") @db.VarChar(50)
+  supplierId    String        @map("supplier_id") @db.VarChar(36)
+  supplier      Supplier      @relation(fields: [supplierId], references: [id], onDelete: Restrict)
+  receivedDate  DateTime      @default(now()) @map("received_date")
+  totalAmount   Decimal       @map("total_amount") @db.Decimal(14, 2)
+  paidAmount    Decimal       @default(0) @map("paid_amount") @db.Decimal(14, 2)
+  paymentStatus String        @default("unpaid") @map("payment_status") @db.VarChar(20) // 'unpaid', 'partially_paid', 'paid'
+  paymentMethod PaymentMethod @default(TRANSFER) @map("payment_method")
+  notes         String?       @db.VarChar(255)
+  createdById   String        @map("created_by_id") @db.VarChar(36)
+  createdBy     User          @relation(fields: [createdById], references: [id], onDelete: Restrict)
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  items    GoodsReceiptItem[]
+  payments SupplierPayment[]
+
+  @@index([supplierId])
+  @@map("goods_receipts")
+}
+
+model GoodsReceiptItem {
+  id           String       @id @default(uuid()) @db.VarChar(36)
+  receiptId    String       @map("receipt_id") @db.VarChar(36)
+  receipt      GoodsReceipt @relation(fields: [receiptId], references: [id], onDelete: Cascade)
+  ingredientId String       @map("ingredient_id") @db.VarChar(36)
+  ingredient   Ingredient   @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+  quantity     Decimal      @db.Decimal(12, 3)
+  unit         String       @db.VarChar(20)
+  unitPrice    Decimal      @map("unit_price") @db.Decimal(12, 2)
+  totalPrice   Decimal      @map("total_price") @db.Decimal(14, 2)
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
+
+  @@index([receiptId])
+  @@index([ingredientId])
+  @@map("goods_receipt_items")
+}
+
+model SupplierPayment {
+  id             String        @id @default(uuid()) @db.VarChar(36)
+  paymentCode    String        @unique @map("payment_code") @db.VarChar(50)
+  receiptId      String        @map("receipt_id") @db.VarChar(36)
+  receipt        GoodsReceipt  @relation(fields: [receiptId], references: [id], onDelete: Restrict)
+  supplierId     String        @map("supplier_id") @db.VarChar(36)
+  supplier       Supplier      @relation(fields: [supplierId], references: [id], onDelete: Restrict)
+  amount         Decimal       @db.Decimal(14, 2)
+  paymentMethod  PaymentMethod @default(TRANSFER) @map("payment_method")
+  referenceCode  String?       @map("reference_code") @db.VarChar(100)
+  notes          String?       @db.VarChar(255)
+  idempotencyKey String?       @unique @map("idempotency_key") @db.VarChar(100)
+  processedById  String        @map("processed_by_id") @db.VarChar(36)
+  processedBy    User          @relation(fields: [processedById], references: [id], onDelete: Restrict)
+  paidAt         DateTime      @default(now()) @map("paid_at")
+  createdAt      DateTime      @default(now()) @map("created_at")
+
+  cashFlowRecord CashFlowRecord?
+
+  @@index([receiptId])
+  @@index([supplierId])
+  @@map("supplier_payments")
+}
+
+enum StockTransactionType {
+  GOODS_RECEIPT
+  ORDER_CONSUMPTION
+  ORDER_CANCELLATION_RETURN
+  STOCK_TAKE_ADJUSTMENT
+  WASTE_DAMAGE
+  SUPPLIER_RETURN
+}
+
+model StockTransaction {
+  id              String               @id @default(uuid()) @db.VarChar(36)
+  ingredientId    String               @map("ingredient_id") @db.VarChar(36)
+  ingredient      Ingredient           @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+  transactionType StockTransactionType @map("transaction_type")
+  quantity        Decimal              @db.Decimal(12, 3) // Âm hoặc dương
+  balanceAfter    Decimal              @map("balance_after") @db.Decimal(12, 3)
+  costPerUnit     Decimal              @default(0) @map("cost_per_unit") @db.Decimal(12, 2)
+  totalCost       Decimal              @default(0) @map("total_cost") @db.Decimal(14, 2)
+  sourceType      String               @map("source_type") @db.VarChar(50) // 'ORDER_ITEM', 'GOODS_RECEIPT_ITEM', 'MANUAL_ADJUSTMENT'
+  sourceId        String               @map("source_id") @db.VarChar(50) // Order ID / Receipt ID
+  sourceLineId    String               @default("NONE") @map("source_line_id") @db.VarChar(50) // Bắt buộc NOT NULL
+  idempotencyKey  String               @unique @map("idempotency_key") @db.VarChar(100) // Khóa tất định duy nhất
+  notes           String?              @db.VarChar(255)
+  createdById     String               @map("created_by_id") @db.VarChar(36)
+  createdBy       User                 @relation(fields: [createdById], references: [id], onDelete: Restrict)
+  createdAt       DateTime             @default(now()) @map("created_at")
+
+  // Khóa duy nhất hoàn thiện không có trường NULL: Cho phép 1 order item tiêu hao nhiều nguyên liệu độc lập nhưng chống trừ trùng
+  @@unique([sourceType, sourceId, sourceLineId, ingredientId, transactionType], name: "uq_stock_tx_deterministic_source")
+  @@index([ingredientId])
+  @@index([transactionType])
+  @@map("stock_transactions")
+}
+
+// ==========================================================
+// 8. SỔ QUỸ DÒNG TIỀN & CHUÔNG GỌI PHỤC VỤ
+// ==========================================================
+
+enum CashFlowType {
+  INFLOW
+  OUTFLOW
+}
+
+enum CashFlowCategory {
+  REVENUE_ORDER
+  GOODS_PURCHASE
+  STAFF_SALARY
+  UTILITIES
+  MARKETING
+  REFUND
+  OTHER
+}
+
+model CashFlowRecord {
+  id                String           @id @default(uuid()) @db.VarChar(36)
+  type              CashFlowType
+  category          CashFlowCategory
+  title             String           @db.VarChar(255)
+  amount            Decimal          @db.Decimal(14, 2)
+  method            PaymentMethod    @default(CASH)
+  paymentId         String?          @unique @map("payment_id") @db.VarChar(36) // Khóa duy nhất chống ghi nhận thu trùng
+  payment           Payment?         @relation(fields: [paymentId], references: [id], onDelete: SetNull)
+  refundId          String?          @unique @map("refund_id") @db.VarChar(36) // Khóa duy nhất chống ghi nhận chi trùng
+  refund            PaymentRefund?   @relation(fields: [refundId], references: [id], onDelete: SetNull)
+  supplierPaymentId String?          @unique @map("supplier_payment_id") @db.VarChar(36) // Khóa duy nhất chống chi trùng mua hàng
+  supplierPayment   SupplierPayment? @relation(fields: [supplierPaymentId], references: [id], onDelete: SetNull)
+  referenceCode     String?          @map("reference_code") @db.VarChar(100)
+  notes             String?          @db.VarChar(255)
+  createdById       String           @map("created_by_id") @db.VarChar(36)
+  createdBy         User             @relation(fields: [createdById], references: [id], onDelete: Restrict)
+  createdAt         DateTime         @default(now()) @map("created_at")
+  updatedAt         DateTime         @updatedAt @map("updated_at")
+
+  @@index([type])
+  @@index([category])
+  @@index([createdAt])
+  @@map("cash_flow_records")
+}
+
+enum ServiceRequestType {
+  CALL_WAITER
+  REQUEST_BILL
+  REFILL_WATER
+  EXTRA_CUTLERY
+  CLEAN_TABLE
+  OTHER
+}
+
+enum ServiceRequestStatus {
+  PENDING
+  ATTENDING
+  RESOLVED
+}
+
+model ServiceRequest {
+  id           String               @id @default(uuid()) @db.VarChar(36)
+  tableId      String               @map("table_id") @db.VarChar(36)
+  table        RestaurantTable      @relation(fields: [tableId], references: [id], onDelete: Cascade)
+  type         ServiceRequestType
+  title        String               @db.VarChar(100)
+  note         String?              @db.VarChar(255)
+  status       ServiceRequestStatus @default(PENDING)
+  assignedToId String?              @map("assigned_to_id") @db.VarChar(36)
+  assignedTo   Employee?            @relation(fields: [assignedToId], references: [id], onDelete: SetNull)
+  createdAt    DateTime             @default(now()) @map("created_at")
+  resolvedAt   DateTime?            @map("resolved_at")
+  updatedAt    DateTime             @updatedAt @map("updated_at")
+
+  @@index([tableId])
+  @@index([status])
+  @@map("service_requests")
+}
+
+// ==========================================================
+// 9. TRANSACTIONAL OUTBOX & IDEMPOTENCY HẠ TẦNG
+// ==========================================================
+
+enum OutboxStatus {
+  PENDING
+  PROCESSING
+  PUBLISHED
+  FAILED
+}
+
+model OutboxEvent {
+  id                String       @id @default(uuid()) @db.VarChar(36)
+  aggregateType     String       @map("aggregate_type") @db.VarChar(50) // 'ORDER', 'KITCHEN', 'TABLE', 'PAYMENT'
+  aggregateId       String       @map("aggregate_id") @db.VarChar(50)
+  aggregateSequence Int          @map("aggregate_sequence") // Cấp phát nguyên tử theo từng aggregate
+  eventType         String       @map("event_type") @db.VarChar(100)
+  payload           Json
+  status            OutboxStatus @default(PENDING)
+  lockedBy          String?      @map("locked_by") @db.VarChar(50)
+  lockedAt          DateTime?    @map("locked_at")
+  scheduledAt       DateTime?    @map("scheduled_at")
+  retryCount        Int          @default(0) @map("retry_count")
+  maxRetries        Int          @default(5) @map("max_retries")
+  lastError         String?      @map("last_error") @db.Text
+  createdAt         DateTime     @default(now()) @map("created_at")
+  publishedAt       DateTime?    @map("published_at")
+
+  @@unique([aggregateType, aggregateId, aggregateSequence], name: "uq_outbox_aggregate_seq")
+  @@index([status, scheduledAt])
+  @@map("outbox_events")
+}
+
+model IdempotencyRecord {
+  id             String   @id @default(uuid()) @db.VarChar(36)
+  idempotencyKey String   @unique @map("idempotency_key") @db.VarChar(100)
+  handler        String   @db.VarChar(100)
+  requestHash    String   @map("request_hash") @db.VarChar(64)
+  responseBody   String   @map("response_body") @db.Text
+  statusCode     Int      @map("status_code")
+  expiresAt      DateTime @map("expires_at")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@index([idempotencyKey])
+  @@map("idempotency_records")
+}
