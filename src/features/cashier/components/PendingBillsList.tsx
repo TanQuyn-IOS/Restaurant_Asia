@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle2, Receipt, ShieldCheck } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Receipt } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { formatVnd } from '@/lib/format';
 import { CUSTOMER_GROUP_META } from '@/lib/labels';
@@ -107,11 +107,11 @@ export function PendingBillsList({
   return (
     <Card className="no-print flex flex-col">
       <CardHeader
-        title="Hóa đơn chờ thanh toán"
-        subtitle="Bàn đã được phục vụ chốt bill sẵn sàng thu tiền"
+        title="Hóa đơn chờ thu"
+        subtitle="Bàn đã được phục vụ chốt bill"
         action={
           <Badge tone={pendingInvoices.length > 0 ? 'billing' : 'neutral'} className="num">
-            {pendingInvoices.length} ĐANG MỞ
+            {pendingInvoices.length} chờ thu
           </Badge>
         }
       />
@@ -121,8 +121,8 @@ export function PendingBillsList({
           {pendingInvoices.length === 0 ? (
             <EmptyState
               icon={<Receipt size={22} />}
-              title="Không có hóa đơn chờ thanh toán"
-              description="Khi Phục vụ chốt bill tại Sơ đồ bàn, hóa đơn đã khóa sẽ tự động xuất hiện tại đây."
+              title="Chưa có hóa đơn chờ thu"
+              description="Khi phục vụ chốt bill trên Sơ đồ bàn, hóa đơn sẽ xuất hiện tại đây."
               className="py-8"
             />
           ) : (
@@ -142,7 +142,7 @@ export function PendingBillsList({
           {paidInvoices.length > 0 && (
             <div className="space-y-2.5 border-t border-line pt-4">
               <div className="flex items-center justify-between">
-                <p className="eyebrow">Đã thanh toán hôm nay</p>
+                <p className="t-label">Đã thanh toán hôm nay</p>
                 <Badge tone="success" size="sm" className="num">
                   {paidInvoices.length} hóa đơn
                 </Badge>
@@ -160,18 +160,6 @@ export function PendingBillsList({
               </div>
             </div>
           )}
-        </div>
-
-        {/* Thẻ "An toàn theo thiết kế" giải thích khóa chống thất thoát FR-17 */}
-        <div className="flex items-start gap-3 rounded-lg border border-line bg-paper-warm p-3.5">
-          <ShieldCheck size={17} aria-hidden className="mt-0.5 shrink-0 text-ink-soft" />
-          <div className="min-w-0">
-            <p className="text-xs font-medium text-ink">An toàn theo thiết kế (FR-17)</p>
-            <p className="mt-1 text-xs leading-relaxed text-ink-muted">
-              Mọi thay đổi dòng món trên hóa đơn đều bị khóa cứng ở chế độ chỉ đọc. Việc điều chỉnh món ăn
-              chỉ được thực hiện bởi Phục vụ hoặc Quản lý trước khi chốt bill.
-            </p>
-          </div>
         </div>
       </CardBody>
     </Card>

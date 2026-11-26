@@ -70,16 +70,15 @@ export function LeavePage() {
       <RoleWorkspaceCard />
 
       <PageHeader
-        eyebrow="NHÂN SỰ & VẬN HÀNH · MOD-07"
-        title="Quản lý nghỉ phép"
-        description="Phân loại tự động 3 trạng thái Đã nghỉ · Đang nghỉ · Sắp nghỉ, xếp người trực thay và đồng bộ bảng lương tháng."
+        title="Nghỉ phép"
+        description="Theo dõi nghỉ phép theo ngày, xếp người thay và đồng bộ bảng lương."
         actions={
           <Button
             variant="primary"
             icon={<Check size={15} />}
             onClick={() => openModal(metrics.pendingCount > 0 ? 'approve' : 'create')}
           >
-            Duyệt nghỉ phép & xếp người thay
+            Duyệt & xếp người thay
           </Button>
         }
       />
@@ -94,7 +93,7 @@ export function LeavePage() {
               <Calendar size={18} />
             </span>
             <div>
-              <p className="eyebrow">Đã nghỉ</p>
+              <p className="t-label">Đã nghỉ</p>
               <p className="mt-1 flex items-baseline gap-1.5">
                 <span className="t-metric-sm text-ink">
                   {String(metrics.pastCount).padStart(2, '0')}
@@ -112,7 +111,7 @@ export function LeavePage() {
               <Users size={18} />
             </span>
             <div>
-              <p className="eyebrow">Đang nghỉ hôm nay</p>
+              <p className="t-label">Đang nghỉ hôm nay</p>
               <p className="mt-1 flex items-baseline gap-1.5">
                 <span className="t-metric-sm text-ink">
                   {String(metrics.todayCount).padStart(2, '0')}
@@ -130,11 +129,11 @@ export function LeavePage() {
               <ShieldCheck size={18} />
             </span>
             <div>
-              <p className="eyebrow">Đã xếp người thay</p>
+              <p className="t-label">Đã xếp người thay</p>
               <p className="mt-1 flex items-baseline gap-1.5">
                 <span className="t-metric-sm text-ink">{metrics.coveragePct}%</span>
                 <span className="text-xs text-ink-muted">
-                  {metrics.coveragePct === 100 ? 'tất cả ca đã phủ' : 'cần bổ sung người thay'}
+                  {metrics.coveragePct === 100 ? 'đủ người thay' : 'cần xếp thêm'}
                 </span>
               </p>
             </div>
@@ -148,8 +147,7 @@ export function LeavePage() {
 
       <Card>
         <CardHeader
-          title="Nghỉ phép & bố trí trực thay"
-          subtitle="Chọn từng trạng thái để đối chiếu công đã nghỉ, xử lý vắng hôm nay và duyệt kế hoạch sắp nghỉ."
+          title="Đơn nghỉ phép"
           action={
             <Button
               variant="secondary"
@@ -205,8 +203,8 @@ export function LeavePage() {
                 </p>
                 <p className="mt-0.5 text-xs text-st-booked-ink">
                   {metrics.allTodayCovered
-                    ? 'Người trực thay đã được bố trí cho toàn bộ các khu vực bị ảnh hưởng.'
-                    : 'Một số ca nghỉ hôm nay chưa có người trực thay — vui lòng xếp thay ngay.'}
+                    ? 'Tất cả ca nghỉ hôm nay đều đã có người trực thay.'
+                    : 'Một số ca nghỉ hôm nay chưa có người thay, cần sắp xếp ngay.'}
                 </p>
               </div>
             </div>
@@ -214,7 +212,7 @@ export function LeavePage() {
               tone={metrics.allTodayCovered ? 'success' : 'warning'}
               icon={<Check size={12} />}
             >
-              {metrics.allTodayCovered ? 'ĐÃ PHỦ CA' : 'CẦN XẾP THAY'}
+              {metrics.allTodayCovered ? 'Đã phủ ca' : 'Cần xếp thay'}
             </Badge>
           </div>
         )}

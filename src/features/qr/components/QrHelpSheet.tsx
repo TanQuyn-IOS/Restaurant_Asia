@@ -12,23 +12,23 @@ interface QrHelpSheetProps {
 const GUIDE_STEPS = [
   {
     icon: <Flame size={18} aria-hidden />,
-    title: 'Chọn món & tùy chỉnh khẩu vị',
-    body: 'Chạm vào món để chọn độ cay từ 0 đến 3, thêm ghi chú ăn uống rồi đưa vào giỏ món.',
+    title: 'Chọn món & độ cay',
+    body: 'Chạm vào món để chọn độ cay (0–3), ghi chú cho bếp rồi thêm vào giỏ.',
   },
   {
     icon: <Clock size={18} aria-hidden />,
-    title: 'Theo dõi tiến độ bếp trực tiếp',
-    body: 'Sau khi bấm Gửi bếp, trạng thái Chờ → Đang nấu → Hoàn thành sẽ tự động cập nhật theo thời gian thực.',
+    title: 'Theo dõi tiến độ bếp',
+    body: 'Trạng thái Chờ, Đang nấu và Hoàn thành tự động cập nhật sau khi gửi bếp.',
   },
   {
     icon: <UtensilsCrossed size={18} aria-hidden />,
-    title: 'Tạm tính minh bạch theo món đã ra',
-    body: 'Chỉ những món bếp đã hoàn thành và phục vụ mới được cộng vào hóa đơn tạm tính của bàn.',
+    title: 'Tạm tính theo món đã ra',
+    body: 'Chỉ những món bếp đã hoàn thành mới cộng vào hóa đơn tạm tính.',
   },
   {
     icon: <Lock size={18} aria-hidden />,
-    title: 'Phiên bàn được khóa cố định',
-    body: 'Mã QR tại bàn gắn cố định vào đúng số bàn của quý khách để đơn gửi bếp luôn chính xác.',
+    title: 'Khóa cố định theo bàn',
+    body: 'Mỗi mã QR gắn riêng với một bàn để đơn gửi bếp luôn chính xác.',
   },
 ];
 
@@ -45,8 +45,8 @@ export function QrHelpSheet({
       onClose={onClose}
       side="bottom"
       frame="mobile"
-      eyebrow={`${tableLabel.toUpperCase()} · ${areaLabel.toUpperCase()}`}
-      title={<span className="t-display text-ink">Hướng dẫn gọi món tại bàn</span>}
+      eyebrow={`${tableLabel} · ${areaLabel}`}
+      title="Hướng dẫn gọi món"
       footer={
         <div className="pb-[env(safe-area-inset-bottom)]">
           <Button
@@ -56,7 +56,7 @@ export function QrHelpSheet({
             onClick={onClose}
             className="rounded-xl"
           >
-            Đã hiểu, tiếp tục xem thực đơn
+            Đóng
           </Button>
         </div>
       }

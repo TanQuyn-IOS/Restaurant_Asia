@@ -86,9 +86,8 @@ export function PayrollPage() {
       <RoleWorkspaceCard />
 
       <PageHeader
-        eyebrow="NHÂN SỰ & VẬN HÀNH · MOD-07"
-        title="Bảng lương theo ca"
-        description="Tổng hợp giờ làm chính xác, số ca sáng – chiều – tối và khấu trừ nghỉ phép tự động cho kỳ lương tháng 11/2026."
+        title="Bảng lương ca"
+        description="Tổng hợp giờ làm, số ca và khấu trừ nghỉ phép kỳ tháng 11/2026."
         actions={
           <Button
             variant="secondary"
@@ -96,7 +95,7 @@ export function PayrollPage() {
             onClick={handleExportCsv}
             disabled={summary.rows.length === 0}
           >
-            Xuất bảng lương CSV
+            Xuất CSV
           </Button>
         }
       />
@@ -138,21 +137,17 @@ export function PayrollPage() {
         />
       </div>
 
-      {/* Bảng lương ca hàng tháng (mockup 07) */}
+      {/* Bảng lương ca hàng tháng */}
       <Card>
         <CardHeader
-          title="Bảng lương ca tháng 11/2026"
-          subtitle="Giờ chấm công thực tế và khấu trừ ngày nghỉ đã duyệt · Tháng 11/2026"
+          title="Chi tiết lương tháng 11/2026"
+          subtitle="Theo giờ chấm công thực tế và ngày nghỉ đã duyệt"
           action={
             !isOwner ? (
               <Badge tone="success" icon={<Lock size={12} />} className="rounded-lg px-3 py-1.5">
-                Chế độ Quản lý — đã ẩn doanh thu
+                Đã ẩn doanh thu
               </Badge>
-            ) : (
-              <Badge tone="gold" icon={<ShieldCheck size={12} />} className="rounded-lg px-3 py-1.5">
-                Phân hệ Nhân sự · MOD-07
-              </Badge>
-            )
+            ) : undefined
           }
         />
 
@@ -269,11 +264,8 @@ export function PayrollPage() {
         <CardFooter className="flex-wrap text-xs text-ink-muted">
           <span className="inline-flex items-center gap-2">
             <ShieldCheck size={14} aria-hidden className="text-st-empty-ink" />
-            Hồ sơ nghỉ phép đã đồng bộ tự động · Cập nhật tức thì theo dữ liệu phân ca
+            Tự động đối trừ ngày nghỉ đã duyệt theo lịch phân ca
           </span>
-          {!isOwner && (
-            <span>Bảo mật FR-19: Số liệu doanh thu và sổ quỹ được ẩn hoàn toàn với vai trò hiện tại</span>
-          )}
         </CardFooter>
       </Card>
     </PageBody>

@@ -122,12 +122,11 @@ export function OverviewPage() {
   return (
     <PageBody>
       <PageHeader
-        eyebrow={`Không gian làm việc · ${ROLE_META[currentRole].label}`}
-        title="Tổng quan vận hành"
+        title="Tổng quan"
         description={
           isOwner
-            ? 'Theo dõi nhanh tình hình phục vụ sảnh, tiến độ bếp KDS, dòng tiền và cảnh báo tồn kho.'
-            : 'Nắm bắt nhanh trạng thái bàn, đơn bếp, yêu cầu khách từ QR và ca trực hôm nay.'
+            ? 'Tình hình sảnh, bếp, dòng tiền và kho hàng hôm nay.'
+            : 'Tình hình bàn, bếp, yêu cầu QR và ca trực hôm nay.'
         }
         actions={
           <>
@@ -138,14 +137,14 @@ export function OverviewPage() {
               className="inline-flex h-10 items-center gap-2 rounded-md border border-line-strong bg-paper px-4 text-sm font-medium text-ink transition-colors hover:bg-paper-warm"
             >
               <QrCode size={16} aria-hidden />
-              Mở cổng khách QR
+              Cổng QR
             </Link>
             <Link
               to="/so-do-ban"
               className="inline-flex h-10 items-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-white transition-colors hover:bg-primary-hover"
             >
               <LayoutGrid size={16} aria-hidden />
-              Vào sơ đồ bàn
+              Sơ đồ bàn
             </Link>
           </>
         }
@@ -194,7 +193,7 @@ export function OverviewPage() {
             <StatCard
               label="Chờ thanh toán"
               value={String(stats.billing).padStart(2, '0')}
-              hint="Thu ngân ở chế độ chỉ đọc (FR-17)"
+              hint="Thu ngân ở chế độ chỉ đọc"
               tone="billing"
               icon={<CreditCard size={18} />}
             />
@@ -219,14 +218,13 @@ export function OverviewPage() {
         <div className="space-y-6 lg:col-span-7">
           <Card>
             <CardHeader
-              title="Nhịp phục vụ theo trạng thái bàn"
-              subtitle="Cập nhật trực tiếp từ Sơ đồ bàn, Bếp KDS và Thu ngân POS"
+              title="Trạng thái bàn"
               action={
                 <Link
                   to="/so-do-ban"
                   className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
                 >
-                  Chi tiết sảnh <ArrowRight size={14} aria-hidden />
+                  Xem sảnh <ArrowRight size={14} aria-hidden />
                 </Link>
               }
             />
@@ -312,7 +310,7 @@ export function OverviewPage() {
           <Card>
             <CardHeader
               title="Cần phục vụ ngay"
-              subtitle="Chuông Ting từ bếp & yêu cầu hỗ trợ từ khách quét QR tại bàn"
+              subtitle="Món bếp vừa xong và yêu cầu từ khách QR"
               action={
                 <Badge
                   tone={stats.unreadTings.length + stats.pendingRequests.length > 0 ? 'primary' : 'neutral'}
@@ -326,8 +324,8 @@ export function OverviewPage() {
               {stats.unreadTings.length === 0 && stats.pendingRequests.length === 0 ? (
                 <EmptyState
                   icon={<BellRing size={22} />}
-                  title="Tất cả yêu cầu đã được xử lý"
-                  description="Khi bếp bấm Hoàn thành hoặc khách bấm Gọi phục vụ trên QR, thông báo sẽ hiện ngay tại đây."
+                  title="Không còn yêu cầu chờ"
+                  description="Món bếp hoàn thành và yêu cầu từ QR sẽ hiện ngay tại đây."
                 />
               ) : (
                 <ul className="divide-y divide-line">
@@ -342,7 +340,7 @@ export function OverviewPage() {
                         </span>
                         <div>
                           <p className="text-sm font-medium text-ink">
-                            Ting! Món “{t.ten_mon_an}” đã sẵn sàng
+                            Ting! {t.ten_mon_an} đã xong
                           </p>
                           <p className="num text-xs text-ink-muted">
                             {t.ten_ban} · {formatClock(t.thoi_gian)}
@@ -400,8 +398,7 @@ export function OverviewPage() {
             <>
               <Card>
                 <CardHeader
-                  title="Cảnh báo tồn kho tối thiểu"
-                  subtitle="Nguyên liệu cần nhập gấp để không gián đoạn bếp"
+                  title="Nguyên liệu sắp hết"
                   action={
                     <Link
                       to="/tai-chinh/kho"
@@ -415,8 +412,8 @@ export function OverviewPage() {
                   {stats.lowStock.length === 0 ? (
                     <EmptyState
                       icon={<Boxes size={22} />}
-                      title="Kho nguyên liệu đủ định mức"
-                      description="Chưa có nguyên liệu nào rơi xuống dưới mức tối thiểu."
+                      title="Kho đủ định mức"
+                      description="Chưa có nguyên liệu nào dưới mức tối thiểu."
                     />
                   ) : (
                     <ul className="divide-y divide-line">
@@ -425,7 +422,7 @@ export function OverviewPage() {
                           <div className="min-w-0">
                             <p className="truncate text-sm font-medium text-ink">{ing.ten_nguyen_lieu}</p>
                             <p className="num text-xs text-ink-muted">
-                              Ngưỡng tối thiểu: {ing.nguong_ton_toi_thieu} {ing.don_vi_tinh}
+                              Tối thiểu: {ing.nguong_ton_toi_thieu} {ing.don_vi_tinh}
                             </p>
                           </div>
                           <Badge tone="danger" dot>
@@ -442,8 +439,7 @@ export function OverviewPage() {
 
               <Card>
                 <CardHeader
-                  title="Giao dịch sổ quỹ gần nhất"
-                  subtitle="Độc quyền Chủ nhà hàng (MOD-08)"
+                  title="Sổ quỹ gần nhất"
                   action={
                     <Link
                       to="/tai-chinh/so-quy"
@@ -496,8 +492,7 @@ export function OverviewPage() {
             <>
               <Card>
                 <CardHeader
-                  title="Món tạm hết / ngưng phục vụ"
-                  subtitle="Đồng bộ tức thì lên App phục vụ và Mobile QR"
+                  title="Món hết / tạm ngưng"
                   action={
                     <Link
                       to="/thuc-don"
@@ -510,7 +505,7 @@ export function OverviewPage() {
                 <CardBody className="p-0">
                   {stats.soldOutDishes.length === 0 ? (
                     <div className="px-5 py-6 text-center text-sm text-ink-muted">
-                      Toàn bộ thực đơn hiện đang sẵn sàng phục vụ.
+                      Tất cả món đang sẵn sàng phục vụ.
                     </div>
                   ) : (
                     <ul className="divide-y divide-line">
@@ -530,14 +525,13 @@ export function OverviewPage() {
               <Card>
                 <CardHeader
                   title="Ca trực hôm nay"
-                  subtitle="Hiển thị ca làm và tình hình quân số sảnh / bếp"
                   action={
                     (currentRole === 'Manager' || currentRole === 'HR') && (
                       <Link
                         to="/nhan-su/ca-lam"
                         className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
                       >
-                        Lịch phân ca <ArrowRight size={14} aria-hidden />
+                        Lịch ca <ArrowRight size={14} aria-hidden />
                       </Link>
                     )
                   }
@@ -548,10 +542,10 @@ export function OverviewPage() {
                       <CalendarClock size={18} aria-hidden className="text-info-ink" />
                       <div>
                         <p className="text-sm font-medium text-ink">
-                          {stats.onShiftNow} nhân viên đang trong ca
+                          {stats.onShiftNow} nhân viên đang trực
                         </p>
                         <p className="text-xs text-ink-muted">
-                          Tổng {stats.shiftsToday.length} lượt phân ca ngày 24/11/2026
+                          {stats.shiftsToday.length} ca phân công ngày 24/11/2026
                         </p>
                       </div>
                     </div>
@@ -564,8 +558,7 @@ export function OverviewPage() {
                     <div className="flex items-start gap-2.5 rounded-lg border border-st-booked/40 bg-st-booked-soft px-4 py-3 text-xs text-st-booked-ink">
                       <AlertTriangle size={15} aria-hidden className="mt-0.5 shrink-0" />
                       <span>
-                        Có <strong>{stats.leavesToday.length}</strong> nhân sự đang nghỉ phép hôm nay — kiểm tra
-                        người trực thay tại mục Nghỉ phép.
+                        Có <strong>{stats.leavesToday.length}</strong> nhân sự nghỉ hôm nay. Kiểm tra người trực thay ở mục Nghỉ phép.
                       </span>
                     </div>
                   )}
@@ -573,8 +566,8 @@ export function OverviewPage() {
                   <div className="flex items-start gap-2.5 rounded-lg border border-line bg-sunken px-4 py-3 text-xs text-ink-muted">
                     <Lock size={14} aria-hidden className="mt-0.5 shrink-0 text-gold-ink" />
                     <span>
-                      Bảo mật FR-19: Số liệu doanh thu, sổ quỹ dòng tiền, lãi/lỗ và giá vốn nhập kho được ẩn hoàn
-                      toàn đối với vai trò <strong className="font-medium text-ink">{ROLE_META[currentRole].label}</strong>.
+                      Doanh thu, sổ quỹ và giá nhập kho được ẩn với vai trò{' '}
+                      <strong className="font-medium text-ink">{ROLE_META[currentRole].label}</strong>.
                     </span>
                   </div>
                 </CardBody>

@@ -29,13 +29,13 @@ export function SupplierBalanceCard({
             <Wallet size={20} />
           </span>
           <div className="min-w-0">
-            <p className="eyebrow">Công nợ nhà cung cấp</p>
+            <p className="t-label">Công nợ nhà cung cấp</p>
             <p className="t-metric-sm mt-1 text-ink">{formatVnd(totalSupplierDebt)}</p>
           </div>
         </div>
 
         <p className="text-xs text-ink-muted">
-          Dư nợ hiện tại phát sinh từ các phiếu nhập nguyên liệu chưa thanh toán đủ.
+          Dư nợ từ các phiếu nhập chưa thanh toán đủ.
         </p>
 
         <ul className="divide-y divide-line border-y border-line">
@@ -85,8 +85,7 @@ export function SupplierBalanceCard({
             Ghi nhận thanh toán công nợ
           </Button>
           <p id="pay-debt-disabled-note" className="text-xs text-ink-muted">
-            Nghiệp vụ tất toán công nợ tách rời chưa được mở ở phiên bản store hiện tại — vui lòng
-            ghi nhận số tiền trả ngay khi lập phiếu nhập hàng mới.
+            Thanh toán công nợ riêng chưa mở. Ghi nhận số tiền trả ngay khi lập phiếu nhập.
           </p>
         </div>
       </CardBody>
@@ -94,7 +93,7 @@ export function SupplierBalanceCard({
       <CardFooter className="text-xs text-ink-muted">
         <span className="inline-flex items-center gap-2">
           <ShieldCheck size={14} aria-hidden className="text-st-empty-ink" />
-          Tự động cập nhật từ phiếu nhập hàng (UC-12)
+          Cập nhật tự động theo phiếu nhập
         </span>
       </CardFooter>
     </Card>

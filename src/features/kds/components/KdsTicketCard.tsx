@@ -1,20 +1,17 @@
 import {
-  BellRing,
   Check,
   ChefHat,
   Clock,
   Crown,
-  Lock,
   MessageSquareText,
   QrCode,
-  Utensils,
 } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { formatClock, formatDuration, minutesSince } from '@/lib/format';
-import { Badge } from '@/components/ui/Badge';
+import { Badge, StatusDot } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { CustomerGroupBadge, ItemStatusBadge, SpiceMeter } from '@/components/domain/badges';
+import { CustomerGroupBadge, SpiceMeter } from '@/components/domain/badges';
 import { parseTableOriginNote } from '@/features/floor/tableOriginTag';
 import { normalizeIsoTimestamp, type KdsDishEntry, type KdsTicket } from '../kdsHelpers';
 
@@ -24,6 +21,11 @@ interface KdsTicketCardProps {
   canAct: boolean;
   disabledReason?: string;
   onAdvanceStatus: (maChiTietOrder: string, nextStatus: 'DangCheBien' | 'HoanThanh') => void;
+}
+
+/** Rút gọn tên khu vực bằng cách bỏ phần chú thích trong ngoặc đơn để tránh tràn chữ trên thẻ bếp. */
+function shortAreaName(areaName: string): string {
+  return areaName.replace(/\s*\([^)]*\)\s*$/, '').trim();
 }
 
 function DishRow({
@@ -42,124 +44,140 @@ function DishRow({
   const isCooking = item.trang_thai_mon === 'DangCheBien';
   const isDone = item.trang_thai_mon === 'HoanThanh' || item.trang_thai_mon === 'DaPhucVu';
   const orderTimeIso = normalizeIsoTimestamp(item.thoi_gian_goi);
+  const { originTableId, cleanNote } = parseTableOriginNote(item.ghi_chu_mon);
 
   return (
-    <li className="space-y-2.5 px-5 py-4">
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex min-w-0 items-start gap-3">
+    <li
+      className={cn(
+        'px-4 transition-colors',
+        isDone ? 'bg-paper-warm/70 py-2.5' : 'bg-paper py-3',
+      )}
+    >
+      <div className="flex items-start justify-between gap-2.5">
+        <div className="flex min-w-0 items-start gap-2.5">
           <span
             aria-label={`Số lượng ${item.so_luong}`}
             className={cn(
-              'num grid size-9 shrink-0 place-items-center rounded-md border text-sm font-medium',
+              'num grid size-8 shrink-0 place-items-center rounded-md text-xs font-medium',
               isDone
-                ? 'border-line bg-paper-warm text-ink-muted'
-                : 'border-line-strong bg-sunken text-ink',
+                ? 'border border-line bg-sunken text-ink-muted'
+                : isCooking
+                  ? 'bg-st-serving text-white'
+                  : 'bg-chrome text-chrome-ink',
             )}
           >
-            <span>
-              {item.so_luong}
-              <span className="text-xs font-normal text-ink-muted">×</span>
-            </span>
+            {item.so_luong}×
           </span>
 
           <div className="min-w-0">
-            <p className={cn('text-sm font-medium leading-snug', isDone ? 'text-ink-soft' : 'text-ink')}>
+            <p
+              className={cn(
+                'text-sm font-medium leading-snug',
+                isDone ? 'text-ink-soft' : 'text-ink',
+              )}
+            >
               {dishName}
             </p>
-            <div className="mt-1 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-ink-muted">
-              <SpiceMeter level={item.muc_do_cay_yc} withLabel />
-              <span aria-hidden className="text-ink-faint">·</span>
-              <Badge
-                tone={item.nguon_goi === 'MobileQR' ? 'info' : 'neutral'}
-                size="sm"
-                icon={
-                  item.nguon_goi === 'MobileQR' ? (
-                    <QrCode size={11} aria-hidden />
-                  ) : (
-                    <Utensils size={11} aria-hidden />
-                  )
-                }
-              >
-                {item.nguon_goi === 'MobileQR' ? 'Mobile QR' : 'Phục vụ'}
-              </Badge>
+
+            <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ink-muted">
+              {isWaiting && (
+                <span className="inline-flex items-center gap-1 font-medium text-st-booked-ink">
+                  <StatusDot tone="warning" />
+                  Chờ nấu
+                </span>
+              )}
+              {isCooking && (
+                <span className="inline-flex items-center gap-1 font-medium text-st-serving-ink">
+                  <StatusDot tone="danger" pulse />
+                  Đang nấu
+                </span>
+              )}
+
+              {item.muc_do_cay_yc > 0 && <SpiceMeter level={item.muc_do_cay_yc} withLabel />}
+
+              {item.nguon_goi === 'MobileQR' && (
+                <Badge tone="info" size="sm" icon={<QrCode size={10} aria-hidden />}>
+                  QR
+                </Badge>
+              )}
+
               <span className="num">
-                Lượt #{item.lan_goi} · {formatClock(orderTimeIso)}
+                {item.lan_goi > 1 ? `Lượt ${item.lan_goi} · ` : ''}
+                {formatClock(orderTimeIso)}
+                {!isDone ? ` · ~${cookMinutes}p` : ''}
               </span>
-              {!isDone && <span className="num">~{cookMinutes}p</span>}
             </div>
           </div>
         </div>
 
-        <div className="shrink-0">
-          <ItemStatusBadge status={item.trang_thai_mon} />
+        <div className="shrink-0 pt-0.5">
+          {isWaiting && (
+            <Button
+              size="sm"
+              variant="secondary"
+              icon={<ChefHat size={13} aria-hidden />}
+              disabled={!canAct}
+              title={!canAct ? disabledReason : 'Bắt đầu chế biến và khóa hủy món'}
+              onClick={() => onAdvanceStatus(item.ma_chi_tiet_order, 'DangCheBien')}
+            >
+              Nấu
+            </Button>
+          )}
+
+          {isCooking && (
+            <Button
+              size="sm"
+              variant="primary"
+              icon={<Check size={13} aria-hidden />}
+              disabled={!canAct}
+              title={!canAct ? disabledReason : 'Đánh dấu hoàn thành, báo phục vụ và vào bill'}
+              onClick={() => onAdvanceStatus(item.ma_chi_tiet_order, 'HoanThanh')}
+            >
+              Xong
+            </Button>
+          )}
+
+          {item.trang_thai_mon === 'HoanThanh' && (
+            <Badge tone="success" size="sm" dot>
+              Hoàn thành
+            </Badge>
+          )}
+
+          {item.trang_thai_mon === 'DaPhucVu' && (
+            <Badge tone="neutral" size="sm">
+              Đã phục vụ
+            </Badge>
+          )}
         </div>
       </div>
 
-      {(() => {
-        const { originTableId, cleanNote } = parseTableOriginNote(item.ghi_chu_mon);
-        if (!originTableId && !cleanNote) return null;
-        return (
-          <div className="flex flex-wrap items-start gap-2 rounded-md border border-line bg-paper-warm px-3 py-2 text-xs text-ink-soft">
-            <MessageSquareText size={13} aria-hidden className="mt-0.5 shrink-0 text-gold-ink" />
-            {originTableId && (
-              <Badge tone="info" size="sm">
-                Bàn {originTableId}
-              </Badge>
-            )}
-            {cleanNote && <span className="min-w-0">{cleanNote}</span>}
-          </div>
-        );
-      })()}
-
-      <div className="flex flex-wrap items-center justify-between gap-2 pt-0.5">
-        <span className="text-xs text-ink-muted">
-          {isWaiting && 'Chưa khóa hủy món · Chờ bếp tiếp nhận'}
-          {isCooking && (
-            <span className="inline-flex items-center gap-1 text-st-serving-ink">
-              <Lock size={12} aria-hidden />
-              Đã khóa quyền hủy món (FR-11)
-            </span>
+      {(originTableId || cleanNote) && (
+        <div
+          className={cn(
+            'mt-2 ml-10 flex flex-wrap items-start gap-1.5 rounded-md border px-2.5 py-1.5 text-xs',
+            isDone
+              ? 'border-line bg-sunken/70 text-ink-muted'
+              : 'border-gold/40 bg-gold-soft/80 text-ink',
           )}
-          {item.trang_thai_mon === 'HoanThanh' && (
-            <span className="inline-flex items-center gap-1 text-st-empty-ink">
-              <BellRing size={12} aria-hidden />
-              Đã nạp bill · Trừ kho BOM · Báo Ting
-            </span>
+        >
+          <MessageSquareText
+            size={12}
+            aria-hidden
+            className={cn('mt-0.5 shrink-0', isDone ? 'text-ink-muted' : 'text-gold-ink')}
+          />
+          {originTableId && (
+            <Badge tone="info" size="sm">
+              Bàn {originTableId}
+            </Badge>
           )}
-          {item.trang_thai_mon === 'DaPhucVu' && 'Đã phục vụ tại bàn · Đã nạp hóa đơn'}
-        </span>
-
-        {isWaiting && (
-          <Button
-            size="sm"
-            variant="secondary"
-            icon={<ChefHat size={14} aria-hidden />}
-            disabled={!canAct}
-            title={!canAct ? disabledReason : 'Bắt đầu chế biến và khóa hủy món'}
-            onClick={() => onAdvanceStatus(item.ma_chi_tiet_order, 'DangCheBien')}
-          >
-            Bắt đầu nấu
-          </Button>
-        )}
-
-        {isCooking && (
-          <Button
-            size="sm"
-            variant="primary"
-            icon={<Check size={14} aria-hidden />}
-            disabled={!canAct}
-            title={!canAct ? disabledReason : 'Đánh dấu xong, phát chuông Ting và nạp vào bill'}
-            onClick={() => onAdvanceStatus(item.ma_chi_tiet_order, 'HoanThanh')}
-          >
-            Hoàn thành
-          </Button>
-        )}
-      </div>
+          {cleanNote && <span className="min-w-0 leading-snug">{cleanNote}</span>}
+        </div>
+      )}
     </li>
   );
 }
 
-/** Thẻ phiếu bếp nhóm theo đơn bàn (ghim bàn VIP bằng nền gold-soft + nhãn VIP ƯU TIÊN). */
+/** Thẻ phiếu bếp tách màu rõ với nền bảng và phân biệt tức thì VIP, đang làm và đã xong. */
 export function KdsTicketCard({
   ticket,
   nowMs,
@@ -169,58 +187,107 @@ export function KdsTicketCard({
 }: KdsTicketCardProps) {
   const earliestIso = normalizeIsoTimestamp(ticket.earliestOrderTime);
   const elapsedMinutes = minutesSince(earliestIso, nowMs);
-  const isOverdue = ticket.hasActiveDishes && elapsedMinutes >= 20;
+  const isActive = ticket.hasActiveDishes;
+  const isCookingTicket = isActive && ticket.cookingCount > 0;
+  const isOverdue = isActive && elapsedMinutes >= 20;
+  const isDarkHeader = ticket.isVip && isActive;
+  const totalCount = ticket.waitingCount + ticket.cookingCount + ticket.doneCount;
+  const areaLabel = shortAreaName(ticket.areaName);
+
+  const cardSurface = isActive
+    ? ticket.isVip
+      ? 'border-gold border-t-4 border-t-gold-bright shadow-lift'
+      : isCookingTicket
+        ? 'border-st-serving/45 border-t-4 border-t-st-serving shadow-lift'
+        : 'border-st-booked/45 border-t-4 border-t-st-booked shadow-lift'
+    : ticket.isVip
+      ? 'border-gold/50 border-t-4 border-t-gold shadow-card'
+      : 'border-line-strong border-t-4 border-t-st-empty shadow-card';
+
+  const headerSurface = isDarkHeader
+    ? 'border-chrome-line bg-chrome text-chrome-ink'
+    : isActive
+      ? isCookingTicket
+        ? 'border-st-serving/25 bg-st-serving-soft text-ink'
+        : 'border-st-booked/30 bg-st-booked-soft text-ink'
+      : ticket.isVip
+        ? 'border-gold/35 bg-gold-soft text-ink'
+        : 'border-st-empty/25 bg-st-empty-soft/85 text-ink';
 
   return (
-    <Card
-      className={cn(
-        'flex flex-col overflow-hidden transition-colors',
-        ticket.isVip ? 'border-gold/60' : 'border-line',
-      )}
-    >
-      <header
-        className={cn(
-          'flex items-start justify-between gap-3 border-b px-5 py-3.5',
-          ticket.isVip
-            ? 'border-gold/30 bg-gold-soft'
-            : 'border-line bg-paper-warm',
-        )}
-      >
+    <Card className={cn('flex flex-col overflow-hidden transition-shadow', cardSurface)}>
+      <header className={cn('flex items-start justify-between gap-3 border-b px-4 py-3', headerSurface)}>
         <div className="min-w-0">
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-1.5">
             {ticket.isVip ? (
-              <Badge tone="gold" size="sm" icon={<Crown size={11} aria-hidden />}>
-                VIP ƯU TIÊN
-              </Badge>
+              <span
+                className={cn(
+                  'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium',
+                  isDarkHeader
+                    ? 'border border-gold-bright/40 bg-gold/20 text-gold-bright'
+                    : 'bg-paper text-gold-ink border border-gold/35',
+                )}
+              >
+                <Crown size={11} aria-hidden />
+                VIP ưu tiên
+              </span>
             ) : (
-              <span className="eyebrow">Phiếu gọi món</span>
+              <CustomerGroupBadge group={ticket.customerGroup} />
             )}
-            <CustomerGroupBadge group={ticket.customerGroup} />
           </div>
-          <h3 className="mt-1.5 truncate text-base font-medium text-ink">
+
+          <h3
+            title={ticket.tableName}
+            className={cn(
+              'mt-1.5 truncate text-base font-medium leading-tight',
+              isDarkHeader ? 'text-chrome-ink' : 'text-ink',
+            )}
+          >
             {ticket.tableName}
           </h3>
-          {ticket.areaName && (
-            <p className="truncate text-xs text-ink-muted">{ticket.areaName}</p>
+
+          {areaLabel && (
+            <p
+              title={ticket.areaName}
+              className={cn(
+                'mt-0.5 truncate text-xs',
+                isDarkHeader ? 'text-chrome-muted' : 'text-ink-soft',
+              )}
+            >
+              {areaLabel}
+            </p>
           )}
         </div>
 
         <div className="flex shrink-0 flex-col items-end gap-1">
+          {isActive ? (
+            <span
+              title={`Món gọi sớm nhất lúc ${formatClock(earliestIso)}`}
+              className={cn(
+                'num inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium',
+                isOverdue
+                  ? 'bg-st-serving text-white'
+                  : isDarkHeader
+                    ? 'border border-chrome-line bg-chrome-raised text-gold-bright'
+                    : 'border border-line-strong bg-paper text-ink',
+              )}
+            >
+              <Clock size={11} aria-hidden />
+              {formatDuration(elapsedMinutes)}
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 rounded-full border border-st-empty/30 bg-paper px-2.5 py-0.5 text-xs font-medium text-st-empty-ink">
+              <Check size={11} aria-hidden />
+              Hoàn tất
+            </span>
+          )}
+
           <span
-            title={`Món gọi sớm nhất lúc ${formatClock(earliestIso)}`}
             className={cn(
-              'num inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium',
-              isOverdue
-                ? 'bg-st-serving-soft text-st-serving-ink'
-                : ticket.isVip
-                  ? 'bg-paper text-gold-ink'
-                  : 'bg-paper text-ink-soft',
+              'num text-xs',
+              isDarkHeader ? 'text-chrome-muted' : 'text-ink-soft',
             )}
           >
-            <Clock size={12} aria-hidden />
-            {formatDuration(elapsedMinutes)}
-          </span>
-          <span className="num text-xs text-ink-muted">
             Gọi {formatClock(earliestIso)}
           </span>
         </div>
@@ -238,10 +305,10 @@ export function KdsTicketCard({
         ))}
       </ul>
 
-      <footer className="flex flex-wrap items-center justify-between gap-2 border-t border-line bg-paper-warm/70 px-5 py-2.5 text-xs text-ink-muted">
-        <span className="num font-medium text-ink-soft">Phiếu #{ticket.maOrder}</span>
+      <footer className="flex items-center justify-between gap-2 border-t border-line bg-sunken/60 px-4 py-2 text-xs text-ink-muted">
+        <span className="num font-medium text-ink-soft">#{ticket.maOrder}</span>
         <span className="num">
-          {ticket.doneCount}/{ticket.waitingCount + ticket.cookingCount + ticket.doneCount} món xong
+          {ticket.doneCount}/{totalCount} xong
         </span>
       </footer>
     </Card>

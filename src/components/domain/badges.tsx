@@ -18,10 +18,18 @@ import { Badge } from '@/components/ui/Badge';
 import { TONE } from '@/components/ui/tone';
 
 /** Pill trạng thái bàn (4 màu FR-02). */
-export function TableStatusBadge({ status, className }: { status: TableStatus; className?: string }) {
+export function TableStatusBadge({
+  status,
+  size = 'md',
+  className,
+}: {
+  status: TableStatus;
+  size?: 'sm' | 'md';
+  className?: string;
+}) {
   const m = TABLE_STATUS_META[status];
   return (
-    <Badge tone={m.tone} dot className={className}>
+    <Badge tone={m.tone} dot size={size} className={className}>
       {m.short}
     </Badge>
   );

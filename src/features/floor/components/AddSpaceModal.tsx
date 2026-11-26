@@ -127,9 +127,8 @@ export function AddSpaceModal({
       onClose={onClose}
       size="md"
       icon={<LayoutGrid size={20} />}
-      eyebrow="Cấu hình sảnh · Chủ / Quản lý"
       title="Thêm bàn / khu vực"
-      description="Bổ sung bàn ăn mới (tự sinh mã QR cố định) hoặc mở rộng khu vực phục vụ trên sơ đồ."
+      description="Thêm bàn ăn mới (tự tạo mã QR) hoặc tạo thêm khu vực phục vụ."
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>

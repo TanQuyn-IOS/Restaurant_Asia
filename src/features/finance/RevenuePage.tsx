@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Activity, CreditCard, PieChart as PieIcon, ShieldCheck, TrendingUp, Users } from 'lucide-react';
+import { Activity, CreditCard, PieChart as PieIcon, TrendingUp, Users } from 'lucide-react';
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { cn } from '@/lib/cn';
 import { formatVnd, formatVndCompact } from '@/lib/format';
@@ -57,9 +57,8 @@ export function RevenuePage() {
   return (
     <PageBody>
       <PageHeader
-        eyebrow="CHỦ NHÀ HÀNG · MOD-08"
-        title="Phân tích doanh thu"
-        description="Nắm bắt cơ cấu doanh thu theo 4 nhóm khách hàng và hiệu quả bán chạy của từng món ẩm thực Châu Á."
+        title="Doanh thu"
+        description="Cơ cấu doanh thu theo 4 nhóm khách và các món bán chạy."
       />
 
       {/* 4 KPI Cards (mockup 09) */}
@@ -213,7 +212,7 @@ export function RevenuePage() {
           <CardFooter className="text-xs text-ink-muted">
             <span className="inline-flex items-center gap-2">
               <span aria-hidden className="size-2 rounded-full bg-st-empty" />
-              Đồng bộ trực tiếp từ bếp KDS & hóa đơn (FR-15)
+              Chỉ tính món bếp đã hoàn thành
             </span>
             <span className="num font-medium text-st-empty-ink">4 nhóm khách</span>
           </CardFooter>
@@ -285,21 +284,12 @@ export function RevenuePage() {
           </CardBody>
 
           <CardFooter className="text-xs text-ink-muted">
-            <span>Món dẫn đầu doanh thu</span>
+            <span>Món dẫn đầu</span>
             <span className="num font-medium text-st-empty-ink">
               {topDish ? `${topDish.tenMonAn} · ${topDish.unitsSold} phần` : 'Chưa có dữ liệu'}
             </span>
           </CardFooter>
         </Card>
-      </div>
-
-      {/* Dải ghi chú khóa quyền cuối trang (mockup 09) */}
-      <div className="flex items-center gap-3 rounded-lg border border-line bg-paper-warm px-4 py-3 text-xs text-ink-muted">
-        <ShieldCheck size={16} aria-hidden className="shrink-0 text-gold-ink" />
-        <p>
-          <strong className="font-medium text-ink">Doanh thu được khóa chặt theo vai trò (FR-19).</strong>{' '}
-          Chỉ vai trò Chủ nhà hàng mới được xem biểu đồ doanh thu, top món và sổ quỹ dòng tiền.
-        </p>
       </div>
     </PageBody>
   );

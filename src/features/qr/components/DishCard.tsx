@@ -31,7 +31,7 @@ export function DishCard({ dish, qtyInCart, onSelect, onQuickAdd }: DishCardProp
         onClick={() => onSelect(dish)}
         aria-label={
           soldOut
-            ? `${dish.ten_mon_an} — đã hết món`
+            ? `${dish.ten_mon_an}, đã hết món`
             : `Xem chi tiết và chọn độ cay cho ${dish.ten_mon_an}`
         }
         className="group flex flex-1 flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
@@ -73,8 +73,8 @@ export function DishCard({ dish, qtyInCart, onSelect, onQuickAdd }: DishCardProp
 
           {soldOut && (
             <div className="absolute inset-0 grid place-items-center bg-ink/45">
-              <span className="rounded-md bg-ink/75 px-3 py-1 text-xs font-bold tracking-[0.14em] text-white uppercase">
-                HẾT MÓN
+              <span className="rounded-md bg-ink/75 px-3 py-1 text-xs font-bold tracking-[0.06em] text-white uppercase">
+                Hết món
               </span>
             </div>
           )}

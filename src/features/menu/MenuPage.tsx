@@ -77,9 +77,8 @@ export function MenuPage() {
   return (
     <PageBody>
       <PageHeader
-        eyebrow="Thực đơn Á Châu · MOD-03"
-        title="Thực đơn & định mức BOM"
-        description="Quản trị món ăn theo 5 trường phái ẩm thực Châu Á, gói Combo đoàn, định mức trừ kho BOM tự động và đồng bộ Còn/Hết món tức thì lên App phục vụ & Cổng QR."
+        title="Thực đơn"
+        description="Danh mục món ăn theo 5 trường phái Á Châu, gói combo và định mức kho."
         actions={
           <div className="flex flex-col items-end gap-1">
             <Button
@@ -142,8 +141,8 @@ export function MenuPage() {
       {/* Bảng danh mục món ăn + định mức BOM mở rộng */}
       <Card>
         <CardHeader
-          title="Danh sách thực đơn & đồng bộ trạng thái bếp"
-          subtitle="Bấm vào từng dòng món để xem định mức trừ kho BOM hoặc thành phần gói Combo"
+          title="Danh sách món ăn"
+          subtitle="Chọn một dòng để xem định mức nguyên liệu hoặc thành phần combo"
           action={
             !allowToggle && (
               <Badge tone="neutral" icon={<Lock size={12} aria-hidden />}>
@@ -197,11 +196,11 @@ export function MenuPage() {
         <CardFooter>
           <span className="text-xs text-ink-muted">
             Hiển thị <span className="num font-medium text-ink">{filteredRows.length}</span> /{' '}
-            <span className="num">{rows.length}</span> món ăn · Đồng bộ tức thì với Bếp KDS và Cổng QR
+            <span className="num">{rows.length}</span> món · Đồng bộ với bếp và QR
           </span>
           {!allowToggle && (
             <span className="text-xs text-ink-muted">
-              Để bật/tắt còn món, hãy chuyển sang vai trò Chủ, Quản lý hoặc Bếp.
+              Chỉ Chủ, Quản lý hoặc Bếp được bật/tắt còn món.
             </span>
           )}
         </CardFooter>

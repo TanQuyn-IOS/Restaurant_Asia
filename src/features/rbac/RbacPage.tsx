@@ -33,9 +33,8 @@ export function RbacPage() {
   return (
     <PageBody>
       <PageHeader
-        eyebrow="Bảo mật & cơ sở dữ liệu · MOD-10"
-        title="Phân quyền RBAC & 27 bảng 3NF"
-        description="Kiểm soát ma trận phân quyền 6 vai trò nhân viên, danh sách tài khoản nội bộ che ẩn mật khẩu và trình duyệt trực tiếp 27 bảng cơ sở dữ liệu chuẩn 3NF."
+        title="Phân quyền & dữ liệu"
+        description="Ma trận quyền 6 vai trò, tài khoản nội bộ và 27 bảng cơ sở dữ liệu."
         actions={
           <div className="flex flex-col items-end gap-1.5">
             <div className="flex flex-wrap items-center gap-2">
@@ -56,14 +55,14 @@ export function RbacPage() {
             {!allowReset && (
               <span className="inline-flex items-center gap-1 text-xs text-ink-muted">
                 <Lock size={12} aria-hidden />
-                Chỉ Chủ nhà hàng (Owner) được khôi phục CSDL mẫu
+                Chỉ Chủ nhà hàng được khôi phục dữ liệu mẫu
               </span>
             )}
           </div>
         }
       />
 
-      {/* 3 tab gạch chân đỏ: 01 Ma trận RBAC · 02 Tài khoản nội bộ · 03 Trình duyệt 27 bảng 3NF */}
+      {/* 3 tab gạch chân đỏ */}
       <div className="border-b border-line">
         <UnderlineTabs<RbacTabId>
           label="Các phân mục quản trị phân quyền và cơ sở dữ liệu"
@@ -73,7 +72,7 @@ export function RbacPage() {
             {
               id: 'matrix',
               index: '01',
-              label: 'Ma trận phân quyền RBAC',
+              label: 'Ma trận phân quyền',
               count: STAFF_ROLES.length,
             },
             {
@@ -85,7 +84,7 @@ export function RbacPage() {
             {
               id: 'schema',
               index: '03',
-              label: 'Trình duyệt 27 bảng 3NF',
+              label: '27 bảng dữ liệu',
               count: tableSummaries.length,
             },
           ]}

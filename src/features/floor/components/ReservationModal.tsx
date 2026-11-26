@@ -118,9 +118,8 @@ export function ReservationModal({
       onClose={onClose}
       size="lg"
       icon={<CalendarPlus size={20} />}
-      eyebrow="Đặt bàn trước & thu cọc · UC-01"
-      title="Tạo phiếu đặt bàn trước"
-      description="Giữ bàn chuyển trạng thái Đã đặt (vàng hổ phách). Nếu có tiền đặt cọc, hệ thống tự đồng bộ vào Sổ quỹ Chủ và khấu trừ vào hóa đơn cuối."
+      title="Tạo phiếu đặt bàn"
+      description="Giữ bàn trước cho khách. Tiền cọc (nếu có) sẽ tự ghi vào sổ quỹ và trừ ở hóa đơn cuối."
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>
@@ -279,7 +278,7 @@ export function ReservationModal({
 
           {loaiKhach === 'Doan' && (
             <div className="space-y-3 rounded-lg border border-line bg-paper-warm p-4">
-              <p className="eyebrow">Hồ sơ công ty & xuất hóa đơn VAT</p>
+              <p className="text-xs font-medium text-ink-soft">Thông tin công ty & VAT</p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <Field label="Tên công ty / Đơn vị" error={errors.tenCongTy}>
                   {({ id, describedBy, invalid }) => (

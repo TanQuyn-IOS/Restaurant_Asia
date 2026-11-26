@@ -131,8 +131,8 @@ export function Modal({
             </span>
           )}
           <div className="min-w-0 flex-1">
-            {eyebrow && <p className="eyebrow mb-1.5">{eyebrow}</p>}
-            <h2 id={titleId} className="text-xl font-medium tracking-tight text-ink">
+            {eyebrow && <p className="t-label mb-1">{eyebrow}</p>}
+            <h2 id={titleId} className="t-display text-ink">
               {title}
             </h2>
             {description && <p className="mt-1.5 text-sm text-ink-muted">{description}</p>}
@@ -223,8 +223,8 @@ export function Sheet({
             </span>
           )}
           <div className="min-w-0 flex-1">
-            {eyebrow && <p className="eyebrow mb-1.5">{eyebrow}</p>}
-            <h2 id={titleId} className="text-xl font-medium tracking-tight text-ink">
+            {eyebrow && <p className="t-label mb-1">{eyebrow}</p>}
+            <h2 id={titleId} className="t-display text-ink">
               {title}
             </h2>
             {description && <p className="mt-1.5 text-sm text-ink-muted">{description}</p>}

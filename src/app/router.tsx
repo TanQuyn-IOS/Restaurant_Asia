@@ -40,9 +40,9 @@ function NotFound() {
   return (
     <div className="grid min-h-[60vh] place-items-center px-6 text-center">
       <div>
-        <p className="eyebrow">Mã lỗi 404</p>
-        <h1 className="t-page mt-2">Không tìm thấy trang</h1>
-        <a href="/" className="mt-6 inline-block text-sm font-medium text-primary underline-offset-2 hover:underline">
+        <h1 className="t-page text-ink">Không tìm thấy trang</h1>
+        <p className="mt-2 text-sm text-ink-muted">Đường dẫn không tồn tại hoặc đã thay đổi.</p>
+        <a href="/" className="mt-5 inline-block text-sm font-medium text-primary underline-offset-2 hover:underline">
           Về trang chủ
         </a>
       </div>

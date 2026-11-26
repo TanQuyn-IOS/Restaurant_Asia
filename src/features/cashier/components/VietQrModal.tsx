@@ -43,9 +43,8 @@ export function VietQrModal({
       onClose={onClose}
       size="sm"
       icon={<QrCode size={20} />}
-      eyebrow="Chuyển khoản ngân hàng · MOD-06"
-      title="Quét mã VietQR thanh toán"
-      description={`${tableName} · Mã hóa đơn ${invoiceCode}`}
+      title="Quét mã VietQR"
+      description={`${tableName} · ${invoiceCode}`}
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>
@@ -100,7 +99,7 @@ export function VietQrModal({
           </div>
 
           <Badge tone="warning" icon={<Info size={12} aria-hidden />} className="mt-3">
-            Mô phỏng VietQR — không phải mã thanh toán thật
+            Mã VietQR mô phỏng (chỉ dùng kiểm thử)
           </Badge>
         </div>
 

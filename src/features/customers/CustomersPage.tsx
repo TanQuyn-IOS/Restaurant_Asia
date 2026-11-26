@@ -63,9 +63,8 @@ export function CustomersPage() {
   return (
     <PageBody>
       <PageHeader
-        eyebrow="Khách hàng · MOD-02"
-        title="4 nhóm khách hàng & hóa đơn VAT"
-        description="Chuẩn hóa chính sách phục vụ Vãng lai, Thành viên tích điểm, VIP ưu tiên KDS (giảm 10%–15%) và Khách đoàn có pháp nhân VAT, ghép bàn và đối trừ tiền cọc."
+        title="Khách hàng & VAT"
+        description="Hội viên, chiết khấu hạng thẻ, pháp nhân VAT và tiền đặt cọc."
       />
 
       {/* Thanh tóm tắt Bento bất đối xứng cho 4 nhóm khách */}
@@ -83,7 +82,7 @@ export function CustomersPage() {
       <Card>
         <CardHeader
           title="Danh bạ khách hàng"
-          subtitle="Chọn một hồ sơ để mở chi tiết ưu đãi hạng thẻ, thông tin VAT và lịch sử đặt bàn / dùng bữa"
+          subtitle="Chọn một khách hàng để xem ưu đãi, thông tin VAT và lịch sử đặt bàn"
         />
         <CardBody className="pb-4">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">

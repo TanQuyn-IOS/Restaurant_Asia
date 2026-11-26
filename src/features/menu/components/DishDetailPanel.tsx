@@ -21,9 +21,9 @@ export function DishDetailPanel({ row, canToggle, onChangeStatus }: DishDetailPa
     <div className="space-y-4 bg-paper-warm px-5 py-4">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
-          <p className="eyebrow">Mô tả & chuẩn phục vụ</p>
+          <p className="t-label">Mô tả</p>
           <p className="mt-1 text-sm text-ink-soft">
-            {dish.mo_ta || 'Món ăn đặc trưng chế biến nóng tại bếp Á Châu.'}
+            {dish.mo_ta || 'Món ăn chế biến nóng tại bếp.'}
           </p>
         </div>
 
@@ -78,7 +78,7 @@ export function DishDetailPanel({ row, canToggle, onChangeStatus }: DishDetailPa
 
           {comboComponents.length === 0 ? (
             <p className="mt-3 text-xs text-ink-muted">
-              Chưa cấu hình danh sách món thành phần trong bảng `tbl_chi_tiet_combo`.
+              Chưa khai báo món thành phần cho gói combo này.
             </p>
           ) : (
             <ul className="mt-3 divide-y divide-line">
@@ -121,7 +121,7 @@ export function DishDetailPanel({ row, canToggle, onChangeStatus }: DishDetailPa
             <div className="flex items-center gap-2">
               <Layers size={15} aria-hidden className="text-primary" />
               <p className="text-sm font-medium text-ink">
-                Định mức tiêu hao nguyên liệu (BOM · tự trừ kho khi KDS Hoàn thành)
+                Định mức trừ kho (BOM)
               </p>
             </div>
             <Badge tone={bomItems.length > 0 ? 'info' : 'neutral'} size="sm">
@@ -131,7 +131,7 @@ export function DishDetailPanel({ row, canToggle, onChangeStatus }: DishDetailPa
 
           {bomItems.length === 0 ? (
             <p className="mt-3 text-xs text-ink-muted">
-              Món này chưa khai báo định mức nguyên liệu trong bảng `tbl_dinh_muc_mon`.
+              Món này chưa khai báo định mức nguyên liệu.
             </p>
           ) : (
             <div className="mt-3 overflow-x-auto">

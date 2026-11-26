@@ -36,7 +36,7 @@ export interface NavItem {
 
 export interface NavGroup {
   id: string;
-  label: string;
+  label?: string;
   items: NavItem[];
   /** Nhóm chỉ dành cho Chủ — vai trò khác thấy thẻ khóa thay vì danh sách */
   ownerOnly?: boolean;
@@ -47,7 +47,6 @@ const countIf = (n: number, alert = false) => (n > 0 ? { value: n, alert } : und
 export const NAV_GROUPS: NavGroup[] = [
   {
     id: 'workspace',
-    label: 'Không gian làm việc',
     items: [
       {
         id: 'overview',
@@ -75,12 +74,12 @@ export const NAV_GROUPS: NavGroup[] = [
       },
       {
         id: 'kds',
-        label: 'Màn hình bếp',
+        label: 'Bếp KDS',
         to: '/bep',
         icon: ChefHat,
         roles: STAFF,
         tabIndex: '02',
-        keywords: 'bếp kds nấu món kitchen',
+        keywords: 'bếp kds nấu món kitchen màn hình bếp',
         badge: (s) =>
           countIf(
             s.tbl_chi_tiet_don_goi.filter(
@@ -90,12 +89,12 @@ export const NAV_GROUPS: NavGroup[] = [
       },
       {
         id: 'cashier',
-        label: 'Thu ngân POS',
+        label: 'Thu ngân',
         to: '/thu-ngan',
         icon: CreditCard,
         roles: STAFF,
         tabIndex: '03',
-        keywords: 'thu ngân thanh toán hóa đơn vat vietqr cashier',
+        keywords: 'thu ngân thanh toán hóa đơn vat vietqr cashier pos',
         badge: (s) =>
           countIf(s.tbl_ban.filter((b) => b.trang_thai_ban === 'ChoThanhToan').length, true),
       },
@@ -124,38 +123,38 @@ export const NAV_GROUPS: NavGroup[] = [
       },
       {
         id: 'payroll',
-        label: 'Bảng lương ca',
+        label: 'Bảng lương',
         to: '/nhan-su/bang-luong',
         icon: Banknote,
         roles: ['Owner', 'Manager', 'HR'],
-        keywords: 'lương payroll',
+        keywords: 'lương payroll bảng lương ca',
       },
     ],
   },
   {
     id: 'finance',
-    label: 'Tài chính & kho',
+    label: 'Tài chính',
     ownerOnly: true,
     items: [
       {
         id: 'cashflow',
-        label: 'Sổ quỹ dòng tiền',
+        label: 'Sổ quỹ',
         to: '/tai-chinh/so-quy',
         icon: Wallet,
         roles: ['Owner'],
-        keywords: 'sổ quỹ thu chi lãi lỗ cashflow',
+        keywords: 'sổ quỹ dòng tiền thu chi lãi lỗ cashflow',
       },
       {
         id: 'revenue',
-        label: 'Phân tích doanh thu',
+        label: 'Doanh thu',
         to: '/tai-chinh/doanh-thu',
         icon: LineChart,
         roles: ['Owner'],
-        keywords: 'doanh thu biểu đồ top món revenue',
+        keywords: 'doanh thu biểu đồ top món revenue phân tích',
       },
       {
         id: 'inventory',
-        label: 'Kho & nhập hàng',
+        label: 'Kho hàng',
         to: '/tai-chinh/kho',
         icon: Boxes,
         roles: ['Owner'],
@@ -170,27 +169,27 @@ export const NAV_GROUPS: NavGroup[] = [
   },
   {
     id: 'catalog',
-    label: 'Danh mục & hệ thống',
+    label: 'Quản trị',
     items: [
       {
         id: 'menu',
-        label: 'Thực đơn & định mức',
+        label: 'Thực đơn',
         to: '/thuc-don',
         icon: UtensilsCrossed,
         roles: STAFF,
-        keywords: 'thực đơn món ăn bom combo hết món menu',
+        keywords: 'thực đơn món ăn bom combo hết món menu định mức',
       },
       {
         id: 'customers',
-        label: 'Khách hàng & VAT',
+        label: 'Khách hàng',
         to: '/khach-hang',
         icon: Users,
         roles: ['Owner', 'Manager', 'Waitstaff', 'Cashier'],
-        keywords: 'khách hàng nhóm khách vip đoàn mã số thuế customers',
+        keywords: 'khách hàng nhóm khách vip đoàn mã số thuế vat customers',
       },
       {
         id: 'rbac',
-        label: 'Phân quyền & CSDL',
+        label: 'Phân quyền',
         to: '/phan-quyen',
         icon: ShieldCheck,
         roles: ['Owner', 'Manager'],

@@ -110,9 +110,8 @@ export function CreateImportOrderModal({
       onClose={onClose}
       size="md"
       icon={<PackagePlus size={20} />}
-      eyebrow="KHO & NHẬP HÀNG · MOD-08"
-      title="Lập phiếu nhập kho nguyên liệu"
-      description="Tự động cộng tồn kho, tính lại đơn giá bình quân, ghi công nợ NCC và bút toán Chi nhập hàng vào Sổ quỹ Chủ."
+      title="Lập phiếu nhập kho"
+      description="Cộng tồn kho, cập nhật đơn giá, công nợ và sổ quỹ."
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>

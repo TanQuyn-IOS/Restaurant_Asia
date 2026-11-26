@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { CalendarCheck, Check, Sparkles, Users } from 'lucide-react';
+import { CalendarCheck, Check, Users } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { formatClock, formatVnd } from '@/lib/format';
 import { CUSTOMER_GROUP_META } from '@/lib/labels';
@@ -220,9 +220,8 @@ export function OpenTableModal({
       onClose={onClose}
       size="lg"
       icon={<Users size={20} />}
-      eyebrow="Mở phiên phục vụ · MOD-01 / 02"
       title="Mở bàn đón khách"
-      description="Chọn bàn và đúng 1 trong 4 nhóm thực khách để khởi tạo phiên gọi món và áp dụng chính sách ưu đãi."
+      description="Chọn bàn và nhóm thực khách để bắt đầu phiên gọi món."
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>
@@ -313,7 +312,7 @@ export function OpenTableModal({
           )}
 
           <div className="space-y-2">
-            <p className="eyebrow">Chọn 1 trong 4 nhóm thực khách</p>
+            <p className="text-xs font-medium text-ink-soft">Nhóm thực khách</p>
             <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2" role="radiogroup" aria-label="Nhóm thực khách">
               {GROUPS.map((code) => {
                 const meta = CUSTOMER_GROUP_META[code];
@@ -371,16 +370,6 @@ export function OpenTableModal({
               setMergeIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]))
             }
           />
-
-          <div className="flex items-start gap-3 rounded-lg border border-st-empty/35 bg-st-empty-soft px-4 py-3 text-xs text-st-empty-ink">
-            <Sparkles size={16} className="mt-0.5 shrink-0" aria-hidden />
-            <div>
-              <p className="font-medium">Sẵn sàng đồng bộ gọi món QR & bếp KDS</p>
-              <p className="mt-0.5">
-                Sau khi mở bàn, khách có thể quét mã QR tại bàn và nhân viên có thể gửi món trực tiếp xuống màn hình bếp.
-              </p>
-            </div>
-          </div>
         </form>
       )}
     </Modal>

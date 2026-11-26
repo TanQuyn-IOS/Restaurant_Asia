@@ -49,11 +49,11 @@ export function QrBottomBar({
           </div>
 
           <div className="min-w-0">
-            <p className="eyebrow truncate">
-              Bàn của bạn · <span className="num">{cartItemCount}</span> món
+            <p className="t-label truncate">
+              Giỏ món · <span className="num">{cartItemCount}</span> món
             </p>
             <p className="num mt-0.5 truncate text-base font-bold text-ink">
-              {cartItemCount > 0 ? formatVnd(cartTotalAmount) : 'Chưa chọn món mới'}
+              {cartItemCount > 0 ? formatVnd(cartTotalAmount) : 'Chưa chọn món'}
             </p>
           </div>
         </div>

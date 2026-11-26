@@ -37,12 +37,8 @@ export function QrEntryPage() {
           <div className="flex items-center gap-3">
             <QrBrandMark />
             <div>
-              <p className="text-sm font-bold tracking-[0.14em] uppercase">
-                ATELIER D&apos;ASIE
-              </p>
-              <p className="text-xs tracking-[0.12em] text-chrome-muted uppercase">
-                ẨM THỰC Á CHÂU · CỔNG THỰC ĐƠN QR
-              </p>
+              <p className="t-brand text-white">Atelier d&apos;Asie</p>
+              <p className="mt-0.5 text-xs text-chrome-muted">Thực đơn QR tại bàn</p>
             </div>
           </div>
 
@@ -54,18 +50,10 @@ export function QrEntryPage() {
       </header>
 
       <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
-        {/* Giới thiệu gọn 1 câu theo đặc tả */}
         <section className="border-b border-cream-line pb-7">
-          <p className="eyebrow text-gold-ink">MÔ PHỎNG QUÉT MÃ QR TẠI BÀN</p>
-          <h1 className="t-page mt-2 text-ink">
-            Chọn bàn để mở thực đơn <em className="italic">tự phục vụ</em>
-          </h1>
-          <p className="mt-2.5 max-w-2xl text-sm leading-relaxed text-ink-muted">
-            Mỗi bàn tại nhà hàng được gắn một mã QR cố định trỏ thẳng tới địa chỉ{' '}
-            <code className="rounded bg-sunken px-1.5 py-0.5 text-xs font-medium text-ink">
-              /qr/&lt;mã bàn&gt;
-            </code>{' '}
-            — chạm vào một bàn bên dưới để mô phỏng trải nghiệm khách hàng quét mã.
+          <h1 className="t-page text-ink">Chọn bàn để mở thực đơn</h1>
+          <p className="mt-2 max-w-xl text-sm leading-relaxed text-ink-muted">
+            Chạm vào một bàn bên dưới để xem thực đơn và gọi món như khách tại bàn.
           </p>
         </section>
 
@@ -150,10 +138,7 @@ export function QrEntryPage() {
       <footer className="border-t border-cream-line bg-paper-warm">
         <div className="mx-auto flex max-w-4xl items-center justify-center gap-2 px-4 py-5 text-center text-xs text-ink-muted sm:px-6">
           <Lock size={13} aria-hidden className="shrink-0 text-gold-ink" />
-          <span>
-            Mỗi liên kết QR khóa cố định theo một bàn riêng biệt — bảo mật trải nghiệm
-            dùng bữa tại Atelier d&apos;Asie.
-          </span>
+          <span>Mỗi mã QR gắn cố định theo một bàn tại Atelier d&apos;Asie.</span>
         </div>
       </footer>
     </div>

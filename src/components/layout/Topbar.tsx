@@ -101,7 +101,7 @@ function CommandSearch({ open, onClose }: { open: boolean; onClose: () => void }
                 go(results[cursor].to);
               }
             }}
-            placeholder="Tìm màn hình: bàn, bếp, thu ngân, nghỉ phép…"
+            placeholder="Tìm nhanh: bàn, bếp, thu ngân, kho…"
             aria-label="Tìm màn hình"
             className="h-14 flex-1 bg-transparent text-sm text-ink placeholder:text-ink-faint focus:outline-none"
           />
@@ -109,7 +109,7 @@ function CommandSearch({ open, onClose }: { open: boolean; onClose: () => void }
         </div>
         <ul className="scroll-quiet max-h-80 overflow-y-auto p-2" role="listbox" aria-label="Kết quả">
           {results.length === 0 && (
-            <li className="px-3 py-8 text-center text-sm text-ink-muted">Không có màn hình phù hợp với vai trò hiện tại.</li>
+            <li className="px-3 py-8 text-center text-sm text-ink-muted">Không có trang phù hợp với quyền hiện tại.</li>
           )}
           {results.map((item, i) => {
             const Icon = item.icon;
@@ -273,19 +273,15 @@ export function Topbar({
 
       <nav aria-label="Vị trí hiện tại" className="min-w-0 flex-1 text-sm">
         <ol className="flex items-center gap-2 whitespace-nowrap">
-          <li className="hidden text-ink-muted sm:block">Atelier d'Asie</li>
+          <li className="hidden text-ink-muted sm:block">Atelier d&apos;Asie</li>
           <li aria-hidden className="hidden text-ink-faint sm:block">/</li>
           <li className="truncate font-medium text-ink" aria-current="page">
-            {current?.label ?? 'AC-RMS'}
+            {current?.label ?? 'Tổng quan'}
           </li>
         </ol>
       </nav>
 
-      <Badge tone="success" dot className="hidden md:inline-flex">
-        Đang phục vụ
-      </Badge>
-
-      <IconButton label="Tìm nhanh màn hình (Ctrl + K)" onClick={() => setSearchOpen(true)}>
+      <IconButton label="Tìm nhanh (Ctrl + K)" onClick={() => setSearchOpen(true)}>
         <Search size={19} />
       </IconButton>
       <NotificationBell />
@@ -294,31 +290,30 @@ export function Topbar({
         to={`/qr/${selectedTableId}`}
         target="_blank"
         rel="noopener"
-        title="Mở cổng khách quét QR tại bàn đang chọn (tab mới, đồng bộ realtime)"
-        className="hidden h-10 items-center gap-2 rounded-md border border-gold/50 bg-gold-soft px-3 text-sm font-medium text-gold-ink transition-colors hover:bg-gold/15 xl:inline-flex"
+        title="Mở thực đơn QR của bàn đang chọn ở tab mới"
+        className="hidden h-9 items-center gap-2 rounded-md border border-gold/50 bg-gold-soft px-3 text-xs font-medium text-gold-ink transition-colors hover:bg-gold/15 xl:inline-flex"
       >
-        <QrCode size={16} aria-hidden />
-        Cổng khách QR
+        <QrCode size={15} aria-hidden />
+        Cổng QR
       </Link>
 
-      {/* Huy hiệu vai trò đã xác thực (chỉ đọc — muốn đổi vai trò phải Đăng xuất) */}
       <Badge
         tone={role === 'Owner' ? 'gold' : 'neutral'}
         icon={<ShieldCheck size={13} aria-hidden />}
-        title={authUser ? `Đang đăng nhập: ${authUser.ho_ten} (@${authUser.ten_dang_nhap})` : ROLE_META[role].label}
+        title={authUser ? `${authUser.ho_ten} (@${authUser.ten_dang_nhap})` : ROLE_META[role].label}
         className="hidden sm:inline-flex"
       >
         {ROLE_META[role].label}
       </Badge>
 
-      <IconButton label="Đăng xuất khỏi phiên làm việc" onClick={onLogout}>
+      <IconButton label="Đăng xuất" onClick={onLogout} className="lg:hidden">
         <LogOut size={18} />
       </IconButton>
 
       {right}
 
       <div className="hidden border-l border-line pl-4 text-right lg:block" aria-label="Thời gian hiện tại">
-        <p className="eyebrow">{formatWeekdayDate(now)}</p>
+        <p className="text-xs text-ink-muted">{formatWeekdayDate(now)}</p>
         <p className="num text-sm font-medium text-ink">{formatClock(now)}</p>
       </div>
 

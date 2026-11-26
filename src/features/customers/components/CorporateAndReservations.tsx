@@ -24,8 +24,8 @@ export function CorporateAndReservations({
       {/* Trái (7/12): Hồ sơ pháp nhân Khách đoàn & xuất hóa đơn VAT */}
       <Card className="lg:col-span-7">
         <CardHeader
-          title="Pháp nhân khách đoàn & hóa đơn VAT"
-          subtitle="Thông tin đối chiếu mã số thuế từ bảng tbl_khach_doan khi Thu ngân xuất hóa đơn điện tử"
+          title="Pháp nhân khách đoàn & VAT"
+          subtitle="Mã số thuế đối chiếu khi xuất hóa đơn điện tử"
           action={
             <Badge tone="primary" icon={<Building2 size={12} aria-hidden />}>
               <span className="num">{corporates.length}</span> doanh nghiệp
@@ -124,8 +124,8 @@ export function CorporateAndReservations({
           {reservations.length === 0 ? (
             <EmptyState
               icon={<CalendarCheck size={22} />}
-              title="Chưa có phiếu đặt bàn nào"
-              description="Các phiếu đặt trước từ bảng tbl_phieu_dat_ban sẽ hiển thị tại đây."
+              title="Chưa có phiếu đặt bàn"
+              description="Các phiếu đặt bàn trước sẽ hiển thị tại đây."
             />
           ) : (
             <ul className="divide-y divide-line">

@@ -30,7 +30,7 @@ export function Field({
   const note = error ?? hint;
   return (
     <div className={cn('space-y-1.5', className)}>
-      <label htmlFor={id} className="eyebrow block">
+      <label htmlFor={id} className="block text-xs font-medium text-ink-soft">
         {label}
       </label>
       {children({ id, describedBy: note ? noteId : undefined, invalid: Boolean(error) })}

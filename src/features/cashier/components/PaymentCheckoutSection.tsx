@@ -75,7 +75,7 @@ export function PaymentCheckoutSection({
     return <PaidReceiptSection item={item} />;
   }
 
-  const disabledReason = `Vai trò ${ROLE_META[currentRole].label} không có quyền xác nhận thu tiền — cần quyền Thu ngân, Quản lý hoặc Chủ nhà hàng.`;
+  const disabledReason = `Vai trò ${ROLE_META[currentRole].label} không có quyền thu tiền. Cần quyền Thu ngân, Quản lý hoặc Chủ nhà hàng.`;
 
   const parsedCash = Number(cashInput.replace(/[^\d]/g, '')) || 0;
   const cashCalc = calculateCashChange(parsedCash, amountDue);
@@ -135,7 +135,7 @@ export function PaymentCheckoutSection({
 
       {/* 1. Chọn phương thức thanh toán */}
       <div className="space-y-2">
-        <p className="eyebrow">Phương thức thanh toán</p>
+        <p className="text-xs font-medium text-ink-soft">Phương thức thanh toán</p>
         <div
           role="radiogroup"
           aria-label="Chọn phương thức thanh toán"

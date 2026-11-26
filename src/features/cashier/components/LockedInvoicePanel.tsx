@@ -45,12 +45,12 @@ export function LockedInvoicePanel({
       <Card className="flex min-h-[28rem] flex-col justify-center">
         <EmptyState
           icon={<ReceiptText size={26} />}
-          title="Chọn một hóa đơn để xem"
-          description="Chọn một bàn chờ thanh toán ở danh sách bên trái để kiểm tra hóa đơn đã khóa và hoàn tất thanh toán."
+          title="Chọn hóa đơn bên trái"
+          description="Kiểm tra các món đã khóa và thu tiền tại quầy."
           action={
             <span className="inline-flex items-center gap-1.5 text-xs font-medium text-primary">
               <Lock size={13} aria-hidden />
-              Chức năng thêm / sửa / xóa món đã bị khóa
+              Khóa thêm, sửa và xóa món tại quầy
             </span>
           }
         />
@@ -68,7 +68,6 @@ export function LockedInvoicePanel({
       <header className="flex flex-wrap items-start justify-between gap-3 border-b border-line bg-paper-warm px-5 py-4">
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="eyebrow">Hóa đơn khóa chỉ đọc</span>
             <CustomerGroupBadge group={item.customerGroup} />
             {item.customer?.hang_the && item.customer.hang_the !== 'Standard' && (
               <Badge tone="gold" size="sm">
@@ -76,10 +75,10 @@ export function LockedInvoicePanel({
               </Badge>
             )}
           </div>
-          <h2 className="mt-1.5 text-xl font-medium text-ink">
+          <h2 className="t-display mt-1.5 text-ink">
             {item.tableName}
             {item.mergedTableNames.length > 0 && (
-              <span className="text-sm font-normal text-ink-muted">
+              <span className="font-sans text-sm font-normal text-ink-muted">
                 {' '}
                 · Ghép {item.mergedTableNames.join(', ')}
               </span>
@@ -98,22 +97,14 @@ export function LockedInvoicePanel({
       </header>
 
       <CardBody className="space-y-5">
-        {/* Banner Read-Only FR-17 + Các nút kiểm chứng chốt chặn HTTP 403 trực tiếp */}
-        <div className="no-print space-y-3 rounded-lg border border-primary/25 bg-primary-soft/55 p-4">
-          <div className="flex items-start gap-2.5">
-            <ShieldAlert size={17} aria-hidden className="mt-0.5 shrink-0 text-primary" />
-            <div className="min-w-0">
-              <p className="text-xs font-medium text-primary">
-                CHẾ ĐỘ CHỈ ĐỌC (FR-17) — KHÓA CỨNG MỌI THAO TÁC CHỈNH SỬA MÓN
-              </p>
-              <p className="mt-0.5 text-xs text-ink-soft">
-                Không vai trò nào được phép thêm, sửa hoặc xóa dòng món tại màn hình Thu ngân. Bấm thử
-                các nút khóa bên dưới để kiểm chứng chốt chặn chống thất thoát HTTP 403.
-              </p>
-            </div>
+        {/* Banner Read-Only + Các nút kiểm chứng chốt chặn 403 */}
+        <div className="no-print flex flex-wrap items-center justify-between gap-3 rounded-lg border border-primary/20 bg-primary-soft/45 px-4 py-3">
+          <div className="flex items-center gap-2 text-xs text-ink-soft">
+            <ShieldAlert size={15} aria-hidden className="shrink-0 text-primary" />
+            <span>Hóa đơn chỉ đọc: khóa thêm, sửa và xóa món tại quầy.</span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-1.5">
             <Button
               size="sm"
               variant="secondary"
@@ -238,9 +229,14 @@ export function LockedInvoicePanel({
           <p className="flex items-start gap-1.5 pt-1 text-xs text-ink-muted">
             <Info size={13} aria-hidden className="mt-0.5 shrink-0" />
             <span>
-              Quy tắc FR-15: Chỉ tính món Bếp đã Hoàn thành / Đã phục vụ;{' '}
-              <span className="num font-medium text-ink-soft">{item.bill.pendingItemsCount}</span> món
-              chờ hoặc đang nấu bị loại trừ hoàn toàn khỏi hóa đơn này.
+              Chỉ tính món bếp đã hoàn thành
+              {item.bill.pendingItemsCount > 0 ? (
+                <>
+                  ; <span className="num font-medium text-ink-soft">{item.bill.pendingItemsCount}</span> món đang chờ bếp chưa cộng vào hóa đơn.
+                </>
+              ) : (
+                '.'
+              )}
             </span>
           </p>
         </div>

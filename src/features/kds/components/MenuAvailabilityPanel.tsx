@@ -31,19 +31,20 @@ export function MenuAvailabilityPanel({
   onToggleAvailability,
 }: MenuAvailabilityPanelProps) {
   return (
-    <Card className="lg:sticky lg:top-20">
+    <Card className="border-line-strong shadow-card lg:sticky lg:top-20">
       <CardHeader
         title="Tình trạng món"
-        subtitle="Bật/tắt món hết tức thì lên App phục vụ & Mobile QR"
+        subtitle="Đồng bộ tức thì lên sảnh và QR"
+        className="bg-paper-warm"
         action={
           <span className="inline-flex items-center gap-1.5 rounded-full bg-st-empty-soft px-2.5 py-0.5 text-xs font-medium text-st-empty-ink">
             <StatusDot tone="success" pulse />
-            TRỰC TIẾP
+            Trực tiếp
           </span>
         }
       />
 
-      <CardBody className="space-y-4">
+      <CardBody className="space-y-3.5">
         <div className="relative">
           <Search
             size={15}
@@ -103,7 +104,7 @@ export function MenuAvailabilityPanel({
               return (
                 <li
                   key={dish.ma_mon_an}
-                  className="flex items-center justify-between gap-3 py-3 first:pt-1 last:pb-1"
+                  className="flex items-center justify-between gap-2.5 py-2.5 first:pt-1 last:pb-1"
                 >
                   <div className="flex min-w-0 items-center gap-3">
                     <DishImage

@@ -127,7 +127,7 @@ export function Th({ className, children, ...rest }: ThHTMLAttributes<HTMLTableC
     <th
       scope="col"
       className={cn(
-        'eyebrow border-y border-line bg-paper-warm px-4 py-3 text-left font-medium whitespace-nowrap first:pl-5 last:pr-5',
+        't-label border-y border-line bg-paper-warm px-4 py-3 text-left whitespace-nowrap first:pl-5 last:pr-5',
         className,
       )}
       {...rest}

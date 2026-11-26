@@ -22,11 +22,10 @@ export function AccessRestricted({
         <span aria-hidden className="grid size-14 place-items-center rounded-full bg-primary-soft text-primary">
           <Lock size={24} />
         </span>
-        <p className="eyebrow mt-6">Mã lỗi 403 · Truy cập bị chặn</p>
-        <h1 className="mt-2 text-xl font-medium tracking-tight">Không có quyền xem “{featureLabel}”</h1>
-        <p className="mt-3 text-sm text-ink-muted">
-          Vai trò <strong className="font-medium text-ink">{ROLE_META[role].label}</strong> không được truy cập
-          phân hệ này. Chỉ dành cho: {allowed.map((r) => ROLE_META[r].label).join(', ')}.
+        <h1 className="t-display mt-5 text-ink">Không có quyền xem "{featureLabel}"</h1>
+        <p className="mt-2.5 text-sm text-ink-muted">
+          Vai trò <strong className="font-medium text-ink">{ROLE_META[role].label}</strong> không truy cập được mục này.
+          Chỉ dành cho: {allowed.map((r) => ROLE_META[r].label).join(', ')}.
         </p>
         <Button variant="primary" className="mt-7" onClick={() => navigate(ROLE_META[role].home)}>
           Về màn hình của tôi

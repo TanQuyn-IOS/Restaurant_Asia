@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
-import { ChevronsUpDown, KeyRound, Lock, LogOut } from 'lucide-react';
+import { KeyRound, Lock, LogOut } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { useNow } from '@/lib/clock';
 import { ROLE_META } from '@/lib/labels';
@@ -58,21 +58,21 @@ function ShiftCard() {
   const shift = useCurrentShift();
   return (
     <div className="rounded-lg border border-chrome-line bg-chrome-raised p-3.5">
-      <p className="flex items-center gap-2 text-xs font-medium tracking-[0.12em] text-chrome-muted uppercase">
+      <p className="flex items-center gap-2 text-xs font-medium text-chrome-muted">
         <StatusDot tone={shift ? 'success' : 'neutral'} pulse={Boolean(shift)} />
-        Ca đang diễn ra
+        Ca hiện tại
       </p>
       {shift ? (
         <>
-          <p className="mt-2 text-sm font-medium text-chrome-ink">{shift.name}</p>
+          <p className="mt-1.5 text-sm font-medium text-chrome-ink">{shift.name}</p>
           <p className="num mt-0.5 text-xs text-chrome-muted">
             {shift.range} · còn {Math.floor(shift.left / 60)}g {String(shift.left % 60).padStart(2, '0')}p
           </p>
-          <ProgressBar value={shift.pct} tone="gold" label="Tiến độ ca" className="mt-3 bg-chrome-line" />
-          <p className="num mt-2.5 text-right text-xs text-chrome-muted">{shift.onDuty} nhân viên đang trực</p>
+          <ProgressBar value={shift.pct} tone="gold" label="Tiến độ ca" className="mt-2.5 bg-chrome-line" />
+          <p className="num mt-2 text-right text-xs text-chrome-muted">{shift.onDuty} đang trực</p>
         </>
       ) : (
-        <p className="mt-2 text-sm text-chrome-muted">Ngoài giờ phục vụ</p>
+        <p className="mt-1.5 text-sm text-chrome-muted">Ngoài giờ phục vụ</p>
       )}
     </div>
   );
@@ -142,38 +142,29 @@ export function SidebarContent({
 
   return (
     <div className="on-chrome flex h-full flex-col bg-chrome text-chrome-ink">
-      <div className="flex items-center gap-3 px-5 pt-6 pb-5">
+      <div className="flex items-center gap-3 border-b border-chrome-line px-5 py-5">
         <BrandMark />
-        <div>
-          <p className="text-base font-bold tracking-[0.14em]">AC-RMS</p>
-          <p className="text-xs tracking-[0.14em] text-chrome-muted uppercase">Bộ điều hành</p>
+        <div className="min-w-0">
+          <p className="t-brand truncate text-white">Atelier d&apos;Asie</p>
+          <p className="mt-0.5 truncate text-xs text-chrome-muted">Chi nhánh Q.1 · Sài Gòn</p>
         </div>
       </div>
 
-      <div className="mx-4 flex items-center gap-3 rounded-lg border border-chrome-line bg-chrome-raised p-3">
-        <span aria-hidden className="grid size-9 place-items-center rounded-md bg-gold-bright text-sm font-bold text-chrome">
-          A
-        </span>
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-medium">Atelier d'Asie</p>
-          <p className="truncate text-xs text-chrome-muted">Chi nhánh Q.1 · Sài Gòn</p>
-        </div>
-        <ChevronsUpDown size={16} aria-hidden className="shrink-0 text-chrome-muted" />
-      </div>
-
-      <nav aria-label="Điều hướng chính" className="scroll-quiet mt-5 flex-1 space-y-6 overflow-y-auto px-4 pb-4">
+      <nav aria-label="Điều hướng chính" className="scroll-quiet mt-4 flex-1 space-y-5 overflow-y-auto px-4 pb-4">
         {NAV_GROUPS.map((group) => {
           const visible = group.items.filter((i) => canAccess(role, i));
 
           if (group.ownerOnly && role !== 'Owner') {
             return (
               <div key={group.id}>
-                <p className="mb-2 px-3 text-xs font-medium tracking-[0.14em] text-chrome-muted uppercase">
-                  {group.label}
-                </p>
-                <div className="flex items-start gap-2.5 rounded-lg border border-chrome-line px-3 py-2.5 text-xs leading-relaxed text-chrome-muted">
-                  <Lock size={14} aria-hidden className="mt-0.5 shrink-0 text-gold-bright" />
-                  Phân hệ tài chính chỉ dành cho Chủ nhà hàng
+                {group.label && (
+                  <p className="mb-2 px-3 text-xs font-medium tracking-[0.06em] text-chrome-muted uppercase">
+                    {group.label}
+                  </p>
+                )}
+                <div className="flex items-center gap-2 rounded-lg border border-chrome-line px-3 py-2.5 text-xs text-chrome-muted">
+                  <Lock size={13} aria-hidden className="shrink-0 text-gold-bright" />
+                  Chỉ dành cho Chủ nhà hàng
                 </div>
               </div>
             );
@@ -182,9 +173,11 @@ export function SidebarContent({
 
           return (
             <div key={group.id}>
-              <p className="mb-2 px-3 text-xs font-medium tracking-[0.14em] text-chrome-muted uppercase">
-                {group.label}
-              </p>
+              {group.label && (
+                <p className="mb-2 px-3 text-xs font-medium tracking-[0.06em] text-chrome-muted uppercase">
+                  {group.label}
+                </p>
+              )}
               <ul className="space-y-0.5">
                 {visible.map((item) => {
                   const badge = item.badge?.(snapshot);

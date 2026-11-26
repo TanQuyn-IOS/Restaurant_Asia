@@ -26,16 +26,15 @@ export function CashierPage() {
   return (
     <PageBody>
       <PageHeader
-        eyebrow="Quầy thu ngân · MOD-06"
-        title="Thu ngân POS"
-        description="Kiểm tra hóa đơn đã hoàn thành, bảo vệ chế độ chỉ đọc chống thất thoát và thu tiền an toàn."
+        title="Thu ngân"
+        description="Đối soát hóa đơn đã chốt, thu tiền và xuất VAT."
         actions={
           <Badge
             tone="primary"
             icon={<Lock size={13} aria-hidden />}
-            className="border border-primary/30 px-3 py-1.5 uppercase"
+            className="border border-primary/30 px-3 py-1.5"
           >
-            CHẾ ĐỘ CHỈ ĐỌC
+            Chế độ chỉ đọc
           </Badge>
         }
       />

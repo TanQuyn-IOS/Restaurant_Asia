@@ -43,7 +43,7 @@ export function OrderingBillTab({
       {/* Danh sách món đã gọi */}
       <div className="space-y-2.5">
         <div className="flex items-center justify-between gap-2">
-          <p className="eyebrow">Danh sách món đã gọi ({orderItems.length})</p>
+          <p className="t-label">Món đã gọi ({orderItems.length})</p>
           {isServing && canOperate && (
             <Button size="sm" variant="secondary" onClick={onOpenBrowse}>
               + Gọi thêm món
@@ -133,10 +133,10 @@ export function OrderingBillTab({
                           )}
                         >
                           {isBillable
-                            ? '✓ Đã nạp vào hóa đơn'
+                            ? 'Đã tính vào bill'
                             : isCancelled
-                              ? 'Đã hủy — không tính tiền'
-                              : 'Chưa nạp bill — đang chờ bếp hoàn thành'}
+                              ? 'Đã hủy, không tính tiền'
+                              : 'Đang chờ bếp hoàn thành'}
                         </span>
 
                         <div className="flex flex-wrap items-center gap-1.5">
@@ -194,9 +194,9 @@ export function OrderingBillTab({
         >
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
-              <p className="eyebrow">Kiểm bill cùng khách · FR-15</p>
-              <p className="mt-0.5 text-sm font-medium text-ink">
-                Chỉ tính món Bếp đã Hoàn thành / Đã phục vụ
+              <p className="text-sm font-medium text-ink">Kiểm bill cùng khách</p>
+              <p className="mt-0.5 text-xs text-ink-muted">
+                Chỉ tính các món bếp đã hoàn thành hoặc đã phục vụ.
               </p>
             </div>
             <div className="flex flex-wrap gap-1.5">

@@ -1,5 +1,18 @@
 # CHANGELOG — Hệ Thống Quản Lý Nhà Hàng Châu Á (AC-RMS)
 
+## [2.3.0] - 2026-11-26
+### Changed
+- **Nâng cấp hệ thống phông chữ 2 font (`Source Serif 4` + `Be Vietnam Pro`):**
+  - Chuyển font hiển thị sang **Source Serif 4** (`opsz` 8..60, hỗ trợ đầy đủ dấu tiếng Việt) cho nhận diện thương hiệu (`t-brand`), tiêu đề hero (`t-hero`), tiêu đề trang `h1` (`t-page`) và tiêu đề modal/sheet/cổng QR (`t-display`).
+  - Giữ **Be Vietnam Pro** cho toàn bộ giao diện thao tác (điều hướng, bảng, nút, nhãn, biểu mẫu, số liệu `tabular-nums`). Chuyển nhãn `StatCard`, `Field`, `Th` từ chữ in hoa giãn rộng (`0.12em`) sang chữ thường gọn (`t-label`), bổ sung `caret-color` và bù tracking nhẹ trên nền tối `.on-chrome`.
+- **Tinh gọn và tự nhiên hóa nội dung giao diện (Humanizer + Distill + Clarify):**
+  - Gỡ bỏ các dòng kicker/eyebrow dư thừa cùng mã nội bộ (`MOD-0x`, `FR-xx`, `UC-xx`, tên bảng `tbl_*`) khỏi đầu trang, modal và thông báo cho người dùng.
+  - Gộp hai khối thương hiệu trùng nhau trên `Sidebar` thành một khối duy nhất (bỏ icon mũi tên giả không bấm được), rút gọn `Topbar` (bỏ pill trạng thái tĩnh và nút đăng xuất trùng trên desktop), gọn chân trang `AppShell`.
+  - Bỏ bộ lọc trạng thái `<Select>` bị trùng với hàng nút lọc trạng thái trên `FloorPage`; bỏ thẻ `RoleWorkspaceCard` cồng kềnh lặp lại ở đầu 3 trang Nhân sự (chuyển thành dải thông báo 1 dòng khi không phải Chủ); bỏ thẻ lặp ở `PendingBillsList`, `RevenuePage` và `InternalAccountsTab`.
+  - Viết lại các câu dài, bỏ dấu gạch ngang dài (`—`) và dấu ngoặc kép cong trong văn bản giao diện trên toàn bộ màn hình nhân viên lẫn Cổng khách Mobile QR.
+  - Thu gọn thẻ bàn trên Sơ đồ bàn (`TableCard`, `TableIllustration`, lưới tới 5 cột trên màn hình rộng); chuyển thanh thông báo `QrSupportStrip` thành dải 1 dòng chạy mượt từ phải sang trái (tạm dừng khi rê chuột) và mở ngăn kéo chi tiết trượt từ bên phải (`QrSupportSheet`) khi bấm vào.
+  - Làm gọn màn hình Bếp KDS (`KitchenPage`, `KdsTicketCard`, `MenuAvailabilityPanel`): tách nền bảng phiếu bếp (`--color-kds-board`), phân màu rõ theo trạng thái (đầu thẻ than chì + viền vàng đồng cho VIP đang nấu, nền đỏ nhạt/vàng nhạt cho bàn đang nấu/chờ, nền xanh ngọc cho phiếu xong), bỏ nhãn VIP trùng và đồng hồ lớn trên phiếu đã hoàn tất, đưa nút `Nấu`/`Xong` lên cùng dòng món và ẩn nhãn mặc định (`Không cay`, `Phục vụ`, `Lượt #1`).
+
 ## [2.2.0] - 2026-11-24
 ### Added & Fixed
 - **Tách bàn thông minh tự động trả đúng món bàn đó đã gọi (MOD-01 / MOD-04):**

@@ -21,12 +21,8 @@ export function QrPortalHeader({
         <div className="flex min-w-0 items-center gap-3">
           <QrBrandMark />
           <div className="min-w-0">
-            <p className="truncate text-sm font-bold tracking-[0.14em] text-ink uppercase">
-              ATELIER D&apos;ASIE
-            </p>
-            <p className="truncate text-xs tracking-[0.12em] text-ink-muted uppercase">
-              ẨM THỰC Á CHÂU · SÀI GÒN
-            </p>
+            <p className="t-brand truncate text-ink">Atelier d&apos;Asie</p>
+            <p className="truncate text-xs text-ink-muted">Ẩm thực Á Châu · Sài Gòn</p>
           </div>
         </div>
 
@@ -60,8 +56,8 @@ export function QrPortalHeader({
           </div>
         </div>
 
-        <span className="shrink-0 rounded-md border border-line bg-paper-warm px-2 py-1 text-xs font-medium tracking-[0.08em] text-ink-muted uppercase">
-          ĐÃ KHÓA
+        <span className="shrink-0 rounded-md border border-line bg-paper-warm px-2 py-1 text-xs font-medium text-ink-muted">
+          Đã khóa
         </span>
       </div>
 
@@ -83,12 +79,8 @@ export function QrUnknownTableView({ maBan }: { maBan: string | undefined }) {
         <header className="flex items-center gap-3 border-b border-cream-line px-4 py-4">
           <QrBrandMark />
           <div>
-            <p className="text-sm font-bold tracking-[0.14em] text-ink uppercase">
-              ATELIER D&apos;ASIE
-            </p>
-            <p className="text-xs tracking-[0.12em] text-ink-muted uppercase">
-              ẨM THỰC Á CHÂU · SÀI GÒN
-            </p>
+            <p className="t-brand text-ink">Atelier d&apos;Asie</p>
+            <p className="text-xs text-ink-muted">Ẩm thực Á Châu · Sài Gòn</p>
           </div>
         </header>
 
@@ -99,16 +91,14 @@ export function QrUnknownTableView({ maBan }: { maBan: string | undefined }) {
           >
             <QrCode size={30} />
           </span>
-          <p className="eyebrow text-gold-ink">MÃ BÀN KHÔNG HỢP LỆ</p>
-          <h1 className="t-display mt-2 text-ink">Không tìm thấy bàn này</h1>
-          <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink-muted">
+          <h1 className="t-display text-ink">Không tìm thấy bàn này</h1>
+          <p className="mt-2.5 max-w-xs text-sm leading-relaxed text-ink-muted">
             Mã bàn <span className="num font-medium text-ink">{maBan || '—'}</span>{' '}
-            không tồn tại trên hệ thống. Vui lòng quét lại mã QR đặt trên bàn của quý
-            khách hoặc nhờ nhân viên phục vụ hỗ trợ.
+            không tồn tại. Vui lòng quét lại mã QR trên bàn hoặc gọi nhân viên hỗ trợ.
           </p>
           <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-cream-line bg-paper px-4 py-2 text-xs text-ink-muted">
             <Lock size={14} aria-hidden className="text-gold-ink" />
-            Cổng thực đơn tự phục vụ tại bàn
+            Thực đơn QR tại bàn
           </div>
         </main>
       </div>

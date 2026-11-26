@@ -66,9 +66,8 @@ export function CallWaiterSheet({
       side="bottom"
       frame="mobile"
       icon={<BellRing size={20} />}
-      eyebrow="CHÚNG TÔI SẴN SÀNG HỖ TRỢ"
-      title={<span className="t-display text-ink">Bạn cần gì thêm?</span>}
-      description="Đội ngũ phục vụ đang ở gần bạn. Chúng tôi có thể mang gì đến bàn?"
+      title="Gọi phục vụ"
+      description="Chọn yêu cầu để nhân viên mang đến bàn."
       footer={
         <p className="flex items-center justify-center gap-1.5 pb-[env(safe-area-inset-bottom)] text-xs text-ink-muted">
           <Lock size={13} aria-hidden className="shrink-0" />

@@ -77,7 +77,7 @@ export function StatCard({
   return (
     <Card className={cn('p-5', className)}>
       <div className="flex items-start justify-between gap-3">
-        <p className="eyebrow">{label}</p>
+        <p className="t-label">{label}</p>
         {icon && (
           <span
             aria-hidden

@@ -17,9 +17,8 @@ export function OwnerGuardCard({ message }: OwnerGuardCardProps) {
         >
           <ShieldAlert size={24} />
         </span>
-        <p className="eyebrow text-primary">MÃ LỖI 403 · BẢO MẬT FR-19</p>
-        <h1 className="t-page mt-2 text-ink">Khu vực độc quyền Chủ nhà hàng</h1>
-        <p className="mt-3 text-sm text-ink-muted">{message}</p>
+        <h1 className="t-page mt-1 text-ink">Dành riêng cho Chủ nhà hàng</h1>
+        <p className="mt-2.5 text-sm text-ink-muted">{message}</p>
       </Card>
     </PageBody>
   );

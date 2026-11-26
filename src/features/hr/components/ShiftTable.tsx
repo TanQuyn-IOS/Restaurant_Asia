@@ -37,7 +37,7 @@ export function ShiftTable({
       <EmptyState
         icon={<CalendarClock size={22} />}
         title="Chưa có lịch phân ca cho lựa chọn này"
-        description="Thêm ca làm việc mới hoặc chuyển sang “Tất cả ngày” để xem toàn bộ lịch trực."
+        description='Thêm ca làm mới hoặc chọn "Tất cả ngày" để xem toàn bộ lịch trực.'
         action={
           <Button variant="primary" size="sm" icon={<Plus size={14} />} onClick={onAddShift}>
             Thêm ca cho ngày này

@@ -106,9 +106,8 @@ export function CashflowPage() {
   return (
     <PageBody>
       <PageHeader
-        eyebrow="CHỦ NHÀ HÀNG · MOD-08"
-        title="Sổ quỹ dòng tiền"
-        description="Giám sát toàn bộ dòng tiền thu vào, chi ra, số dư tiền mặt – ngân hàng và lãi/lỗ ròng theo thời gian thực."
+        title="Sổ quỹ"
+        description="Theo dõi thu chi, số dư quỹ và lãi lỗ theo thời gian thực."
         actions={
           <Button
             variant="secondary"
@@ -116,7 +115,7 @@ export function CashflowPage() {
             onClick={handleExportCsv}
             disabled={filteredLedger.length === 0}
           >
-            Xuất sổ quỹ CSV
+            Xuất CSV
           </Button>
         }
       />
@@ -164,7 +163,7 @@ export function CashflowPage() {
       <Card>
         <CardHeader
           title="Sổ cái dòng tiền"
-          subtitle="Toàn bộ giao dịch đã ghi nhận · Đơn vị VND"
+          subtitle="Đơn vị VND"
           action={
             <div className="flex flex-wrap items-center gap-2">
               <div className="relative w-full sm:w-64">

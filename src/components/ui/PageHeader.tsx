@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
-/** Đầu trang chuẩn: eyebrow (mã phân hệ) · tiêu đề · mô tả · hành động bên phải. */
+/** Đầu trang chuẩn: tiêu đề (display) · mô tả ngắn · hành động bên phải. */
 export function PageHeader({
   eyebrow,
   title,
@@ -18,9 +18,9 @@ export function PageHeader({
   return (
     <div className={cn('flex flex-wrap items-end justify-between gap-x-6 gap-y-4', className)}>
       <div className="min-w-0">
-        {eyebrow && <p className="eyebrow mb-2">{eyebrow}</p>}
+        {eyebrow && <p className="t-label mb-1">{eyebrow}</p>}
         <h1 className="t-page text-ink">{title}</h1>
-        {description && <p className="mt-2 max-w-2xl text-sm text-ink-muted">{description}</p>}
+        {description && <p className="mt-1.5 max-w-2xl text-sm text-ink-muted">{description}</p>}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
     </div>

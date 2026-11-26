@@ -286,9 +286,8 @@ export function MergeTransferModal({
       onClose={onClose}
       size="md"
       icon={modalIcon}
-      eyebrow="Điều phối sảnh · MOD-01"
       title="Ghép / Tách / Chuyển bàn"
-      description="Ghép bàn cho đoàn đông, tách bàn đã ghép (tự động trả về đúng những món bàn đó đã gọi) hoặc chuyển toàn bộ phiên sang bàn trống."
+      description="Ghép thêm bàn cho đoàn đông, tách bàn đã ghép hoặc chuyển phiên sang bàn trống."
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>
@@ -322,7 +321,7 @@ export function MergeTransferModal({
           )}
 
           <div className="space-y-2">
-            <p className="eyebrow">Chế độ thao tác</p>
+            <p className="text-xs font-medium text-ink-soft">Thao tác</p>
             <Segmented
               label="Chọn chế độ ghép, tách hoặc chuyển bàn"
               value={mode}
@@ -441,9 +440,9 @@ export function MergeTransferModal({
               {mode === 'detach' && targetTable && (
                 <div className="space-y-2.5 rounded-lg border border-line bg-paper-warm p-4">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <p className="eyebrow">
+                    <p className="text-xs font-medium text-ink-soft">
                       {childItemsToRestore.length > 0
-                        ? `Món ${targetTable.ten_ban} đã gọi (tự động trả về)`
+                        ? `Món ${targetTable.ten_ban} đã gọi (trả về đơn riêng)`
                         : `Món của ${targetTable.ten_ban}`}
                     </p>
                     {childItemsToRestore.length > 0 && (
@@ -503,17 +502,17 @@ export function MergeTransferModal({
                       targetTable.trang_thai_ban === 'DangPhucVu' ? (
                         <>
                           Ghép <span className="font-medium text-ink">{targetTable.ten_ban}</span> vào{' '}
-                          <span className="font-medium text-ink">{sourceTable.ten_ban}</span> — gom các món sang 1 hóa
-                          đơn tổng và tự lưu nguồn bàn để tách ra trả đúng món nếu cần.
+                          <span className="font-medium text-ink">{sourceTable.ten_ban}</span> để gom chung một hóa đơn
+                          và giữ dấu nguồn bàn khi cần tách lại.
                         </>
                       ) : (
                         <>
-                          Ghép <span className="font-medium text-ink">{targetTable.ten_ban}</span> vào bàn chính{' '}
-                          <span className="font-medium text-ink">{sourceTable.ten_ban}</span> — tổng{' '}
+                          Ghép <span className="font-medium text-ink">{targetTable.ten_ban}</span> vào{' '}
+                          <span className="font-medium text-ink">{sourceTable.ten_ban}</span> (tổng{' '}
                           <span className="num font-medium text-ink">
                             {sourceTable.so_ghe + targetTable.so_ghe} ghế
                           </span>
-                          , gom chung 1 hóa đơn tổng.
+                          ), dùng chung một hóa đơn.
                         </>
                       )
                     ) : mode === 'detach' ? (

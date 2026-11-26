@@ -41,10 +41,10 @@ export function DishDetailSheet({
 
   const soldOut = dish.trang_thai_mon !== 'ConMon';
   const cuisineLabel = dish.is_combo
-    ? 'COMBO ĐOÀN'
+    ? 'Combo đoàn'
     : category
-      ? CUISINE_META[category.truong_phai_am_thuc].label.toUpperCase()
-      : 'ẨM THỰC Á CHÂU';
+      ? CUISINE_META[category.truong_phai_am_thuc].label
+      : 'Ẩm thực Á Châu';
   const defaultSpiceMeta = SPICE_LEVELS[dish.muc_do_cay];
   const lineTotal = dish.don_gia * qty;
 
@@ -71,8 +71,8 @@ export function DishDetailSheet({
       onClose={onClose}
       side="bottom"
       frame="mobile"
-      eyebrow={`${cuisineLabel} · NẤU TƯƠI THEO YÊU CẦU`}
-      title={<span className="t-display text-ink">{dish.ten_mon_an}</span>}
+      eyebrow={cuisineLabel}
+      title={dish.ten_mon_an}
       footer={
         <div className="flex items-center gap-3 pb-[env(safe-area-inset-bottom)]">
           <QuantityStepper
@@ -106,8 +106,8 @@ export function DishDetailSheet({
           />
           {soldOut && (
             <div className="absolute inset-0 grid place-items-center bg-ink/50">
-              <span className="rounded-md bg-ink/80 px-3.5 py-1.5 text-xs font-bold tracking-[0.14em] text-white uppercase">
-                HẾT MÓN
+              <span className="rounded-md bg-ink/80 px-3.5 py-1.5 text-xs font-bold tracking-[0.06em] text-white uppercase">
+                Hết món
               </span>
             </div>
           )}
@@ -134,12 +134,9 @@ export function DishDetailSheet({
 
         {/* Chọn độ cay 0–3 */}
         <section aria-labelledby="qr-spice-heading" className="space-y-2.5">
-          <div className="flex items-baseline justify-between gap-2">
-            <h3 id="qr-spice-heading" className="text-sm font-medium text-ink">
-              Chọn độ cay
-            </h3>
-            <span className="text-xs text-ink-muted">0 nghĩa là không cay</span>
-          </div>
+          <h3 id="qr-spice-heading" className="text-sm font-medium text-ink">
+            Độ cay
+          </h3>
 
           <div
             role="radiogroup"
@@ -189,7 +186,7 @@ export function DishDetailSheet({
         <section aria-labelledby="qr-dietary-heading" className="space-y-2.5">
           <div className="flex items-baseline justify-between gap-2">
             <h3 id="qr-dietary-heading" className="text-sm font-medium text-ink">
-              Ghi chú ăn uống
+              Ghi chú cho bếp
             </h3>
             <span className="text-xs text-ink-muted">Tùy chọn</span>
           </div>

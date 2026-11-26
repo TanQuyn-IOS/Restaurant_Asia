@@ -63,9 +63,8 @@ export function MemberLookupSheet({
       side="bottom"
       frame="mobile"
       icon={<Crown size={20} />}
-      eyebrow="THÀNH VIÊN & ƯU ĐÃI TẠI BÀN"
-      title="Nhận diện bằng số điện thoại"
-      description={`Khách vãng lai không cần đăng nhập. Thành viên / VIP tại ${tableLabel} nhập SĐT để áp dụng ưu đãi & tích điểm tự động.`}
+      title="Tích điểm thành viên"
+      description={`Nhập SĐT đã đăng ký để áp dụng ưu đãi tại ${tableLabel}.`}
       footer={
         <Button variant="secondary" block onClick={handleClose} className="min-h-11">
           Quay lại thực đơn
@@ -114,8 +113,8 @@ export function MemberLookupSheet({
             label="Số điện thoại thành viên"
             hint={
               canLinkOrder
-                ? 'Nhập SĐT đã đăng ký thành viên hoặc khách VIP (không cần mật khẩu).'
-                : 'Bàn chưa mở phiên — hệ thống vẫn kiểm tra ưu đãi thẻ giúp bạn trước.'
+                ? 'Không cần mật khẩu.'
+                : 'Bàn chưa mở phiên, nhưng bạn vẫn kiểm tra được ưu đãi thẻ.'
             }
           >
             {({ id, describedBy }) => (
@@ -145,7 +144,7 @@ export function MemberLookupSheet({
         </form>
 
         <div className="rounded-xl border border-cream-line bg-cream p-3.5">
-          <p className="eyebrow">Thử nhanh SĐT thành viên mẫu</p>
+          <p className="t-label">SĐT dùng thử</p>
           <div className="mt-2.5 flex flex-wrap gap-2">
             {DEMO_PHONES.map((item) => (
               <ChoiceChip

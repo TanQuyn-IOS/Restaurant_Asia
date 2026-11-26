@@ -38,7 +38,7 @@ export function LeaveTable({
     return (
       <EmptyState
         icon={<CalendarOff size={22} />}
-        title={`Không có đơn nào thuộc nhóm “${LEAVE_STATE_META[activeTab].label}”`}
+        title={`Không có đơn thuộc mục "${LEAVE_STATE_META[activeTab].label}"`}
         description="Khi tạo mới hoặc duyệt đơn nghỉ phép, hệ thống sẽ tự động phân loại theo mốc ngày hôm nay."
         action={
           <Button variant="secondary" size="sm" icon={<Plus size={14} />} onClick={onCreateNew}>

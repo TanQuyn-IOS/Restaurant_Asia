@@ -165,9 +165,8 @@ export function ShiftSchedulePage() {
       <RoleWorkspaceCard />
 
       <PageHeader
-        eyebrow="NHÂN SỰ & VẬN HÀNH · MOD-07"
-        title="Nhân sự & lịch ca làm"
-        description="Phân công rõ ca nào, giờ nào và khu vực phụ trách cho toàn đội ngũ sảnh, bếp và thu ngân."
+        title="Lịch ca làm"
+        description="Phân công ca, khung giờ và khu vực trực cho đội ngũ."
         actions={
           <>
             <Button

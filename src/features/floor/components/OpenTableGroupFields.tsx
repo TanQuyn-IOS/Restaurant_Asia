@@ -158,10 +158,10 @@ export function OpenTableGroupFields({
                     value={selectedComboId}
                     onChange={(e) => onComboChange(e.target.value)}
                   >
-                    <option value="">Không chọn sẵn — gọi món sau trong ngăn gọi món</option>
+                    <option value="">Không chọn sẵn</option>
                     {availableCombos.map((cb) => (
                       <option key={cb.ma_mon_an} value={cb.ma_mon_an}>
-                        {cb.ten_mon_an} — {formatVnd(cb.don_gia)}
+                        {cb.ten_mon_an} · {formatVnd(cb.don_gia)}
                       </option>
                     ))}
                   </Select>
@@ -180,8 +180,8 @@ export function OpenTableGroupFields({
           )}
 
           <div className="space-y-2 border-t border-line pt-3">
-            <p className="eyebrow inline-flex items-center gap-1.5">
-              <GitMerge size={12} aria-hidden /> Ghép bàn phụ liền kề (gom chung 1 hóa đơn tổng)
+            <p className="inline-flex items-center gap-1.5 text-xs font-medium text-ink-soft">
+              <GitMerge size={12} aria-hidden /> Ghép thêm bàn phụ (gom chung hóa đơn)
             </p>
             {mergeCandidates.length === 0 ? (
               <p className="text-xs text-ink-muted">Hiện không còn bàn trống khác để ghép thêm.</p>

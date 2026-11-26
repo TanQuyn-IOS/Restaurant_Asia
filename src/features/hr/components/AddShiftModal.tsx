@@ -92,9 +92,8 @@ export function AddShiftModal({ open, defaultDate, onClose }: AddShiftModalProps
       onClose={onClose}
       size="md"
       icon={<CalendarPlus size={20} />}
-      eyebrow="PHÂN CÔNG CA TRỰC · MOD-07"
-      title="Thêm ca làm việc mới"
-      description="Phân rõ nhân viên làm ca nào, khung giờ nào và khu vực phụ trách cụ thể."
+      title="Thêm ca làm"
+      description="Chọn nhân viên, khung giờ và khu vực trực."
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>

@@ -5,7 +5,7 @@ import { ROLE_META } from '@/lib/labels';
 import { useRestaurantStore } from '@/store/useRestaurantStore';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { Card, CardBody, CardFooter, CardHeader } from '@/components/ui/Card';
+import { Card, CardFooter, CardHeader } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Form';
 import { Avatar, EmptyState, Table, Td, Th, Tr } from '@/components/ui/Misc';
 import { MASKED_SECRET } from '../rbacHelpers';
@@ -57,7 +57,7 @@ export function InternalAccountsTab({ accounts }: InternalAccountsTabProps) {
     <Card>
       <CardHeader
         title="Tài khoản đăng nhập nội bộ"
-        subtitle="Liên kết 1–1 giữa tbl_tai_khoan, hồ sơ tbl_nhan_vien và vai trò tbl_vai_tro — mật khẩu băm được che ẩn hoàn toàn"
+        subtitle="Mật khẩu được mã hóa và ẩn hoàn toàn trên giao diện quản trị"
         action={
           <div className="relative w-full sm:w-72">
             <Search
@@ -68,7 +68,7 @@ export function InternalAccountsTab({ accounts }: InternalAccountsTabProps) {
             <Input
               type="search"
               aria-label="Tìm tài khoản theo tên đăng nhập, nhân viên hoặc vai trò"
-              placeholder="Tìm username, tên nhân viên..."
+              placeholder="Tìm tài khoản, tên nhân viên..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="h-9 pl-9"
@@ -76,16 +76,6 @@ export function InternalAccountsTab({ accounts }: InternalAccountsTabProps) {
           </div>
         }
       />
-
-      <CardBody className="pt-4 pb-0">
-        <div className="flex items-start gap-2.5 rounded-lg border border-line bg-paper-warm px-4 py-3 text-xs text-ink-muted">
-          <Lock size={14} aria-hidden className="mt-0.5 shrink-0 text-primary" />
-          <span>
-            Chính sách bảo mật định danh: Trường mật khẩu băm (<code className="num">bcrypt</code>)
-            không bao giờ được truy xuất hay hiển thị trên giao diện quản trị.
-          </span>
-        </div>
-      </CardBody>
 
       <div className="mt-4">
         {filtered.length === 0 ? (

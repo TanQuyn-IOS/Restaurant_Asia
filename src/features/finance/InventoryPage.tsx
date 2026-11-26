@@ -84,9 +84,8 @@ export function InventoryPage() {
   return (
     <PageBody>
       <PageHeader
-        eyebrow="CHỦ NHÀ HÀNG · MOD-08"
-        title="Kho & nhập hàng"
-        description="Theo dõi tồn kho nguyên liệu tự động trừ theo định mức BOM, cảnh báo mức tối thiểu và công nợ nhà cung cấp."
+        title="Kho hàng"
+        description="Tồn kho nguyên liệu, cảnh báo mức tối thiểu và công nợ nhà cung cấp."
         actions={
           <Button
             variant="primary"
@@ -135,7 +134,6 @@ export function InventoryPage() {
         <Card className="flex flex-col xl:col-span-8">
           <CardHeader
             title="Tồn kho nguyên liệu"
-            subtitle="So sánh tồn thực tế với mức tối thiểu theo từng mã nguyên liệu"
             action={
               <div className="flex flex-wrap items-center gap-2">
                 <Select

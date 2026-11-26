@@ -20,7 +20,6 @@ import type { TableStatus } from '@/types/database';
 import { Badge, StatusDot } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { StatCard } from '@/components/ui/Card';
-import { Select } from '@/components/ui/Form';
 import { EmptyState } from '@/components/ui/Misc';
 import { PageBody, PageHeader } from '@/components/ui/PageHeader';
 import { UnderlineTabs } from '@/components/ui/Tabs';
@@ -35,6 +34,7 @@ import {
 import { useFloorData } from './useFloorData';
 import { TableCard } from './components/TableCard';
 import { QrSupportStrip } from './components/QrSupportStrip';
+import { QrSupportSheet } from './components/QrSupportSheet';
 import { OpenTableModal } from './components/OpenTableModal';
 import { ReservationModal } from './components/ReservationModal';
 import { MergeTransferModal, type TableActionMode } from './components/MergeTransferModal';
@@ -64,6 +64,10 @@ export function FloorPage() {
   }>({ open: false, mode: 'merge', sourceId: null, targetId: null });
   const [addSpaceOpen, setAddSpaceOpen] = useState(false);
   const [orderingSheetTableId, setOrderingSheetTableId] = useState<string | null>(null);
+  const [qrSupportSheet, setQrSupportSheet] = useState<{ open: boolean; requestId: string | null }>({
+    open: false,
+    requestId: null,
+  });
 
   const {
     snapshot,
@@ -111,7 +115,7 @@ export function FloorPage() {
   return (
     <PageBody>
       <PageHeader
-        title="SƠ ĐỒ BÀN"
+        title="Sơ đồ bàn"
         actions={
           <>
             {canManageSpace && (
@@ -126,12 +130,12 @@ export function FloorPage() {
               onClick={() => setReservationOpen(true)}
               icon={<CalendarPlus size={16} />}
             >
-              Đặt bàn trước
+              Đặt bàn
             </Button>
             <Button
               variant="secondary"
               disabled={!canOperate}
-              title={readOnlyReason ?? 'Ghép bàn phụ, tách bàn/tách đơn hoặc chuyển bàn đang phục vụ'}
+              title={readOnlyReason ?? 'Ghép bàn phụ, tách bàn hoặc chuyển bàn đang phục vụ'}
               onClick={() =>
                 setMergeModalState({
                   open: true,
@@ -145,12 +149,12 @@ export function FloorPage() {
               }
               icon={<GitMerge size={16} />}
             >
-              Ghép / Tách / Chuyển
+              Ghép / Chuyển
             </Button>
             <Button
               variant="primary"
               disabled={!canOperate}
-              title={readOnlyReason ?? 'Mở bàn mới đón khách theo 4 nhóm khách'}
+              title={readOnlyReason ?? 'Mở bàn mới đón khách'}
               onClick={() => setOpenTableModal({ open: true, tableId: null })}
               icon={<Plus size={16} />}
             >
@@ -208,43 +212,40 @@ export function FloorPage() {
       <QrSupportStrip
         requests={pendingQrRequests}
         tables={snapshot.tbl_ban}
-        canOperate={canOperate}
-        readOnlyReason={readOnlyReason}
-        onResolve={resolveGuestQrRequest}
+        onOpenSheet={(requestId) =>
+          setQrSupportSheet({ open: true, requestId: requestId ?? null })
+        }
       />
 
       {/* Tab khu vực 01.. + Lưới bàn */}
       <div className="space-y-4">
-        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-line">
+        <div className="border-b border-line">
           <UnderlineTabs
             label="Chọn khu vực sảnh"
             value={selectedZone}
             onChange={(next) => setSelectedZone(next)}
             items={zoneTabs}
-            className="min-w-0 flex-1"
           />
-
-          <div className="pb-2">
-            <Select
-              aria-label="Lọc bàn theo trạng thái"
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value as TableStatus | 'ALL')}
-              className="h-9 w-44 text-xs"
-            >
-              <option value="ALL">Tất cả trạng thái</option>
-              {STATUS_ORDER.map((st) => (
-                <option key={st} value={st}>
-                  {TABLE_STATUS_META[st].label} ({zoneStats.statusCounts[st]})
-                </option>
-              ))}
-            </Select>
-          </div>
         </div>
 
-        {/* Hàng chú giải 4 trạng thái bàn + Gọi món QR: bật */}
+        {/* Hàng lọc 4 trạng thái bàn + Gọi món QR */}
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <span className="eyebrow">Trạng thái bàn</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setStatusFilter('ALL')}
+              className={cn(
+                'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs transition-colors',
+                statusFilter === 'ALL'
+                  ? 'bg-ink font-medium text-white'
+                  : 'text-ink-soft hover:bg-sunken/70 hover:text-ink',
+              )}
+            >
+              <span>Tất cả</span>
+              <span className={cn('num', statusFilter === 'ALL' ? 'text-white/75' : 'text-ink-muted')}>
+                ({zoneStats.totalTables})
+              </span>
+            </button>
             {STATUS_ORDER.map((st) => {
               const meta = TABLE_STATUS_META[st];
               const count = zoneStats.statusCounts[st];
@@ -255,9 +256,9 @@ export function FloorPage() {
                   type="button"
                   onClick={() => setStatusFilter(isActive ? 'ALL' : st)}
                   className={cn(
-                    'inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs transition-colors',
+                    'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs transition-colors',
                     isActive
-                      ? 'bg-sunken font-medium text-ink'
+                      ? 'bg-sunken font-medium text-ink ring-1 ring-line-strong'
                       : 'text-ink-soft hover:bg-sunken/70 hover:text-ink',
                   )}
                 >
@@ -271,7 +272,7 @@ export function FloorPage() {
 
           <div className="inline-flex items-center gap-1.5 text-xs text-ink-muted">
             <QrCode size={14} aria-hidden className="text-ink-soft" />
-            <span>Gọi món QR: bật</span>
+            <span>QR tại bàn: bật</span>
           </div>
         </div>
 
@@ -291,7 +292,7 @@ export function FloorPage() {
             />
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 min-[1400px]:grid-cols-5">
             {visibleTables.map((vm) => (
               <TableCard
                 key={vm.ban.ma_ban}
@@ -305,21 +306,20 @@ export function FloorPage() {
 
         {/* Chân sảnh đồng bộ trực tiếp */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4 text-xs text-ink-muted">
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="eyebrow">Đồng bộ trực tiếp</span>
+          <div className="flex flex-wrap items-center gap-2.5">
             <span className="inline-flex items-center gap-1.5 text-ink-soft">
               <StatusDot tone="success" pulse />
-              Dữ liệu sảnh trực tiếp
+              Đồng bộ trực tiếp
             </span>
             <Badge tone="neutral" size="sm">
-              {backendConnected ? 'Server MySQL 3NF' : 'Realtime cục bộ'}
+              {backendConnected ? 'MySQL' : 'Cục bộ'}
             </Badge>
           </div>
 
           <button
             type="button"
             disabled={!canOperate}
-            title={readOnlyReason ?? 'Mở hộp thoại ghép, tách hoặc chuyển bàn'}
+            title={readOnlyReason ?? 'Ghép, tách hoặc chuyển bàn'}
             onClick={() =>
               setMergeModalState({
                 open: true,
@@ -333,7 +333,7 @@ export function FloorPage() {
             }
             className="inline-flex items-center gap-1.5 text-xs font-medium text-primary underline-offset-2 hover:underline disabled:text-ink-faint disabled:no-underline"
           >
-            <span>Chọn bàn để ghép / tách / chuyển</span>
+            <span>Ghép / tách / chuyển bàn</span>
             <ArrowRight size={13} aria-hidden />
           </button>
         </div>
@@ -378,6 +378,22 @@ export function FloorPage() {
           onClose={() => setAddSpaceOpen(false)}
         />
       )}
+
+      <QrSupportSheet
+        open={qrSupportSheet.open}
+        highlightedId={qrSupportSheet.requestId}
+        requests={pendingQrRequests}
+        tables={snapshot.tbl_ban}
+        zones={snapshot.tbl_khu_vuc}
+        canOperate={canOperate}
+        readOnlyReason={readOnlyReason}
+        onResolve={resolveGuestQrRequest}
+        onOpenTable={(maBan) => {
+          setSelectedTableId(maBan);
+          setOrderingSheetTableId(maBan);
+        }}
+        onClose={() => setQrSupportSheet({ open: false, requestId: null })}
+      />
 
       <OrderingSheet
         open={Boolean(orderingSheetTableId)}

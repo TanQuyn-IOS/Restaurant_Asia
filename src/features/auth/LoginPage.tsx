@@ -33,37 +33,37 @@ const DEMO_ACCOUNTS: DemoAccountCard[] = [
     username: 'owner.quyn',
     role: 'Owner',
     name: 'Nguyễn Tấn Quyn',
-    scope: 'Toàn quyền · Độc quyền Sổ quỹ & Kho',
+    scope: 'Toàn quyền, sổ quỹ và kho',
   },
   {
     username: 'manager.thang',
     role: 'Manager',
     name: 'Nguyễn Ngọc Thắng',
-    scope: 'Điều hành sảnh · Ẩn 100% Doanh thu',
+    scope: 'Điều hành sảnh, ẩn doanh thu',
   },
   {
     username: 'waiter.thien',
     role: 'Waitstaff',
     name: 'Lê Hoàng Thiện',
-    scope: 'Mở bàn · Gọi món · Chốt Bill & DELETE',
+    scope: 'Mở bàn, gọi món, chốt bill',
   },
   {
     username: 'chef.hao',
     role: 'Kitchen',
     name: 'Nguyễn Trọng Anh Hào',
-    scope: 'Bếp KDS · Nấu xong nạp Bill + Ting',
+    scope: 'Phiếu bếp KDS và báo hết món',
   },
   {
     username: 'cashier.anh',
     role: 'Cashier',
     name: 'Giản Trần Phước Anh',
-    scope: 'POS Chỉ đọc · Khóa thêm/sửa/xóa món',
+    scope: 'Thu tiền và xuất VAT (chỉ đọc)',
   },
   {
     username: 'hr.trang',
     role: 'HR',
     name: 'Đỗ Thu Trang',
-    scope: 'Phân ca · Nghỉ phép 3 trạng thái · Lương',
+    scope: 'Phân ca, nghỉ phép, bảng lương',
   },
 ];
 
@@ -119,20 +119,16 @@ export function LoginPage() {
           <div className="flex items-center gap-3.5">
             <BrandMark />
             <div>
-              <p className="text-base font-bold tracking-[0.14em]">AC-RMS</p>
-              <p className="text-xs tracking-[0.14em] text-chrome-muted uppercase">
-                Atelier d'Asie · Sài Gòn
-              </p>
+              <p className="t-brand text-white">Atelier d&apos;Asie</p>
+              <p className="mt-0.5 text-xs text-chrome-muted">Chi nhánh Q.1 · Sài Gòn</p>
             </div>
           </div>
 
-          <p className="eyebrow mt-12 text-gold-bright">PHÂN QUYỀN NỘI BỘ · FR-26</p>
-          <h1 className="t-hero mt-3 text-white">
-            Điều hành chuẩn mực, <span className="text-gold-bright">phân quyền</span> rõ ràng.
+          <h1 className="t-hero mt-14 text-white">
+            Vận hành gọn gàng, <span className="text-gold-bright">phân quyền</span> rõ ràng.
           </h1>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-chrome-muted">
-            Mỗi tài khoản nhân viên được cấp quyền truy cập đúng theo chức năng phòng ban — khóa chặt
-            dữ liệu tài chính, quầy thu ngân chỉ đọc và đồng bộ thời gian thực cùng màn hình bếp KDS.
+            Mỗi tài khoản chỉ thấy đúng khu vực phụ trách, đồng bộ trực tiếp giữa sảnh, bếp và quầy thu ngân.
           </p>
 
           <dl className="mt-10 space-y-4 border-t border-chrome-line pt-8">
@@ -144,9 +140,9 @@ export function LoginPage() {
                 <ShieldCheck size={16} />
               </span>
               <div>
-                <dt className="text-sm font-medium text-white">Bảo mật tài chính đa tầng (FR-19)</dt>
+                <dt className="text-sm font-medium text-white">Ẩn tài chính theo vai trò</dt>
                 <dd className="mt-0.5 text-xs text-chrome-muted">
-                  Quản lý sảnh & nhân sự bị ẩn hoàn toàn doanh thu, sổ quỹ dòng tiền và giá vốn nhập kho.
+                  Quản lý sảnh và nhân sự không xem được doanh thu, sổ quỹ hay giá nhập kho.
                 </dd>
               </div>
             </div>
@@ -158,9 +154,9 @@ export function LoginPage() {
                 <Lock size={16} />
               </span>
               <div>
-                <dt className="text-sm font-medium text-white">Thu ngân Chỉ đọc chống thất thoát (FR-17)</dt>
+                <dt className="text-sm font-medium text-white">Quầy thu ngân chỉ đọc</dt>
                 <dd className="mt-0.5 text-xs text-chrome-muted">
-                  Hóa đơn chốt tại bàn khóa cứng thao tác thêm/sửa/xóa món ở quầy thanh toán.
+                  Hóa đơn đã chốt tại bàn khóa sửa món để tránh sai lệch khi thanh toán.
                 </dd>
               </div>
             </div>
@@ -180,7 +176,7 @@ export function LoginPage() {
               <div>
                 <p className="text-sm font-medium text-white">Khách dùng bữa tại bàn?</p>
                 <p className="text-xs text-chrome-muted">
-                  Khách chỉ cần quét QR trên bàn — không cần tài khoản hay mật khẩu (FR-25).
+                  Quét mã QR tại bàn để xem thực đơn và gọi món, không cần tài khoản.
                 </p>
               </div>
             </div>
@@ -199,11 +195,8 @@ export function LoginPage() {
       <main className="flex items-center justify-center px-4 py-10 sm:px-8 lg:col-span-7 lg:py-14">
         <div className="w-full max-w-xl space-y-6">
           <section className="rounded-xl border border-line bg-paper p-6 shadow-card sm:p-8">
-            <p className="eyebrow">CỔNG NHÂN VIÊN NỘI BỘ · MOD-10</p>
-            <h2 className="t-page mt-2 text-ink">Đăng nhập hệ thống</h2>
-            <p className="mt-1.5 text-sm text-ink-muted">
-              Sử dụng tài khoản nội bộ được cấp trong <code className="num">tbl_tai_khoan</code>.
-            </p>
+            <h2 className="t-page text-ink">Đăng nhập</h2>
+            <p className="mt-1.5 text-sm text-ink-muted">Nhập tài khoản nhân viên để bắt đầu ca làm việc.</p>
 
             {errorMsg && (
               <div
@@ -261,25 +254,24 @@ export function LoginPage() {
                 icon={<KeyRound size={16} />}
                 className="mt-2"
               >
-                Đăng nhập vào ca làm việc
+                Đăng nhập
               </Button>
             </form>
           </section>
 
-          {/* Bảng điền nhanh 6 vai trò demo (hỗ trợ thuyết trình & kiểm thử phân quyền) */}
+          {/* Bảng điền nhanh 6 vai trò demo */}
           <section className="rounded-xl border border-line bg-paper p-5 shadow-card">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <UserCheck size={16} aria-hidden className="text-primary" />
-                <h3 className="t-card-title text-ink">Tài khoản demo theo 6 vai trò</h3>
+                <h3 className="t-card-title text-ink">Tài khoản dùng thử</h3>
               </div>
               <Badge tone="gold" size="sm">
-                Mật khẩu mặc định: <span className="num font-bold">{DEFAULT_DEMO_PASSWORD}</span>
+                Mật khẩu: <span className="num font-bold">{DEFAULT_DEMO_PASSWORD}</span>
               </Badge>
             </div>
             <p className="mt-1 text-xs text-ink-muted">
-              Chọn một tài khoản bên dưới để điền sẵn thông tin, sau đó bấm <strong>Đăng nhập</strong> để
-              kiểm chứng quyền hạn thực tế từng vai trò.
+              Chọn một vai trò để điền sẵn, rồi bấm Đăng nhập.
             </p>
 
             <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">

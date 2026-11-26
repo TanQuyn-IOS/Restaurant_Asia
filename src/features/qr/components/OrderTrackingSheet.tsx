@@ -40,8 +40,7 @@ export function OrderTrackingSheet({
   activeKitchenCount,
   billSummary,
 }: OrderTrackingSheetProps) {
-  const sheetTitle =
-    activeTab === 'kitchen' ? 'Tiến độ bếp của bạn' : 'Tạm tính hóa đơn';
+  const sheetTitle = activeTab === 'kitchen' ? 'Tiến độ bếp' : 'Tạm tính';
 
   return (
     <Sheet
@@ -49,13 +48,13 @@ export function OrderTrackingSheet({
       onClose={onClose}
       side="bottom"
       frame="mobile"
-      eyebrow={`${tableLabel.toUpperCase()} · ${areaLabel.toUpperCase()}`}
-      title={<span className="t-display text-ink">{sheetTitle}</span>}
+      eyebrow={`${tableLabel} · ${areaLabel}`}
+      title={sheetTitle}
       footer={
         <div className="flex items-center justify-between gap-3 pb-[env(safe-area-inset-bottom)]">
           <span className="inline-flex items-center gap-1.5 text-xs text-ink-muted">
             <Lock size={14} aria-hidden className="shrink-0" />
-            Phiên bàn được bảo mật
+            Khóa theo {tableLabel}
           </span>
           <button
             type="button"
@@ -295,7 +294,7 @@ export function OrderTrackingSheet({
 
               <div className="flex items-baseline justify-between gap-3 border-t border-cream-line pt-4">
                 <span className="text-base font-medium text-ink">
-                  Tổng tạm tính hiện tại
+                  Tạm tính
                 </span>
                 <span className="num text-xl font-bold text-primary">
                   {formatVnd(billSummary.currentPreviewTotal)}

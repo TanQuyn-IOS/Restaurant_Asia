@@ -137,7 +137,7 @@ export function SchemaBrowserTab({
                         {isLocked && (
                           <Lock
                             size={11}
-                            aria-label="Ẩn theo FR-19"
+                            aria-label="Chỉ dành cho Chủ nhà hàng"
                             className="shrink-0 text-st-serving-ink"
                           />
                         )}
@@ -200,8 +200,8 @@ export function SchemaBrowserTab({
           {restricted ? (
             <EmptyState
               icon={<Lock size={22} />}
-              title="Bản ghi tài chính được bảo vệ theo quy tắc FR-19"
-              description={`Bảng ${selectedTable} chứa dữ liệu doanh thu, dòng tiền hoặc giá vốn nhập kho. Chỉ Chủ nhà hàng (Owner) được xem chi tiết các bản ghi này.`}
+              title="Dữ liệu tài chính chỉ dành cho Chủ nhà hàng"
+              description={`Bảng ${selectedTable} chứa thông tin doanh thu, dòng tiền hoặc giá nhập kho.`}
             />
           ) : rawRows.length === 0 ? (
             <EmptyState

@@ -87,9 +87,8 @@ export function PaidReceiptSection({ item }: PaidReceiptSectionProps) {
         <div className="no-print flex items-start gap-2.5 rounded-lg border border-line bg-paper-warm px-3.5 py-3 text-xs text-ink-soft">
           <Trash2 size={15} aria-hidden className="mt-0.5 shrink-0 text-primary" />
           <span>
-            <strong className="font-medium text-ink">Quy tắc giải phóng bàn (FR-02):</strong> Bàn{' '}
-            {item.tableName} vẫn giữ trạng thái chờ Phục vụ dọn sạch và bấm nút{' '}
-            <strong className="font-medium text-ink">DELETE</strong> trên Sơ đồ bàn.
+            Bàn <strong className="font-medium text-ink">{item.tableName}</strong> chờ phục vụ dọn và bấm{' '}
+            <strong className="font-medium text-ink">DELETE</strong> trên Sơ đồ bàn để trả về Trống.
           </span>
         </div>
       )}

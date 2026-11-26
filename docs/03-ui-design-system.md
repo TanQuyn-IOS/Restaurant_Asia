@@ -15,12 +15,12 @@
 | **Cảnh sử dụng** | Nhân viên liếc màn hình giữa ca đông khách dưới ánh đèn vàng ấm của phòng ăn; khách cầm điện thoại ở bàn → **nền sáng giấy dó**, khung điều hướng **than chì**, nhấn **chu sa + đồng thau**. |
 | **THESIS** | "Sổ tay của một nhà hàng có tay nghề": giấy ấm, mực đậm, một màu đỏ son duy nhất làm hành động chính. Từ chối: dashboard xanh–tím, thẻ icon tròn, gradient. |
 | **OWN-WORLD** | Canvas `#F7F5F0`, sidebar `#25211F`, primary chu sa `#A82F2B`, accent đồng `#B3863A`; 4 màu trạng thái bàn Xanh ngọc / Vàng hổ phách / Đỏ chu sa / Cam đồng. Thẻ viền hairline, bo 8–12px, **không đổ bóng nặng**. |
-| **Font** | Đúng **2 font**: `Spectral` (display: hero/tiêu đề phụ của QR) + `Be Vietnam Pro` (mọi thứ còn lại). Cả hai hỗ trợ đầy đủ dấu tiếng Việt. |
+| **Font** | Đúng **2 font**: `Source Serif 4` (display: tên thương hiệu `t-brand`, hero `t-hero`, tiêu đề trang `t-page`, tiêu đề modal/sheet/QR `t-display`) + `Be Vietnam Pro` (điều hướng, bảng, nút, số liệu, form, nội dung). Cả hai hỗ trợ đầy đủ dấu tiếng Việt; `Source Serif 4` có biến thể `opsz` tự điều chỉnh nét theo cỡ chữ. |
 | **Thang cỡ chữ** | `text-xs 12` · `sm 14` · `base 16` · `lg 20` · `xl 24` · `2xl 32` · `3xl 48` — **không có cỡ nào khác**. |
 | **Weight** | Chỉ `font-normal 400` · `font-medium 500` · `font-bold 700`. |
-| **Emphasis tiêu đề** | Chọn **một**: italic *hoặc* màu *hoặc* đậm. (QR hero: chữ "Á Châu" italic + đỏ là **một** kỹ thuật = italic có màu thương hiệu → chỉ dùng italic.) |
+| **Emphasis tiêu đề** | Chọn **một**: italic *hoặc* màu *hoặc* đậm. |
 | **Motion** | 1 khoảnh khắc điều phối (mở sheet/modal `animate-rise`, `animate-sheet-up`); hover = đổi màu; tôn trọng `prefers-reduced-motion` (đã xử lý global). |
-| **Ngôn ngữ** | 100% tiếng Việt. Tiền: `formatVnd()` → `285.000 ₫`. Mã phân hệ giữ `MOD-0x` trong eyebrow. |
+| **Ngôn ngữ & viết chữ** | 100% tiếng Việt tự nhiên, ngắn gọn. Không hiện mã nội bộ (`MOD-0x`, `FR-xx`, `UC-xx`, `tbl_*`) hay dòng kicker in hoa dư thừa trên tiêu đề. Tiền: `formatVnd()` → `285.000 ₫`. |
 
 ---
 
@@ -43,7 +43,7 @@
 
 > Chữ màu trạng thái **trên nền nhạt** phải dùng biến thể `*-ink` (đã đạt ≥4.5:1). Dùng `Badge`/`TONE` thay vì tự ghép.
 
-**Kiểu chữ có tên** (utility trong CSS): `t-hero` (48 display) · `t-display` (24 display) · `t-page` (32 tiêu đề trang) · `t-card-title` (16/500) · `t-metric` (32 số KPI) · `t-metric-sm` (24) · `eyebrow` (12 CAPS tracking, nhãn) · `num` (tabular-nums — **bắt buộc cho mọi số tiền/giờ/số lượng**).
+**Kiểu chữ có tên** (utility trong CSS): `t-hero` (48 display) · `t-page` (32 display tiêu đề trang) · `t-display` (24 display modal/sheet/QR) · `t-brand` (16 display tên thương hiệu) · `t-card-title` (16/500 sans) · `t-metric` (32 số KPI sans) · `t-metric-sm` (24 sans) · `t-label` (12/500 nhãn thường) · `num` (tabular-nums — **bắt buộc cho mọi số tiền/giờ/số lượng**).
 
 **Bo & bóng**: `rounded-md 8` (nút, input) · `rounded-lg 12` (thẻ) · `rounded-xl 16` (modal) · `rounded-2xl 24` (sheet). `shadow-card` · `shadow-lift` · `shadow-pop` (chỉ overlay).
 

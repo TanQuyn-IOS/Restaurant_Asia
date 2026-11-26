@@ -136,9 +136,8 @@ export function ApproveLeaveModal({
       onClose={onClose}
       size="md"
       icon={<CalendarOff size={20} />}
-      eyebrow="QUẢN LÝ NGHỈ PHÉP · MOD-07"
       title="Duyệt nghỉ phép & xếp người thay"
-      description="Xác nhận lịch nghỉ của nhân viên và chỉ định người trực thay cho từng ca ảnh hưởng."
+      description="Xác nhận lịch nghỉ và chỉ định người trực thay."
       footer={
         mode === 'approve' && selectedPending ? (
           <>

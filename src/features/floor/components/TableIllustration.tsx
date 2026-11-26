@@ -63,7 +63,7 @@ export function TableIllustration({
   const rightYs = distributePositions(dist.right, ty + 4, tableH - 8);
 
   return (
-    <div className="relative mx-auto flex h-20 w-32 items-center justify-center" aria-hidden>
+    <div className="relative mx-auto flex h-14 w-24 items-center justify-center" aria-hidden>
       <svg
         viewBox={`0 0 ${vbW} ${vbH}`}
         className="h-full w-full"
@@ -136,7 +136,7 @@ export function TableIllustration({
 
       {/* Biểu tượng bộ đồ ăn ở tâm bàn */}
       <span className={cn('pointer-events-none absolute', style.icon)}>
-        <Utensils size={16} strokeWidth={1.75} />
+        <Utensils size={14} strokeWidth={1.75} />
       </span>
     </div>
   );

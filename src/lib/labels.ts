@@ -99,10 +99,10 @@ export const PAYMENT_METHOD_META: Record<PaymentMethodType, { label: string }> =
 };
 
 export const GUEST_REQUEST_META: Record<GuestRequestType, { label: string; hint: string }> = {
-  GoiNuocLoc: { label: 'Xin nước', hint: 'Nước lọc hoặc nước có ga' },
-  GoiKhanLanh: { label: 'Khăn lạnh', hint: 'Một chút mát lành' },
-  YeuCauKiemBill: { label: 'Kiểm tra hóa đơn', hint: 'Xem lại các món đã gọi' },
-  GapPhucVu: { label: 'Gọi nhân viên', hint: 'Chúng tôi sẽ đến ngay' },
+  GoiNuocLoc: { label: 'Xin nước', hint: 'Nước lọc hoặc trà đá' },
+  GoiKhanLanh: { label: 'Khăn lạnh', hint: 'Mang thêm khăn lạnh' },
+  YeuCauKiemBill: { label: 'Kiểm hóa đơn', hint: 'Xem lại các món đã gọi' },
+  GapPhucVu: { label: 'Gọi nhân viên', hint: 'Hỗ trợ trực tiếp tại bàn' },
 };
 
 export const ROLE_META: Record<
@@ -112,43 +112,43 @@ export const ROLE_META: Record<
   Owner: {
     label: 'Chủ nhà hàng',
     short: 'Chủ',
-    desc: 'Toàn quyền · độc quyền sổ quỹ & kho',
+    desc: 'Toàn quyền vận hành, sổ quỹ và kho',
     home: '/tong-quan',
   },
   Manager: {
     label: 'Quản lý sảnh',
     short: 'Quản lý',
-    desc: 'Điều hành sảnh · ẩn 100% doanh thu',
+    desc: 'Điều hành sảnh, ẩn doanh thu và sổ quỹ',
     home: '/so-do-ban',
   },
   Waitstaff: {
     label: 'Phục vụ',
     short: 'Phục vụ',
-    desc: 'Mở bàn · gọi món · chốt bill · DELETE bàn',
+    desc: 'Mở bàn, gọi món, chốt bill và dọn bàn',
     home: '/so-do-ban',
   },
   Kitchen: {
     label: 'Bếp',
     short: 'Bếp',
-    desc: 'KDS · nấu xong tự nạp bill + chuông Ting',
+    desc: 'Điều phối phiếu bếp và báo hết món',
     home: '/bep',
   },
   Cashier: {
     label: 'Thu ngân',
     short: 'Thu ngân',
-    desc: 'POS chỉ đọc · khóa thêm/sửa/xóa món',
+    desc: 'Thu tiền và xuất VAT (chỉ đọc)',
     home: '/thu-ngan',
   },
   HR: {
     label: 'Nhân sự',
     short: 'Nhân sự',
-    desc: 'Phân ca · nghỉ phép · bảng lương ca',
+    desc: 'Phân ca, nghỉ phép và bảng lương',
     home: '/nhan-su/ca-lam',
   },
   GuestQR: {
     label: 'Khách quét QR',
     short: 'Khách',
-    desc: 'Khóa số bàn · ẩn đăng nhập nhân viên',
+    desc: 'Đặt món trực tiếp theo bàn',
     home: '/qr',
   },
 };

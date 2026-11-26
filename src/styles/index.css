@@ -4,8 +4,9 @@
    Scene:    Staff glance at it mid-service under warm dining-room light on a
              tablet/laptop; guests hold a phone at the table → LIGHT, warm paper
              ground, deep charcoal chrome, vermilion + brass accents.
-   Fonts:    2 only — Spectral (display: QR hero / headings) + Be Vietnam Pro (everything else).
-             Both ship full Vietnamese diacritics.
+   Fonts:    2 only — Source Serif 4 (display: brand wordmark, hero, page h1, QR titles)
+             + Be Vietnam Pro (navigation, tables, buttons, metrics, forms, body).
+             Both ship complete Vietnamese diacritics.
    Rule:     No raw hex / px font-size in components. Use the tokens below.
    ═══════════════════════════════════════════════════════ */
 
@@ -13,7 +14,7 @@
 
 @theme {
   /* ── 2 FONTS ONLY ── */
-  --font-display: 'Spectral', Georgia, 'Times New Roman', serif;
+  --font-display: 'Source Serif 4', Georgia, 'Times New Roman', serif;
   --font-body: 'Be Vietnam Pro', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-sans: var(--font-body);
 
@@ -50,6 +51,7 @@
   --color-paper: #ffffff; /* cards */
   --color-paper-warm: #faf8f4; /* quiet panels, table headers */
   --color-sunken: #f1eee7; /* chips, inputs on paper */
+  --color-kds-board: #eae3d6; /* recessed KDS ticket board for card separation */
   --color-line: #e8e3d9; /* hairlines */
   --color-line-strong: #d6cfc1;
 
@@ -120,6 +122,16 @@
   --animate-slide-left: slide-left 240ms var(--ease-out-quart) both;
   --animate-slide-right: slide-right 240ms var(--ease-out-quart) both;
   --animate-ping-soft: ping-soft 1.8s ease-out infinite;
+  --animate-ticker-rtl: ticker-rtl 22s linear infinite;
+
+  @keyframes ticker-rtl {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
 
   @keyframes slide-right {
     from {
@@ -204,6 +216,7 @@
   textarea {
     font: inherit;
     color: inherit;
+    caret-color: var(--color-primary);
   }
   ::selection {
     background: var(--color-primary-soft);
@@ -213,7 +226,10 @@
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
-  /* sidebar sits on dark chrome → brass focus ring */
+  /* sidebar sits on dark chrome → brass focus ring + subtle dark-mode tracking */
+  .on-chrome {
+    letter-spacing: 0.005em;
+  }
   .on-chrome :focus-visible {
     outline-color: var(--color-gold-bright);
   }
@@ -223,26 +239,39 @@
 @utility t-hero {
   font-family: var(--font-display);
   font-size: var(--text-3xl);
-  line-height: 1.05;
-  letter-spacing: -0.01em;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
   font-weight: 400;
+  font-optical-sizing: auto;
+}
+@utility t-page {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  font-weight: 500;
+  font-optical-sizing: auto;
 }
 @utility t-display {
   font-family: var(--font-display);
   font-size: var(--text-xl);
-  line-height: 1.2;
-  letter-spacing: -0.005em;
-  font-weight: 400;
-}
-@utility t-page {
-  font-size: var(--text-2xl);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  line-height: 1.24;
+  letter-spacing: -0.01em;
   font-weight: 500;
+  font-optical-sizing: auto;
+}
+@utility t-brand {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  line-height: 1.2;
+  letter-spacing: 0;
+  font-weight: 700;
+  font-optical-sizing: auto;
 }
 @utility t-card-title {
   font-size: var(--text-base);
   line-height: 1.35;
+  letter-spacing: -0.005em;
   font-weight: 500;
 }
 @utility t-metric {
@@ -259,11 +288,17 @@
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
+@utility t-label {
+  font-size: var(--text-xs);
+  line-height: 1.35;
+  font-weight: 500;
+  color: var(--color-ink-muted);
+}
 @utility eyebrow {
   font-size: var(--text-xs);
   line-height: 1.35;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-ink-muted);
 }

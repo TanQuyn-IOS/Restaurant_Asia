@@ -30,7 +30,7 @@ export function PendingLeavePanel({
       <div className="rounded-lg border border-line bg-paper-warm p-5 text-center">
         <p className="text-sm font-medium text-ink">Không còn đơn nghỉ phép nào đang chờ duyệt</p>
         <p className="mt-1 text-xs text-ink-muted">
-          Chuyển sang tab “Tạo đơn & xếp người thay” để lập mới và duyệt ngay.
+          Chuyển sang mục "Tạo đơn & xếp người thay" để lập mới và duyệt ngay.
         </p>
         <Button variant="secondary" size="sm" className="mt-3" onClick={onSwitchToCreate}>
           Tạo đơn nghỉ phép mới
@@ -73,7 +73,7 @@ export function PendingLeavePanel({
       <div className="space-y-3 rounded-lg border border-line bg-paper-warm p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
-            <p className="eyebrow">Nhân viên xin nghỉ</p>
+            <p className="t-label">Nhân viên xin nghỉ</p>
             <p className="mt-1 text-base font-medium text-ink">
               {cleanStaffName(leavingStaff?.ho_ten ?? selectedPending.ma_nhan_vien)}
             </p>
@@ -85,7 +85,7 @@ export function PendingLeavePanel({
 
         <div className="grid grid-cols-1 gap-3 border-t border-line pt-3 sm:grid-cols-2">
           <div>
-            <p className="eyebrow">Ngày & ca nghỉ</p>
+            <p className="t-label">Ngày & ca nghỉ</p>
             <p className="num mt-1 text-sm font-medium text-ink">
               {formatDateVi(selectedPending.ngay_nghi)}
             </p>
@@ -96,18 +96,18 @@ export function PendingLeavePanel({
             </p>
           </div>
           <div>
-            <p className="eyebrow">Người trực thay được chỉ định</p>
+            <p className="t-label">Người trực thay</p>
             <p className="mt-1 text-sm font-medium text-st-empty-ink">
               {replacementStaff
                 ? cleanStaffName(replacementStaff.ho_ten)
                 : selectedPending.ma_nv_thay_ca ?? 'Chưa chỉ định'}
             </p>
-            <p className="text-xs text-ink-muted">Sẽ tự động gán vào lịch trực khi duyệt</p>
+            <p className="text-xs text-ink-muted">Tự gán vào lịch trực khi duyệt</p>
           </div>
         </div>
 
         <div className="border-t border-line pt-3">
-          <p className="eyebrow">Lý do xin nghỉ</p>
+          <p className="t-label">Lý do</p>
           <p className="mt-1 text-sm text-ink-soft">{selectedPending.ly_do}</p>
         </div>
       </div>

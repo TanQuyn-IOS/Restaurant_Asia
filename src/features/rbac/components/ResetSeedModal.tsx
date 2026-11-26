@@ -46,9 +46,8 @@ export function ResetSeedModal({ open, onClose, onConfirmReset }: ResetSeedModal
       onClose={onClose}
       size="sm"
       icon={<TriangleAlert size={20} />}
-      eyebrow="Hành động không thể hoàn tác · Chủ nhà hàng"
-      title="Khôi phục toàn bộ dữ liệu mẫu"
-      description="Thao tác này sẽ ghi đè toàn bộ 27 bảng cơ sở dữ liệu 3NF về trạng thái mẫu ban đầu."
+      title="Khôi phục dữ liệu mẫu"
+      description="Ghi đè toàn bộ 27 bảng dữ liệu về trạng thái ban đầu. Không thể hoàn tác."
       footer={
         <>
           <Button variant="secondary" onClick={onClose} disabled={submitting}>
@@ -79,8 +78,8 @@ export function ResetSeedModal({ open, onClose, onConfirmReset }: ResetSeedModal
         </div>
 
         <Field
-          label={`Nhập chính xác "${RESET_CONFIRM_KEYWORD}" để xác nhận`}
-          hint="Phân biệt chữ in hoa — thao tác chỉ khả dụng cho vai trò Chủ nhà hàng."
+          label={`Nhập "${RESET_CONFIRM_KEYWORD}" để xác nhận`}
+          hint="Phân biệt chữ in hoa. Chỉ Chủ nhà hàng được thực hiện."
           error={
             confirmText.length > 0 && !isResetConfirmValid(confirmText)
               ? `Vui lòng nhập đúng chuỗi ${RESET_CONFIRM_KEYWORD} (chữ in hoa).`

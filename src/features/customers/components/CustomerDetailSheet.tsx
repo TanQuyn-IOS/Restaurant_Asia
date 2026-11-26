@@ -31,7 +31,7 @@ export function CustomerDetailSheet({ record, onClose }: CustomerDetailSheetProp
       onClose={onClose}
       side="right"
       width="lg"
-      eyebrow={`Hồ sơ khách hàng · ${customer.ma_khach_hang}`}
+      eyebrow={customer.ma_khach_hang}
       title={customer.ho_ten}
       description={`Tham gia từ ${formatDateVi(customer.ngay_tao)}`}
       icon={<Avatar name={customer.ho_ten} size="md" />}
@@ -129,7 +129,7 @@ export function CustomerDetailSheet({ record, onClose }: CustomerDetailSheetProp
             {corporate ? (
               <div className="space-y-2.5 rounded-lg border border-line bg-paper p-4 text-xs">
                 <div>
-                  <p className="eyebrow">Tên công ty / đơn vị</p>
+                  <p className="t-label">Tên công ty / đơn vị</p>
                   <p className="mt-1 text-sm font-medium text-ink">
                     {corporate.ten_cong_ty || customer.ho_ten}
                   </p>
@@ -137,11 +137,11 @@ export function CustomerDetailSheet({ record, onClose }: CustomerDetailSheetProp
 
                 <div className="grid grid-cols-1 gap-3 border-t border-line pt-2.5 sm:grid-cols-2">
                   <div>
-                    <p className="eyebrow">Người đại diện</p>
+                    <p className="t-label">Người đại diện</p>
                     <p className="mt-0.5 text-sm text-ink">{corporate.nguoi_dai_dien}</p>
                   </div>
                   <div>
-                    <p className="eyebrow">Mã số thuế (MST)</p>
+                    <p className="t-label">Mã số thuế (MST)</p>
                     <p className="num mt-0.5 text-sm font-medium text-ink">
                       {corporate.ma_so_thue || '—'}
                     </p>
@@ -167,7 +167,7 @@ export function CustomerDetailSheet({ record, onClose }: CustomerDetailSheetProp
               </div>
             ) : (
               <p className="rounded-lg border border-line bg-paper-warm p-3 text-xs text-ink-muted">
-                Khách đoàn này chưa bổ sung chi tiết pháp nhân trong bảng `tbl_khach_doan`.
+                Chưa cập nhật thông tin pháp nhân VAT cho khách đoàn này.
               </p>
             )}
           </section>

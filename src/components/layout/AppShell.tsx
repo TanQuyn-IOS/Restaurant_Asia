@@ -150,8 +150,8 @@ export function AppShell() {
           )}
         </main>
         <footer className="no-print flex flex-wrap items-center justify-between gap-2 border-t border-line px-4 py-4 text-xs text-ink-muted sm:px-8">
-          <span className="eyebrow">AC-RMS v2.0 · Xác thực phân quyền RBAC</span>
-          <span>© 2026 Atelier d'Asie · Đồ án Phân tích hệ thống thông tin</span>
+          <span>Atelier d&apos;Asie · Quản lý nhà hàng</span>
+          <span>© 2026</span>
         </footer>
       </div>
 

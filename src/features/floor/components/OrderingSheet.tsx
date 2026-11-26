@@ -82,11 +82,11 @@ export function OrderingSheet({
 
   if (!vm || !activeOrder) {
     return (
-      <Sheet open={open} onClose={onClose} side="right" width="xl" title="Chi tiết bàn" eyebrow="MOD-04">
+      <Sheet open={open} onClose={onClose} side="right" width="xl" title="Chi tiết bàn">
         <EmptyState
           icon={<UtensilsCrossed size={24} />}
-          title="Bàn chưa có phiên phục vụ"
-          description="Hãy mở bàn trước khi gọi món hoặc kiểm bill."
+          title="Bàn chưa mở phiên"
+          description="Mở bàn trước khi gọi món hoặc kiểm bill."
         />
       </Sheet>
     );
@@ -112,7 +112,7 @@ export function OrderingSheet({
   const browseDisabledReason = !canOperate
     ? readOnlyReason
     : !isServing
-      ? 'Bàn đã chốt bill chờ thanh toán — không thể gọi thêm món.'
+      ? 'Bàn đã chốt bill, không thể gọi thêm món.'
       : null;
 
   const availableDishesCount = snapshot.tbl_mon_an.filter((m) => m.trang_thai_mon === 'ConMon').length;
@@ -208,7 +208,7 @@ export function OrderingSheet({
               onClick={handleDeleteRelease}
               icon={<Trash2 size={16} />}
             >
-              DELETE — Dọn & giải phóng bàn
+              Dọn & trả bàn (DELETE)
             </Button>
           </div>
 
@@ -242,12 +242,12 @@ export function OrderingSheet({
               <GitMerge size={15} className="shrink-0" aria-hidden />
               {masterTable ? (
                 <span>
-                  Bàn phụ ghép vào <span className="font-medium">{masterTable.ten_ban}</span> — dùng chung đơn{' '}
-                  <span className="num font-medium">{activeOrder.ma_order}</span> và 1 hóa đơn tổng.
+                  Bàn phụ ghép vào <span className="font-medium">{masterTable.ten_ban}</span>, dùng chung đơn{' '}
+                  <span className="num font-medium">{activeOrder.ma_order}</span>.
                 </span>
               ) : (
                 <span>
-                  Đang ghép chung với:{' '}
+                  Đang ghép với:{' '}
                   <span className="font-medium">{mergedChildren.map((c) => c.ten_ban).join(', ')}</span>.
                 </span>
               )}
@@ -276,11 +276,10 @@ export function OrderingSheet({
             <CheckCircle2 size={16} className="mt-0.5 shrink-0" aria-hidden />
             <div>
               <p className="font-medium">
-                Hóa đơn <span className="num">{invoice.ma_hoa_don}</span> đã thanh toán hoàn tất
+                Hóa đơn <span className="num">{invoice.ma_hoa_don}</span> đã thanh toán
               </p>
               <p className="mt-0.5">
-                Sau khi dọn bàn sạch, bấm nút <span className="font-bold">DELETE — Dọn & giải phóng bàn</span> bên dưới
-                để trả bàn về trạng thái Trống.
+                Dọn bàn xong, bấm <span className="font-bold">Dọn & trả bàn (DELETE)</span> bên dưới để trả bàn về Trống.
               </p>
             </div>
           </div>
@@ -291,10 +290,10 @@ export function OrderingSheet({
             <Lock size={15} className="mt-0.5 shrink-0" aria-hidden />
             <div>
               <p className="font-medium">
-                Đã chốt bill ({invoice.ma_hoa_don}) — đang chờ Thu ngân thanh toán
+                Đã chốt bill ({invoice.ma_hoa_don}), chờ Thu ngân thu tiền
               </p>
               <p className="mt-0.5">
-                Đơn hàng đã khóa gọi thêm/hủy món. Sau khi Thu ngân hoàn tất thu tiền, nút DELETE sẽ được mở khóa.
+                Đơn đã khóa gọi thêm và hủy món. Nút trả bàn mở lại sau khi thu tiền xong.
               </p>
             </div>
           </div>
@@ -316,7 +315,7 @@ export function OrderingSheet({
           <div className="space-y-3">
             {groupTables.length > 1 && isServing && canOperate && (
               <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-line bg-paper-warm px-3.5 py-2.5">
-                <span className="eyebrow">Ghi nhận món cho bàn</span>
+                <span className="t-label">Gọi món cho bàn</span>
                 <Segmented
                   label="Chọn bàn trong nhóm ghép để ghi nhận món gọi"
                   value={resolvedOrderForTableId}

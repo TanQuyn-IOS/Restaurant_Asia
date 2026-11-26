@@ -53,11 +53,11 @@ export function RbacMatrixTab({ matrixRows, roles, currentRole }: RbacMatrixTabP
       {/* Khối chốt chặn bảo mật cốt lõi: bố cục danh sách chia đường mảnh (không dùng 3 card icon giống nhau) */}
       <Card>
         <CardHeader
-          title="3 chốt chặn bảo mật & chống thất thoát trọng yếu"
-          subtitle="Kiểm chứng trực tiếp qua hàm verifyRbacPermission() và kiến trúc tách route AppShell / Mobile QR"
+          title="3 nguyên tắc phân quyền cốt lõi"
+          subtitle="Áp dụng đồng nhất trên toàn bộ luồng vận hành"
           action={
             <Badge tone="success" dot>
-              Đang kích hoạt
+              Đang bật
             </Badge>
           }
         />
@@ -74,15 +74,14 @@ export function RbacMatrixTab({ matrixRows, roles, currentRole }: RbacMatrixTabP
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-sm font-medium text-ink">
-                      FR-17 · Thu ngân POS chế độ Chỉ đọc (Read-Only)
+                      Thu ngân ở chế độ chỉ đọc
                     </span>
                     <Badge tone="warning" size="sm">
                       HTTP {cashierGuard.statusCode}
                     </Badge>
                   </div>
                   <p className="mt-1 text-xs text-ink-muted">
-                    Quầy Thu ngân chỉ được xem bill đã chốt, áp dụng trừ cọc / giảm VIP, thu tiền và
-                    xuất VAT — khóa cứng mọi thao tác thêm, sửa hoặc xóa món đã gọi.
+                    Quầy thu ngân xem hóa đơn đã chốt, thu tiền và xuất VAT; mọi thao tác thêm, sửa hoặc xóa món đều bị khóa.
                   </p>
                 </div>
               </div>
@@ -102,20 +101,19 @@ export function RbacMatrixTab({ matrixRows, roles, currentRole }: RbacMatrixTabP
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-sm font-medium text-ink">
-                      FR-19 · Quản lý sảnh ẩn 100% Doanh thu, Sổ quỹ & Giá vốn kho
+                      Ẩn doanh thu, sổ quỹ và giá nhập kho với quản lý
                     </span>
                     <Badge tone="danger" size="sm">
                       HTTP {managerGuard.statusCode}
                     </Badge>
                   </div>
                   <p className="mt-1 text-xs text-ink-muted">
-                    Toàn bộ phân hệ MOD-08 (Sổ quỹ dòng tiền, Doanh thu, Lãi/Lỗ, Nhập kho & Công nợ
-                    NCC) chỉ dành độc quyền cho Chủ nhà hàng (Owner).
+                    Sổ quỹ dòng tiền, doanh thu, lãi lỗ, nhập kho và công nợ nhà cung cấp chỉ mở cho Chủ nhà hàng.
                   </p>
                 </div>
               </div>
               <Badge tone="primary" size="sm" className="self-start">
-                Độc quyền Owner
+                Riêng Chủ nhà hàng
               </Badge>
             </li>
 
@@ -130,20 +128,19 @@ export function RbacMatrixTab({ matrixRows, roles, currentRole }: RbacMatrixTabP
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-sm font-medium text-ink">
-                      FR-25 · Cổng khách hàng Mobile QR khóa cứng theo bàn
+                      Cổng khách QR khóa cố định theo bàn
                     </span>
                     <Badge tone="info" size="sm">
-                      Route /qr/:maBan
+                      /qr/:maBan
                     </Badge>
                   </div>
                   <p className="mt-1 text-xs text-ink-muted">
-                    Tách hoàn toàn khỏi khung điều hướng nhân viên (AppShell), ẩn tuyệt đối nút đăng
-                    nhập nội bộ và khóa cố định số bàn theo mã QR trên mặt bàn.
+                    Tách khỏi giao diện nhân viên, không hiện nút đăng nhập nội bộ và khóa theo đúng số bàn.
                   </p>
                 </div>
               </div>
               <Badge tone="info" size="sm" className="self-start">
-                Cô lập phiên khách
+                Tách phiên khách
               </Badge>
             </li>
           </ul>
@@ -223,8 +220,8 @@ export function RbacMatrixTab({ matrixRows, roles, currentRole }: RbacMatrixTabP
       {/* Bảng tham chiếu chi tiết tbl_vai_tro */}
       <Card>
         <CardHeader
-          title="Danh mục vai trò hệ thống (tbl_vai_tro)"
-          subtitle="Mô tả phạm vi nghiệp vụ từng vai trò nội bộ trong cơ sở dữ liệu 3NF"
+          title="Danh mục vai trò"
+          subtitle="Phạm vi truy cập của từng vai trò nội bộ"
         />
         <div className="mt-4">
           <Table>

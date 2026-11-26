@@ -77,9 +77,8 @@ export function AddDishModal({ open, onClose, categories, onSubmit }: AddDishMod
       onClose={onClose}
       size="md"
       icon={<UtensilsCrossed size={20} />}
-      eyebrow="Thực đơn Á Châu · MOD-03"
-      title="Thêm món mới vào thực đơn"
-      description="Món mới sẽ có sẵn ngay ở trạng thái Còn món trên App phục vụ và Cổng gọi món Mobile QR."
+      title="Thêm món mới"
+      description="Món mới sẽ mở bán ngay trên sảnh và cổng QR."
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>
@@ -161,7 +160,7 @@ export function AddDishModal({ open, onClose, categories, onSubmit }: AddDishMod
 
           <Field
             label="URL hình ảnh (tùy chọn)"
-            hint="Để trống nếu chưa có ảnh — hệ thống sẽ dùng khung mặc định."
+            hint="Bỏ trống để dùng ảnh mặc định."
             error={errors.hinh_anh_url}
           >
             {({ id, describedBy, invalid }) => (
@@ -179,7 +178,7 @@ export function AddDishModal({ open, onClose, categories, onSubmit }: AddDishMod
         </div>
 
         <div className="space-y-1.5">
-          <p className="eyebrow">Cấp độ cay tiêu chuẩn (0–3)</p>
+          <p className="text-xs font-medium text-ink-soft">Độ cay mặc định (0–3)</p>
           <div className="flex flex-wrap gap-2" role="group" aria-label="Chọn cấp độ cay tiêu chuẩn">
             {SPICE_LEVELS.map((sp) => (
               <ChoiceChip

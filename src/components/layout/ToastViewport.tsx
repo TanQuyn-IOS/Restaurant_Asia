@@ -62,7 +62,7 @@ export function ToastViewport() {
           </span>
           <div className="min-w-0 flex-1">
             <p className="text-sm leading-snug text-ink">
-              <span className="font-medium">Ting!</span> {n.ten_mon_an} đã xong — {n.ten_ban}
+              <span className="font-medium">Ting!</span> {n.ten_mon_an} đã xong · {n.ten_ban}
             </p>
             <button
               type="button"

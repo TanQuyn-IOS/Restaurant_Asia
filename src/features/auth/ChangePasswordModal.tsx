@@ -46,13 +46,8 @@ export function ChangePasswordModal({ open, onClose }: { open: boolean; onClose:
       onClose={resetAndClose}
       size="sm"
       icon={<KeyRound size={20} />}
-      eyebrow="BẢO MẬT TÀI KHOẢN · FR-26"
-      title="Đổi mật khẩu đăng nhập"
-      description={
-        authUser
-          ? `Cập nhật mật khẩu mới cho tài khoản ${authUser.ten_dang_nhap}.`
-          : 'Cập nhật mật khẩu cá nhân.'
-      }
+      title="Đổi mật khẩu"
+      description={authUser ? `Tài khoản ${authUser.ten_dang_nhap}` : undefined}
       footer={
         <>
           <Button variant="secondary" onClick={resetAndClose} disabled={submitting}>

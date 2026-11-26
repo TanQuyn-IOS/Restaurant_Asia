@@ -122,23 +122,20 @@ export function QrPortalPage() {
 
         {/* Nội dung cuộn chính: Hero + Thực đơn */}
         <main className="scroll-quiet flex-1 overflow-y-auto">
-          {/* Editorial Hero (mockup 11) */}
-          <section className="relative overflow-hidden border-b border-cream-line px-4 pt-6 pb-7">
+          {/* Editorial Hero */}
+          <section className="relative overflow-hidden border-b border-cream-line px-4 pt-6 pb-6">
             <span
               aria-hidden
               className="pointer-events-none absolute -top-8 -right-24 size-60 rounded-full border border-cream-line"
             />
-            <p className="eyebrow relative text-gold-ink">
-              BÀN ĂN CHO HƯƠNG VỊ TINH TẾ
-            </p>
-            <h1 className="t-hero relative mt-3 text-ink">
+            <h1 className="t-hero relative text-ink">
               Một chút hương vị <em className="italic">Á Châu</em>.
             </h1>
-            <p className="relative mt-3 max-w-xs text-sm text-ink-muted">
-              Chế biến tươi ngon, phục vụ ngay tại bàn của bạn.
+            <p className="relative mt-2.5 max-w-xs text-sm text-ink-muted">
+              Nấu tươi theo từng món bạn chọn.
             </p>
 
-            {/* Thanh nhận diện thành viên tùy chọn bằng SĐT — khách vãng lai không cần đăng nhập */}
+            {/* Thanh nhận diện thành viên tùy chọn bằng SĐT */}
             <button
               type="button"
               onClick={() => setMemberOpen(true)}
@@ -166,10 +163,10 @@ export function QrPortalPage() {
                   ) : (
                     <>
                       <span className="block text-xs font-medium text-ink">
-                        Thành viên / VIP? Nhập SĐT tích điểm
+                        Nhập SĐT tích điểm thành viên
                       </span>
                       <span className="block text-xs text-ink-muted">
-                        Tùy chọn · Khách vãng lai gọi món ngay không cần đăng nhập
+                        Tùy chọn, không bắt buộc
                       </span>
                     </>
                   )}
@@ -212,11 +209,9 @@ export function QrPortalPage() {
             </div>
           )}
 
-          {/* Khu vực Thực đơn hôm nay (mockups 11–13) */}
-          <section aria-labelledby="qr-menu-heading" className="px-4 pt-6 pb-24">
-            <p className="eyebrow text-gold-ink">THỰC ĐƠN CỦA CHÚNG TÔI</p>
-
-            <div className="mt-1.5 flex items-center justify-between gap-3">
+          {/* Khu vực Thực đơn hôm nay */}
+          <section aria-labelledby="qr-menu-heading" className="px-4 pt-5 pb-24">
+            <div className="flex items-center justify-between gap-3">
               <h2 id="qr-menu-heading" className="t-display text-ink">
                 Thực đơn hôm nay
               </h2>
@@ -307,13 +302,11 @@ export function QrPortalPage() {
               </div>
             )}
 
-            {/* Lời nhắn cuối thực đơn (mockup 13) */}
-            <footer className="mt-10 text-center">
-              <Utensils size={20} aria-hidden className="mx-auto text-gold" />
-              <p className="mt-3 text-sm italic text-ink-muted">
-                Món ngon cần thời gian.
-                <br />
-                Mỗi món đều được nấu tươi theo yêu cầu.
+            {/* Lời nhắn cuối thực đơn */}
+            <footer className="mt-8 text-center">
+              <Utensils size={18} aria-hidden className="mx-auto text-gold" />
+              <p className="mt-2.5 text-xs text-ink-muted">
+                Các món được nấu mới ngay khi bạn gửi đơn.
               </p>
             </footer>
           </section>

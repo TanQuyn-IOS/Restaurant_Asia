@@ -56,8 +56,8 @@ export function CartReviewSheet({
       onClose={onClose}
       side="bottom"
       frame="mobile"
-      eyebrow={`${tableLabel.toUpperCase()} · ${areaLabel.toUpperCase()}`}
-      title={<span className="t-display text-ink">Xem lại đơn gọi món</span>}
+      eyebrow={`${tableLabel} · ${areaLabel}`}
+      title="Giỏ món"
       footer={
         cart.length > 0 ? (
           <div className="space-y-3 pb-[env(safe-area-inset-bottom)]">
@@ -114,7 +114,7 @@ export function CartReviewSheet({
         <EmptyState
           icon={<ShoppingBag size={24} />}
           title="Giỏ món đang trống"
-          description="Hãy chọn món từ thực đơn bên ngoài để tùy chỉnh độ cay, ghi chú và gửi xuống bếp."
+          description="Chọn món từ thực đơn để tùy chỉnh độ cay và gửi bếp."
           action={
             <Button variant="primary" size="lg" onClick={onClose} className="rounded-xl">
               Quay lại thực đơn
@@ -132,13 +132,13 @@ export function CartReviewSheet({
               <div className="space-y-1 leading-relaxed">
                 <p className="font-medium">
                   {sessionBlockReason === 'BILL_LOCKED'
-                    ? 'Bàn này đã chốt hóa đơn chờ thanh toán.'
-                    : 'Bàn này chưa được mở phiên phục vụ.'}
+                    ? 'Bàn đã chốt hóa đơn.'
+                    : 'Bàn chưa mở phiên phục vụ.'}
                 </p>
                 <p>
                   {sessionBlockReason === 'BILL_LOCKED'
-                    ? 'Không thể tự gửi thêm món khi hóa đơn đã chốt. Vui lòng gọi nhân viên hỗ trợ nếu cần gọi bổ sung.'
-                    : 'Nhấn "Gọi nhân viên mở bàn" bên dưới để nhân viên kích hoạt bàn — ngay khi bàn mở, bạn có thể bấm Gửi bếp lập tức.'}
+                    ? 'Gọi nhân viên nếu bạn muốn đặt thêm món.'
+                    : 'Bấm "Gọi nhân viên mở bàn" bên dưới. Khi bàn mở, bạn có thể gửi bếp ngay.'}
                 </p>
               </div>
             </div>
